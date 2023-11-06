@@ -1,0 +1,17 @@
+$global-white: #FFFFFF;
+$global-black: #000000;
+$global-gray: #F1F1F1;
+$primary-color: #EA7317;
+$secondary-color: #FBE8DA;
+$light-color: #FFF9EB;
+$decorating-color: #FFC640;
+$primary-dark-color: #B53811;
+
+
+// hack for hiding green status of correct input in boostrap
+.form-control.is-valid:focus,
+.was-validated :valid.form-control {
+  border-color: inherit !important;
+  background-image: inherit !important;
+  box-shadow: inherit !important;
+}
