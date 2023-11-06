@@ -1,22 +1,33 @@
 @use "../../styles/base";
 $btn-font-color: #FFFFFF;
 
-.btn-primary {
+@mixin btn-styles ($darker) {
     color: $btn-font-color;
-    background-color: base.$primary-color;
-    border-color: base.$primary-color;
+
+    @if $darker == true { 
+        background-color: base.$primary-dark-color;
+        border-color: base.$primary-dark-color;   
+    } @else {
+        background-color: base.$primary-color;
+        border-color: base.$primary-color;
+    }
+}
+
+.btn-primary {
+    @include btn-styles($darker: false);
 
     &:hover {
-        color: $btn-font-color;
-        background-color: base.$primary-dark-color;
-        border-color: base.$primary-dark-color;
+        @include btn-styles($darker: true);
     }
 
     // NEED TO COMPARE SPECIFICITY 
     :not(.btn-check)+&:active {
-        color: $btn-font-color;
-        background-color: base.$primary-dark-color;
-        border-color: base.$primary-dark-color;
+        @include btn-styles($darker: true);
+    }
+
+    // NEED TO COMPARE SPECIFICITY 
+    :not(.btn-check)+&:focus-visible {
+        @include btn-styles($darker: true);
     }
 }
 

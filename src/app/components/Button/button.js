@@ -14,7 +14,9 @@ export default function Button(props) {
           className={`spinner-border spinner-border-sm me-2 ${loading ? "" : "visually-hidden"}`}
           role="status" 
         />
-        <span>Continue</span>
+        <span>
+          Continue
+        </span>
       </button>
     );
 }
