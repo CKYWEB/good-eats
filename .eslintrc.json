@@ -5,8 +5,11 @@
     "react/jsx-boolean-value": 1,
     "react/jsx-indent": [2, 2],
     "react/jsx-indent-props": [2, 2],
+    "react/jsx-space-before-closing": 1,
+    "react/jsx-props-no-multi-spaces": 1,
     "react/jsx-closing-tag-location": 1,
     "react/jsx-first-prop-new-line": 1,
+    "react/jsx-max-props-per-line": 1,
     "react/jsx-closing-bracket-location": [1, "tag-aligned"],
     "react/jsx-tag-spacing": [1, {
       "closingSlash": "never",
