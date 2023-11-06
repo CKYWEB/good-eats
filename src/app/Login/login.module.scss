@@ -1,0 +1,32 @@
+@use "../styles/base";
+
+$cover-height: 30vh;
+
+.image-cover__login {
+  height: $cover-height;
+
+  content: url("/images/login-mobile.webp");
+
+  @include base.responsive(md) {
+    height: 100vh;
+
+    content: url("/images/login-desktop.webp");
+
+  }
+}
+
+.form__container {
+  height: calc(100vh - $cover-height);
+  align-items: flex-start;
+  padding-top: 60px;
+
+  .form {
+    width: 328px;
+  }
+
+  @include base.responsive(md) {
+    height: 100vh;
+    align-items: center;
+    padding-top: 0;
+  }
+}
