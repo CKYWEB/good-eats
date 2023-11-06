@@ -1,5 +1,6 @@
 {
   "rules": {
+    "semi": "error",
     "quotes": ["error", "double"],
     "react/jsx-boolean-value": 1,
     "react/jsx-indent": [2, 2],
