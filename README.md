@@ -13,7 +13,13 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
     "eslint.validate": ["javascript"]
 
     ```
-4. Run the development server:
+4. Install the dependencies:
+    ```bash
+    
+    yarn install
+
+    ```
+5. Run the development server:
     ```bash
 
     yarn dev
