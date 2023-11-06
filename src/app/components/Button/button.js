@@ -6,7 +6,7 @@ export default function Button(props) {
 
     return (
       <button
-        className={`mb-3 btn ${styles[buttonStyle]} w-100 ${className}`}
+        className={`btn ${styles[buttonStyle]} ${className}`}
         type="button"
         onClick={onClick}
       >
@@ -15,7 +15,7 @@ export default function Button(props) {
           role="status" 
         />
         <span>
-          Continue
+          {props.children}
         </span>
       </button>
     );
