@@ -1,0 +1,36 @@
+@use "../../styles/base";
+$btn-font-color: #FFFFFF;
+
+.btn-primary {
+    color: $btn-font-color;
+    background-color: base.$primary-color;
+    border-color: base.$primary-color;
+
+    &:hover {
+        color: $btn-font-color;
+        background-color: base.$primary-dark-color;
+        border-color: base.$primary-dark-color;
+    }
+
+    // NEED TO COMPARE SPECIFICITY 
+    :not(.btn-check)+&:active {
+        color: $btn-font-color;
+        background-color: base.$primary-dark-color;
+        border-color: base.$primary-dark-color;
+    }
+}
+
+.btn-card {
+    width: 8em;
+    font-size: 12px;
+
+    @include base.responsive(xs) {
+        width: 7em;
+        font-size: 17px;
+    }
+
+}
+
+.badge-bg {
+    background-color: base.$decorating-color;
+}
