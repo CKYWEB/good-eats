@@ -6,6 +6,7 @@ import Image from "next/image";
 import {useState} from "react";
 import {useForm} from "react-hook-form";
 import FormInput from "@/app/components/FormInput/formInput";
+import {useRouter} from "next/navigation";
 
 export default function Login () {
     const [loading, setLoading] = useState(false);
@@ -16,24 +17,26 @@ export default function Login () {
         formState: { errors },
     } = useForm();
     const [isRegister, setRegister] = useState(false);
+    const router = useRouter();
 
     const onSubmit = (data) => {
         setLoading(true);
 
         setTimeout(() => {
             setLoading(false);
-            console.log(data);
-            if (!isRegister) {
-                // redirect to home page
+            console.log("Form Data: ", data);
+
+            if (isRegister) {
+                handleRegister(false);
             } else {
-                setRegister(true);
+                router.replace("/");
             }
-        }, 300);
+        }, 1000);
     };
 
-    const handleRegister = () => {
+    const handleRegister = (s) => {
       reset();
-      setRegister(true);
+      setRegister(s);
     };
     
     return (
@@ -121,6 +124,7 @@ export default function Login () {
               </div>
               <div className="mb-3">
                 <FormInput
+                  type="password"
                   label="Password"
                   register={
                     register("password",{
@@ -145,7 +149,7 @@ export default function Login () {
                   </span>
                   <Button
                     styleType="plain"
-                    onClick={handleRegister}
+                    onClick={() => handleRegister(true)}
                   >
                     Join now
                   </Button>
