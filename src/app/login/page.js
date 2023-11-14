@@ -7,6 +7,7 @@ import {useState} from "react";
 import {useForm} from "react-hook-form";
 import FormInput from "@/app/components/FormInput/formInput";
 import {useRouter} from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function Login () {
     const [loading, setLoading] = useState(false);
@@ -28,7 +29,9 @@ export default function Login () {
 
             if (isRegister) {
                 handleRegister(false);
+                toast.success("Registered successfully!");
             } else {
+                toast.success("Login successfully!");
                 router.replace("/");
             }
         }, 1000);
