@@ -1,5 +1,5 @@
 export default function FormInput (props) {
-    const { errors, register, label } = props;
+    const { errors, register, label, ...rest } = props;
     const name = register.name;
 
     return (
@@ -15,7 +15,7 @@ export default function FormInput (props) {
           className={`form-control ${errors[name] ? "is-invalid": ""}`}
           aria-invalid={errors[name] ? "true" : "false"}
           {...register}
-          {...props}
+          {...rest}
         />
         {errors[name] && (
         <div
