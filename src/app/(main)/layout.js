@@ -1,5 +1,5 @@
-import {Header} from "@/app/(main)/header";
-import {Footer} from "@/app/(main)/footer";
+import {Header} from "@/app/(main)/Header/header";
+import {Footer} from "@/app/(main)/Footer/footer";
 
 export default function HomeLayout (props) {
     return (
