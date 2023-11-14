@@ -134,6 +134,25 @@ export default function Login () {
                   placeholder="password"
                 />
               </div>
+              {isRegister && (
+              <div className="mb-3">
+                <FormInput
+                  type="password"
+                  label="Confirm Password"
+                  register={
+                    register("confirmPassword", {
+                      required: "Please confirm your password.",
+                      validate: {
+                        sameAsPassword: (_, formValues) => {
+                          return formValues.password === formValues.confirmPassword || "Password doesn't match.";
+                        }
+                      }
+                    })}
+                  errors={errors}
+                  placeholder="confirm password"
+                />
+              </div>
+              )}
               <Button
                 className="mb-3 w-100"
                 loading={loading}
