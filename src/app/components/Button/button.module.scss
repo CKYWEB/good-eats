@@ -40,13 +40,9 @@ $btn-font-color: #FFFFFF;
     width: 8em;
     font-size: 12px;
 
-    @include base.responsive(xs) {
+    @include base.media-breakpoint-up(xs) {
         width: 7em;
         font-size: 17px;
     }
 
-}
-
-.badge-bg {
-    background-color: base.$decorating-color;
 }
