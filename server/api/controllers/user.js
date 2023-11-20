@@ -33,7 +33,17 @@ const createUser = async (req, res) => {
     }
 };
 
+const getUsers = async (req, res) => {
+    // TODO
+
+    res.status(200).json({
+        msg: "Test successfully",
+        result: true,
+    });
+};
+
 module.exports = {
     login,
     createUser,
+    getUsers
 };
