@@ -1,8 +1,9 @@
 import Card from "react-bootstrap/Card";
 import Button from "@/app/components/Button/button";
+import BadgeComponent from "@/app/components/Badge/badge";
 
 export default function CardComponent(props) {
-  const { imageUrl, title, text, onClickLeft, buttonTextLeft, onClickRight, buttonTextRight } = props;
+  const { showBadge, badgeText, imageUrl, title, text, onClickLeft, buttonTextLeft, onClickRight, buttonTextRight } = props;
 
   return (
     <Card style={{ width: "18rem" }}>
@@ -13,6 +14,9 @@ export default function CardComponent(props) {
       <Card.Body>
         <Card.Title>
           {title}
+          {showBadge && <BadgeComponent
+            text={badgeText}
+          />}
         </Card.Title>
         <Card.Text>
           {text}

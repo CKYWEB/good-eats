@@ -7,6 +7,7 @@ import CardComponent from "@/app/components/Card/card";
 import OffcanvasComponent from "@/app/components/Offcanvas/offcanvas";
 import AccordionComponent from "@/app/components/Accordion/accordion";
 import CarouselComponent from "@/app/components/Carousel/carousel";
+import ButtonGroupComponent from "@/app/components/ButtonGroup/buttongroup";
 
 
 
@@ -27,6 +28,23 @@ export default function Home() {
       imageUrl: "/images/carousel-3.jpg",
       title: "Slide 2",
       description: "Description for Slide 2",
+    },];
+
+  const buttons = [
+    {
+      variant: "primary",
+      label: "Asia",
+      onClick: () => console.log("Button 1 clicked"),
+    },
+    {
+      variant: "secondary",
+      label: "American",
+      onClick: () => console.log("Button 2 clicked"),
+    },
+    {
+      variant: "secondary",
+      label: "European",
+      onClick: () => console.log("Button 3 clicked"),
     },];
 
   const [showOffcanvas1, setShowOffcanvas1] = useState(false);
@@ -79,6 +97,13 @@ export default function Home() {
     setShowOffcanvas6(false);
   };
 
+  const shouldShowBadge1 = false;
+  const shouldShowBadge2 = true;
+  const shouldShowBadge3 = false;
+  const shouldShowBadge4 = true;
+  const shouldShowBadge5 = false;
+  const shouldShowBadge6 = false;
+
   const accordionHeaders = ["Does the website allow guest posts?", "What's the easiest way to get all your recipes?", "Does the website promote brands like itself or allow sponsored posts?"];
   const accordionBodies = [
     "Currently do not accept guest posts on Good Eats. If the policy changes it will be updated here.",
@@ -92,6 +117,13 @@ export default function Home() {
         <CarouselComponent items={carouselItems} />
       </div>
 
+      <div className="d-flex justify-content-center p-4">
+        <ButtonGroupComponent
+          buttons={buttons}
+        />
+      </div>
+
+
       <Container >
         <Row >
           <Col
@@ -102,6 +134,8 @@ export default function Home() {
           >
 
             <CardComponent
+              showBadge={shouldShowBadge1}
+              badgeText="New"
               imageUrl="/images/card-1.webp"
               title="Simple Pasta Salad"
               text="Salad Recipes"
@@ -119,6 +153,8 @@ export default function Home() {
           >
 
             <CardComponent
+              showBadge={shouldShowBadge2}
+              badgeText="New"
               imageUrl="/images/card-2.webp"
               title="Cobb Salad"
               text="Salad Recipes"
@@ -135,6 +171,8 @@ export default function Home() {
             className="d-flex justify-content-center py-4"
           >
             <CardComponent
+              showBadge={shouldShowBadge3}
+              badgeText="New"
               imageUrl="/images/card-3.webp"
               title="The Denver Omelet"
               text="Omelet Recipes"
@@ -152,6 +190,8 @@ export default function Home() {
           >
 
             <CardComponent
+              showBadge={shouldShowBadge4}
+              badgeText="New"
               imageUrl="/images/card-4.webp"
               title="Hot Dog Mummies"
               text="Wraps and Rolls"
@@ -169,6 +209,8 @@ export default function Home() {
           >
 
             <CardComponent
+              showBadge={shouldShowBadge5}
+              badgeText="New"
               imageUrl="/images/card-5.webp"
               title="Zesty Quinoa Salad"
               text="Quinoa Salad Recipes"
@@ -185,6 +227,8 @@ export default function Home() {
             className="d-flex justify-content-center py-4"
           >
             <CardComponent
+              showBadge={shouldShowBadge6}
+              badgeText="New"
               imageUrl="/images/card-6.webp"
               title="Garlic Bread Spread"
               text="Garlic Bread Recipes"
