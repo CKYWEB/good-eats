@@ -6,10 +6,28 @@ import { useState } from "react";
 import CardComponent from "@/app/components/Card/card";
 import OffcanvasComponent from "@/app/components/Offcanvas/offcanvas";
 import AccordionComponent from "@/app/components/Accordion/accordion";
+import CarouselComponent from "@/app/components/Carousel/carousel";
 
 
 
 export default function Home() {
+
+  const carouselItems = [
+    {
+      imageUrl: "/images/carousel-1.jpg",
+      title: "Slide 1",
+      description: "Description for Slide 1",
+    },
+    {
+      imageUrl: "/images/carousel-2.jpg",
+      title: "Slide 2",
+      description: "Description for Slide 2",
+    },
+    {
+      imageUrl: "/images/carousel-3.jpg",
+      title: "Slide 2",
+      description: "Description for Slide 2",
+    },];
 
   const [showOffcanvas1, setShowOffcanvas1] = useState(false);
   const [showOffcanvas2, setShowOffcanvas2] = useState(false);
@@ -70,6 +88,10 @@ export default function Home() {
 
   return (
     <div>
+      <div className="w-75 mx-auto">
+        <CarouselComponent items={carouselItems} />
+      </div>
+
       <Container >
         <Row >
           <Col
