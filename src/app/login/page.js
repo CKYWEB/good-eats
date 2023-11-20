@@ -8,6 +8,7 @@ import {useForm} from "react-hook-form";
 import FormInput from "@/app/components/FormInput/formInput";
 import {useRouter} from "next/navigation";
 import toast from "react-hot-toast";
+import {createUser, login} from "@/api/user";
 
 export default function Login () {
     const [loading, setLoading] = useState(false);
@@ -20,21 +21,34 @@ export default function Login () {
     const [isRegister, setRegister] = useState(false);
     const router = useRouter();
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         setLoading(true);
 
-        setTimeout(() => {
-            setLoading(false);
-            console.log("Form Data: ", data);
+        console.log("Form Data: ", data);
 
-            if (isRegister) {
+        if (isRegister) {
+            try {
+                const {msg} = await createUser(data);
+
+                toast.success(msg);
                 handleRegister(false);
-                toast.success("Registered successfully!");
-            } else {
-                toast.success("Login successfully!");
-                router.replace("/");
+            } catch (err) {
+                toast.error(err.message);
+            } finally {
+                setLoading(false);
             }
-        }, 1000);
+        } else {
+            try {
+                const {msg} = await login(data);
+
+                toast.success(msg);
+                router.replace("/");
+            } catch (err) {
+                toast.error(err.message);
+            } finally {
+                setLoading(false);
+            }
+        }
     };
 
     const handleRegister = (s) => {
@@ -86,7 +100,7 @@ export default function Login () {
                         register("firstName",{
                             required: "Please enter your first name",
                             pattern: {
-                                value: /^[A-Za-z]+$/i,
+                                value: /^[a-z ,.'-]+$/i,
                                 message: "Please provide a valid first name."
                             },
                         })}
@@ -101,7 +115,7 @@ export default function Login () {
                         register("lastName",{
                             required: "Please enter your last name",
                             pattern: {
-                                value: /^[A-Za-z]+$/i,
+                                value: /^[a-z ,.'-]+$/i,
                                 message: "Please provide a valid last name."
                             },
                     })}
@@ -159,6 +173,7 @@ export default function Login () {
               <Button
                 className="mb-3 w-100"
                 loading={loading}
+                disabled={loading}
                 type="submit"
               >
                 Continue
