@@ -1,8 +1,11 @@
 const mongoose = require("mongoose");
-const {MONGODB_URI} = require("./config");
+
+if (process.env.NODE_ENV !== "production") {
+    require("dotenv").config();
+}
 
 const createDbConnection = async () => {
-    await mongoose.connect(MONGODB_URI, {
+    await mongoose.connect(process.env.MONGODB_URI, {
         serverSelectionTimeoutMS: 5000,
     });
 };
