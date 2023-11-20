@@ -1,0 +1,15 @@
+@use "../../styles/base/base";
+
+.accordion-button {
+  background-color: base.$global-gray;
+
+  &:focus {
+    box-shadow: none;
+  }
+
+  &:not(.collapsed) {
+    background-color: base.$secondary-color;
+    color: base.$global-black;
+
+  }
+}

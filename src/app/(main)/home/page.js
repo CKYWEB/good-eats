@@ -1,11 +1,12 @@
 "use client";
 
 import React from "react";
-import "./home.module.scss";
 import { Container, Row, Col } from "react-bootstrap";
 import { useState } from "react";
 import CardComponent from "@/app/components/Card/card";
 import OffcanvasComponent from "@/app/components/Offcanvas/offcanvas";
+import AccordionComponent from "@/app/components/Accordion/accordion";
+
 
 
 export default function Home() {
@@ -59,6 +60,13 @@ export default function Home() {
   const handleCloseOffcanvas6 = () => {
     setShowOffcanvas6(false);
   };
+
+  const accordionHeaders = ["Does the website allow guest posts?", "What's the easiest way to get all your recipes?", "Does the website promote brands like itself or allow sponsored posts?"];
+  const accordionBodies = [
+    "Currently do not accept guest posts on Good Eats. If the policy changes it will be updated here.",
+    "Just subscribe to our newsletter at the bottom of this page and our recipes will be sent right to your email. New recipes will be sent every week, along with ideas, cooking tips and so much more. Once you've signed up for our newsletter, make sure you confirm your email address.",
+    "Yes, we are always on the lookout for fabulous new products and ideas to share with our Good Eats readers. Suggestions are welcome but will only consider those we think would be a good fit for our audience. In addition, we don't provide reviews of the products."
+  ];
 
   return (
     <div>
@@ -220,6 +228,20 @@ export default function Home() {
         </p>}
         imageUrl="/images/card-6.webp"
       />
+
+
+      {/* accordion - FAQ */}
+      <div
+        className="w-75 mx-auto"
+      >
+        <h2 className="text-center">
+          FAQ
+        </h2>
+        <AccordionComponent
+          headers={accordionHeaders}
+          bodies={accordionBodies}
+        />
+      </div>
 
     </div >
   );
