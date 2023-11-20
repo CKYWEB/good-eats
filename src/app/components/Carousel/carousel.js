@@ -13,8 +13,9 @@ export default function CarouselComponent(props) {
             className="d-block w-100"
             src={item.imageUrl}
             alt={`Slide ${index + 1}`}
-            width={600}
-            height={600}
+            layout="responsive"
+            width={100}
+            height={100}
           />
         </Carousel.Item>
       ))}
