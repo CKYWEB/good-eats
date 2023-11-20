@@ -24,3 +24,21 @@ export const fetchUsers = async () => {
 
     return res.json();
 };
+
+export const createUser = async (payload) => {
+    const res = await fetch(`${USER_PATH}/create`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+
+    if (!data.result) {
+        throw new Error(data.msg);
+    }
+
+    return data;
+};

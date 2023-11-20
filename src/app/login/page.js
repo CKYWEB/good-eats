@@ -8,7 +8,7 @@ import {useForm} from "react-hook-form";
 import FormInput from "@/app/components/FormInput/formInput";
 import {useRouter} from "next/navigation";
 import toast from "react-hot-toast";
-import {login} from "@/api/user";
+import {createUser, login} from "@/api/user";
 
 export default function Login () {
     const [loading, setLoading] = useState(false);
@@ -27,11 +27,20 @@ export default function Login () {
         console.log("Form Data: ", data);
 
         if (isRegister) {
-            handleRegister(false);
-            toast.success("Registered successfully!");
+            try {
+                const {msg} = await createUser(data);
+
+                toast.success(msg);
+                handleRegister(false);
+            } catch (err) {
+                toast.error(err.message);
+            } finally {
+                setLoading(false);
+            }
         } else {
             try {
-                const { msg } = await login(data);
+                const {msg} = await login(data);
+
                 toast.success(msg);
                 router.replace("/");
             } catch (err) {
@@ -91,7 +100,7 @@ export default function Login () {
                         register("firstName",{
                             required: "Please enter your first name",
                             pattern: {
-                                value: /^[A-Za-z]+$/i,
+                                value: /^[a-z ,.'-]+$/i,
                                 message: "Please provide a valid first name."
                             },
                         })}
@@ -106,7 +115,7 @@ export default function Login () {
                         register("lastName",{
                             required: "Please enter your last name",
                             pattern: {
-                                value: /^[A-Za-z]+$/i,
+                                value: /^[a-z ,.'-]+$/i,
                                 message: "Please provide a valid last name."
                             },
                     })}
