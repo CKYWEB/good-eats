@@ -85,7 +85,18 @@ const handleLogin = async (payload) => {
     return result;
 };
 
+const handleFindUsers = async (payload) => {
+    await createDbConnection();
+
+    const result = await User.find(payload).select("-password");
+
+    await closeDbConnection();
+
+    return result;
+};
+
 module.exports = {
     handleLogin,
     handleCreateUser,
+    handleFindUsers,
 };
