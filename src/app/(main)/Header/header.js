@@ -1,3 +1,7 @@
+"use client";
+
+import React from "react";
+
 export const Logo = () => {
   // TODO: below is just an example, you need to rewrite this component
   return (
