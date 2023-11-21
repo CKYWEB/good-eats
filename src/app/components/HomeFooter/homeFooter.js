@@ -7,6 +7,7 @@ import TwitterIcon from "./images/Icons/twitter.png";
 import YoutubeIcon from  "./images/Icons/Youtube.png";
 import PinterestIcon from "./images/Icons/pinterest.png";
 import TikTokIcon from "./images/Icons/tiktok.png";
+import SubscribeButton from "./images/Icons/subscribe-button.png";
 
 export default function HomeFooter() {
 
@@ -220,7 +221,7 @@ export default function HomeFooter() {
               <div className="subscribe">
                 <Image
                   className="img-fluid"
-                  src="./images/Icons/subscribe-button.png"
+                  src={SubscribeButton}
                   alt="ios"
                 />
               </div>
