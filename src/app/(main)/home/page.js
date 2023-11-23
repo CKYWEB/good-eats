@@ -7,8 +7,8 @@ import CardComponent from "@/app/components/Card/card";
 import OffcanvasComponent from "@/app/components/Offcanvas/offcanvas";
 import AccordionComponent from "@/app/components/Accordion/accordion";
 import CarouselComponent from "@/app/components/Carousel/carousel";
-import ButtonGroupComponent from "@/app/components/ButtonGroup/buttongroup";
-
+import { ButtonGroup } from "react-bootstrap";
+import Button from "@/app/components/Button/button";
 
 
 export default function Home() {
@@ -32,77 +32,85 @@ export default function Home() {
 
   const buttons = [
     {
+      id: "1",
       variant: "primary",
       label: "Asia",
-      onClick: () => console.log("Button 1 clicked"),
     },
     {
-      variant: "secondary",
+      id: "2",
+      variant: "primary",
       label: "American",
-      onClick: () => console.log("Button 2 clicked"),
     },
     {
-      variant: "secondary",
+      id: "3",
+      variant: "primary",
       label: "European",
-      onClick: () => console.log("Button 3 clicked"),
     },];
 
-  const [showOffcanvas1, setShowOffcanvas1] = useState(false);
-  const [showOffcanvas2, setShowOffcanvas2] = useState(false);
-  const [showOffcanvas3, setShowOffcanvas3] = useState(false);
-  const [showOffcanvas4, setShowOffcanvas4] = useState(false);
-  const [showOffcanvas5, setShowOffcanvas5] = useState(false);
-  const [showOffcanvas6, setShowOffcanvas6] = useState(false);
+  const cards = [
+    {
+      imageUrl: "/images/card-1.webp",
+      title: "Simple Pasta Salad",
+      text: "Salad Recipes",
+      content: "It is very simple worth trying.",
+      shouldShowBadge: false,
+    },
+    {
+      imageUrl: "/images/card-2.webp",
+      title: "Cobb Salad",
+      text: "Salad Recipes",
+      content: "A super tasty salad.",
+      shouldShowBadge: true,
+    }, {
+      imageUrl: "/images/card-3.webp",
+      title: "The Denver Omelet",
+      text: "Omelet Recipes",
+      content: "The best omelet.",
+      shouldShowBadge: false,
+    }, {
+      imageUrl: "/images/card-4.webp",
+      title: "Hot Dog Mummies",
+      text: "Wraps and Rolls",
+      content: "A cute hot dog. Fun to make with kids.",
+      shouldShowBadge: true,
+    },
+    {
+      imageUrl: "/images/card-5.webp",
+      title: "Zesty Quinoa Salad",
+      text: "Quinoa Salad Recipes",
+      content: "Healthy food for body. It's good to have it after workout.",
+      shouldShowBadge: false,
+    },
+    {
+      imageUrl: "/images/card-6.webp",
+      title: "Garlic Bread Spread",
+      text: "Garlic Bread Recipes",
+      content: "Tasty food for every meal. Worth trying.",
+      shouldShowBadge: false,
+    },
+  ];
 
-  const handleButtonClickLeft1 = () => {
-    setShowOffcanvas1(true);
-  };
-  const handleButtonClickLeft2 = () => {
-    setShowOffcanvas2(true);
-  };
-  const handleButtonClickLeft3 = () => {
-    setShowOffcanvas3(true);
-  };
-  const handleButtonClickLeft4 = () => {
-    setShowOffcanvas4(true);
-  };
-  const handleButtonClickLeft5 = () => {
-    setShowOffcanvas5(true);
-  };
-  const handleButtonClickLeft6 = () => {
-    setShowOffcanvas6(true);
+  const [showOffcanvas, setShowOffcanvas] = useState(false);
+  const [currentCard, setCurrentCard] = useState({});
+
+  const handleCardBtnClick = (isLeftBtn, card) => {
+    if (isLeftBtn) {
+      // IF LEFT IS CLICKED
+      setCurrentCard(card);
+      setShowOffcanvas(true);
+    } else {
+      // TODO
+      console.log("Right Button clicked!");
+    }
   };
 
-  const handleButtonClickRight = () => {
+  const handleBtnGroupClick = () => {
     // TODO
-    console.log("Right Button clicked!");
+    console.log("Button click!");
   };
-
-  const handleCloseOffcanvas1 = () => {
-    setShowOffcanvas1(false);
+  const handleCloseOffcanvas = () => {
+    setShowOffcanvas(false);
   };
-  const handleCloseOffcanvas2 = () => {
-    setShowOffcanvas2(false);
-  };
-  const handleCloseOffcanvas3 = () => {
-    setShowOffcanvas3(false);
-  };
-  const handleCloseOffcanvas4 = () => {
-    setShowOffcanvas4(false);
-  };
-  const handleCloseOffcanvas5 = () => {
-    setShowOffcanvas5(false);
-  };
-  const handleCloseOffcanvas6 = () => {
-    setShowOffcanvas6(false);
-  };
-
-  const shouldShowBadge1 = false;
-  const shouldShowBadge2 = true;
-  const shouldShowBadge3 = false;
-  const shouldShowBadge4 = true;
-  const shouldShowBadge5 = false;
-  const shouldShowBadge6 = false;
 
   const accordionHeaders = ["Does the website allow guest posts?", "What's the easiest way to get all your recipes?", "Does the website promote brands like itself or allow sponsored posts?"];
   const accordionBodies = [
@@ -118,185 +126,57 @@ export default function Home() {
       </div>
 
       <div className="d-flex justify-content-center p-4">
-        <ButtonGroupComponent
-          buttons={buttons}
-        />
+        <ButtonGroup>
+          {buttons.map((button) => (
+            <Button
+              key={button.id}
+              variant={button.variant}
+              onClick={() => handleBtnGroupClick(button)}
+              style={{ marginRight: "10px", borderRadius: "6px" }}
+            >
+              {button.label}
+            </Button>
+          ))}
+        </ButtonGroup>
       </div>
 
 
       <Container >
         <Row >
-          <Col
-            xs={12}
-            md={6}
-            lg={4}
-            className="d-flex justify-content-center py-4"
-          >
+          {cards.map(card => {
+            return (
+              <Col
+                key={card.title}
+                xs={12}
+                md={6}
+                lg={4}
+                className="d-flex justify-content-center py-4"
+              >
 
-            <CardComponent
-              showBadge={shouldShowBadge1}
-              badgeText="New"
-              imageUrl="/images/card-1.webp"
-              title="Simple Pasta Salad"
-              text="Salad Recipes"
-              buttonTextLeft="Introduction"
-              onClickLeft={handleButtonClickLeft1}
-              buttonTextRight="See Recipe"
-              onClickRight={handleButtonClickRight}
-            />
-          </Col>
-          <Col
-            xs={12}
-            md={6}
-            lg={4}
-            className="d-flex justify-content-center py-4"
-          >
-
-            <CardComponent
-              showBadge={shouldShowBadge2}
-              badgeText="New"
-              imageUrl="/images/card-2.webp"
-              title="Cobb Salad"
-              text="Salad Recipes"
-              buttonTextLeft="Introduction"
-              onClickLeft={handleButtonClickLeft2}
-              buttonTextRight="See Recipe"
-              onClickRight={handleButtonClickRight}
-            />
-          </Col>
-          <Col
-            xs={12}
-            md={6}
-            lg={4}
-            className="d-flex justify-content-center py-4"
-          >
-            <CardComponent
-              showBadge={shouldShowBadge3}
-              badgeText="New"
-              imageUrl="/images/card-3.webp"
-              title="The Denver Omelet"
-              text="Omelet Recipes"
-              buttonTextLeft="Introduction"
-              onClickLeft={handleButtonClickLeft3}
-              buttonTextRight="See Recipe"
-              onClickRight={handleButtonClickRight}
-            />
-          </Col>
-          <Col
-            xs={12}
-            md={6}
-            lg={4}
-            className="d-flex justify-content-center py-4"
-          >
-
-            <CardComponent
-              showBadge={shouldShowBadge4}
-              badgeText="New"
-              imageUrl="/images/card-4.webp"
-              title="Hot Dog Mummies"
-              text="Wraps and Rolls"
-              buttonTextLeft="Introduction"
-              onClickLeft={handleButtonClickLeft4}
-              buttonTextRight="See Recipe"
-              onClickRight={handleButtonClickRight}
-            />
-          </Col>
-          <Col
-            xs={12}
-            md={6}
-            lg={4}
-            className="d-flex justify-content-center py-4"
-          >
-
-            <CardComponent
-              showBadge={shouldShowBadge5}
-              badgeText="New"
-              imageUrl="/images/card-5.webp"
-              title="Zesty Quinoa Salad"
-              text="Quinoa Salad Recipes"
-              buttonTextLeft="Introduction"
-              onClickLeft={handleButtonClickLeft5}
-              buttonTextRight="See Recipe"
-              onClickRight={handleButtonClickRight}
-            />
-          </Col>
-          <Col
-            xs={12}
-            md={6}
-            lg={4}
-            className="d-flex justify-content-center py-4"
-          >
-            <CardComponent
-              showBadge={shouldShowBadge6}
-              badgeText="New"
-              imageUrl="/images/card-6.webp"
-              title="Garlic Bread Spread"
-              text="Garlic Bread Recipes"
-              buttonTextLeft="Introduction"
-              onClickLeft={handleButtonClickLeft6}
-              buttonTextRight="See Recipe"
-              onClickRight={handleButtonClickRight}
-            />
-          </Col>
+                <CardComponent
+                  card={card}
+                  showBadge={card.shouldShowBadge}
+                  badgeText="New"
+                  buttonTextLeft="Introduction"
+                  buttonTextRight="See Recipe"
+                  onBtnClick={handleCardBtnClick}
+                />
+              </Col>
+            );
+          })}
         </Row>
       </Container>
+
       <OffcanvasComponent
-        show={showOffcanvas1}
-        onHide={handleCloseOffcanvas1}
-        title="Simple Pasta Salad"
+        show={showOffcanvas}
+        onHide={handleCloseOffcanvas}
+        title={currentCard.title}
         content={<p>
-          It is very simple worth trying.
+          {currentCard.content}
         </p>}
-        imageUrl="/images/card-1.webp"
-      />
-      <OffcanvasComponent
-        show={showOffcanvas2}
-        onHide={handleCloseOffcanvas2}
-        title="Cobb Salad"
-        content={<p>
-          A super tasty salad.
-        </p>}
-        imageUrl="/images/card-2.webp"
-      />
-      <OffcanvasComponent
-        show={showOffcanvas3}
-        onHide={handleCloseOffcanvas3}
-        title="The Denver Omelet"
-        content={<p>
-          The best omelet.
-        </p>}
-        imageUrl="/images/card-3.webp"
-      />
-      <OffcanvasComponent
-        show={showOffcanvas4}
-        onHide={handleCloseOffcanvas4}
-        title="Hot Dog Mummies"
-        content={<p>
-          A cute hot dog. Fun to make with kids.
-        </p>}
-        imageUrl="/images/card-4.webp"
-      />
-      <OffcanvasComponent
-        show={showOffcanvas5}
-        onHide={handleCloseOffcanvas5}
-        title="Zesty Quinoa Salad"
-        content={<p>
-          Healthy food for body. It is good to have it after workout.
-        </p>}
-        imageUrl="/images/card-5.webp"
-      />
-      <OffcanvasComponent
-        show={showOffcanvas6}
-        onHide={handleCloseOffcanvas6}
-        title="Garlic Bread Spread"
-        content={<p>
-          Tasty food for every meal. Worth trying.
-        </p>}
-        imageUrl="/images/card-6.webp"
+        imageUrl={currentCard.imageUrl}
       />
 
-
-      {/* accordion - FAQ */}
       <div
         className="w-75 mx-auto"
       >

@@ -3,35 +3,29 @@ import Button from "@/app/components/Button/button";
 import BadgeComponent from "@/app/components/Badge/badge";
 
 export default function CardComponent(props) {
-  const { showBadge, badgeText, imageUrl, title, text, onClickLeft, buttonTextLeft, onClickRight, buttonTextRight } = props;
+  const { card, badgeText, buttonTextLeft, buttonTextRight, onBtnClick } = props;
 
   return (
     <Card style={{ width: "18rem" }}>
       <Card.Img
         variant="top"
-        src={imageUrl}
+        src={card.imageUrl}
       />
       <Card.Body>
         <Card.Title>
-          {title}
-          {showBadge && <BadgeComponent
+          {card.title}
+          {card.shouldShowBadge && <BadgeComponent
             text={badgeText}
           />}
         </Card.Title>
         <Card.Text>
-          {text}
+          {card.text}
         </Card.Text>
         <div className="d-flex mr-2 justify-content-between">
-          <Button
-            variant="primary"
-            onClick={onClickLeft}
-          >
+          <Button onClick={() => onBtnClick(true, card)}>
             {buttonTextLeft}
           </Button>
-          <Button
-            variant="primary"
-            onClick={onClickRight}
-          >
+          <Button onClick={() => onBtnClick(false, card)}>
             {buttonTextRight}
           </Button>
         </div>
