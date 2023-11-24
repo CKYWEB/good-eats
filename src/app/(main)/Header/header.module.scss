@@ -1,0 +1,65 @@
+@use "../../styles/base";
+
+.logo__image {
+  width: 300px;
+  padding: 10px;
+
+  @media screen and (max-width: 465px) {
+    width: 248px;
+  }
+}
+
+.navbarHome {
+  background-color: base.$primary-color;
+}
+
+.navLink {
+  color: base.$decorating-color;
+  font-size: 16pt;
+  margin-right: 20px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.navbarToggler:focus {
+  box-shadow: none;
+}
+
+.navbarToggler:hover {
+  background-color: base.$primary-dark-color;
+}
+
+.listGroup .listGroupItem.active {
+  z-index: 2;
+  color: base.$global-black;
+  background-color: base.$primary-color;
+  border-color: base.$global-white;
+}
+
+.listGroup .listGroupItem {
+  background-color: base.$primary-color;
+}
+
+.listGroup .listGroupItem:hover {
+  background-color: base.$primary-dark-color;
+}
+
+.containerUserSvg {
+  svg {
+    position: relative;
+    bottom: 2px;
+  }
+}
+
+.loginLink {
+  text-decoration: none;
+  color: #000;
+
+  &:hover {
+    text-decoration: underline;
+    text-decoration-color: base.$primary-dark-color;
+  }
+}
+
+.nameUser {
+  cursor: pointer;
+}
