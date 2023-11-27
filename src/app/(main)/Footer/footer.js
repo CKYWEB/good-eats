@@ -1,4 +1,3 @@
-"use client"
 import Image from "next/image";
 
 import MagazineImage from "./images/magazine.jpg";
@@ -10,7 +9,7 @@ import PinterestIcon from "./images/Icons/pinterest.png";
 import TikTokIcon from "./images/Icons/tiktok.png";
 import SubscribeButton from "./images/Icons/subscribe-button.png";
 
-export default function Footer() {
+export function Footer() {
 
   return (
     <>
