@@ -1,0 +1,38 @@
+@use "../../styles/base";
+
+footer {
+    .card-text {
+        color: #0dcaf0;
+        &:hover {
+            color: base.$primary-dark-color !important;
+        }
+    }
+
+    .nav-item a {
+        font-family: Arial, sans-serif;
+        font-size: 14pt;
+        &:hover {
+            color: base.$primary-dark-color !important;
+        }
+    }
+
+    .socials {
+        img {
+            width: 40px;
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+    }
+
+    .subscribe {
+        img {
+            width: 120px;
+            opacity: 1;
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+    }
+}
+

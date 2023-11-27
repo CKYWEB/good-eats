@@ -7,7 +7,9 @@ import TwitterIcon from "./images/Icons/twitter.png";
 import YoutubeIcon from  "./images/Icons/Youtube.png";
 import PinterestIcon from "./images/Icons/pinterest.png";
 import TikTokIcon from "./images/Icons/tiktok.png";
-import SubscribeButton from "./images/Icons/subscribe-button.png";
+import SubscribeButton from "./images/Icons/subscribebutton.png";
+
+import "./footer.module.scss";
 
 export function Footer() {
 
