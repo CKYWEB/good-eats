@@ -1,0 +1,18 @@
+@use "../../styles/base/base";
+
+.accordion-header {
+  cursor: pointer;
+  padding: 10px;
+
+  .arrow_icon {
+    transition: transform 0.3s ease;
+  }
+
+  &.active .arrow_icon {
+    transform: rotate(180deg);
+  }
+}
+
+.card_body {
+  background-color: base.$secondary-color;
+}
