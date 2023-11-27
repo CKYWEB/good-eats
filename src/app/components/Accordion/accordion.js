@@ -1,23 +1,41 @@
-import Accordion from "react-bootstrap/Accordion";
+import { Accordion, Card } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
+import styles from "./accordion.module.scss";
 
 export default function AccordionComponent(props) {
   const { headers, bodies } = props;
+  const [activeIndex, setActiveIndex] = useState(null);
+
+  const handleAccordionClick = (index) => {
+    setActiveIndex(activeIndex === index ? null : index);
+  };
+  const isAccordionOpen = (index) => activeIndex === index;
 
   return (
     <div>
-      <Accordion defaultActiveKey="0">
+      <Accordion>
         {headers.map((header, index) => (
-          <Accordion.Item
-            key={index}
-            eventKey={index.toString()}
-          >
-            <Accordion.Header>
+          <Card key={index}>
+            <Card.Header
+              className={`d-flex justify-content-between styles.accordion-header ${isAccordionOpen(index) ? "active" : ""}`}
+              onClick={() => handleAccordionClick(index)}
+            >
               {header}
-            </Accordion.Header>
-            <Accordion.Body>
-              {bodies[index]}
-            </Accordion.Body>
-          </Accordion.Item>
+              <FontAwesomeIcon
+                icon={isAccordionOpen(index) ? faChevronUp : faChevronDown}
+                className={styles.arrow_icon}
+              />
+            </Card.Header>
+            <Accordion.Collapse in={isAccordionOpen(index)}>
+              <Card.Body
+                className={styles.card_body}
+              >
+                {bodies[index]}
+              </Card.Body>
+            </Accordion.Collapse>
+          </Card>
         ))}
       </Accordion>
     </div>

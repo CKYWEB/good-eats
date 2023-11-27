@@ -1,15 +1,18 @@
 @use "../../styles/base/base";
 
-.accordion-button {
-  background-color: base.$global-gray;
+.accordion-header {
+  cursor: pointer;
+  padding: 10px;
 
-  &:focus {
-    box-shadow: none;
+  .arrow_icon {
+    transition: transform 0.3s ease;
   }
 
-  &:not(.collapsed) {
-    background-color: base.$secondary-color;
-    color: base.$global-black;
-
+  &.active .arrow_icon {
+    transform: rotate(180deg);
   }
+}
+
+.card_body {
+  background-color: base.$secondary-color;
 }
