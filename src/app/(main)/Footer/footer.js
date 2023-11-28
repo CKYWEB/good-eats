@@ -9,9 +9,37 @@ import PinterestIcon from "./images/Icons/pinterest.png";
 import TikTokIcon from "./images/Icons/tiktok.png";
 import SubscribeButton from "./images/Icons/subscribebutton.png";
 
-import "./footer.module.scss";
+import styles from "./footer.module.scss";
 
 export function Footer() {
+  const mainNavs = ["Home", "Meals", "Cuisines", "Ingredients", "Kitchen Tips", "News", "Features", "About Us"];
+  const socials = [
+    {
+      src: FacebookIcon,
+      alt: "facebook",
+    },
+    {
+      src: InstagramIcon,
+      alt: "instagram",
+    },
+    {
+      src: TwitterIcon,
+      alt: "twitter",
+    },
+    {
+      src: YoutubeIcon,
+      alt: "youtube",
+    },
+    {
+      src: PinterestIcon,
+      alt: "pinterest",
+    },
+    {
+      src: TikTokIcon,
+      alt: "tiktok",
+    },
+  ];
+  const secondaryNavs = ["FAQ", "Advertise", "Work for us", "Contact", "Editorial Process", "Anti-Racism Pledge", "Privacy Policy", "Terms of Service"];
 
   return (
     <>
@@ -20,7 +48,7 @@ export function Footer() {
         <div className="container">
           <div className="row justify-content-between">
             <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
-              <p className="card-text">
+              <p className={styles["card-text"]}>
                 Enjoy a Magazine Subscription!
               </p>
               <Image
@@ -51,176 +79,52 @@ export function Footer() {
             {/* -- footer: Main Menu items --> */}
             <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
               <ul className="nav flex-column">
-                <li className="nav-item mb-2">
-                  <a
-                    href="#"
-                    className="nav-link p-0 text-muted"
+                {mainNavs.map(i => (
+                  <li
+                    key={i}
+                    className={`nav-item mb-2 ${styles["nav-hover"]}`}
                   >
-                    Home
-                  </a>
-                </li>
-                <li className="nav-item mb-2">
-                  <a
-                    href="#"
-                    className="nav-link p-0 text-muted"
-                  >
-                    Meals
-                  </a>
-                </li>
-                <li className="nav-item mb-2">
-                  <a
-                    href="#"
-                    className="nav-link p-0 text-muted"
-                  >
-                    Cuisines
-                  </a>
-                </li>
-                <li className="nav-item mb-2">
-                  <a
-                    href="#"
-                    className="nav-link p-0 text-muted"
-                  >
-                    Ingedients
-                  </a>
-                </li>
-                <li className="nav-item mb-2">
-                  <a
-                    href="#"
-                    className="nav-link p-0 text-muted"
-                  >
-                    Kitchen Tips
-                  </a>
-                </li>
-                <li className="nav-item mb-2">
-                  <a
-                    href="#"
-                    className="nav-link p-0 text-muted"
-                  >
-                    News
-                  </a>
-                </li>
-                <li className="nav-item mb-2">
-                  <a
-                    href="#"
-                    className="nav-link p-0 text-muted"
-                  >
-                    Features
-                  </a>
-                </li>
-                <li className="nav-item mb-2">
-                  <a
-                    href="#"
-                    className="nav-link p-0 text-muted"
-                  >
-                    About Us
-                  </a>
-                </li>
+                    <a
+                      href="#"
+                      className="nav-link p-0 text-muted"
+                    >
+                      {i}
+                    </a>
+                  </li>
+                ))}
               </ul>
               <br />
-              <div className="socials">
-                <Image
-                  className="img-fluid"
-                  src={FacebookIcon}
-                  alt="facebook"
-                />
-                <Image
-                  className="img-fluid"
-                  src={InstagramIcon}
-                  alt="Instagram"
-                />
-                <Image
-                  className="img-fluid"
-                  src={TwitterIcon}
-                  alt="Instagram"
-                />
-                <Image
-                  className="img-fluid"
-                  src={YoutubeIcon}
-                  alt="Youtube"
-                />
-                <Image
-                  className="img-fluid"
-                  src={PinterestIcon}
-                  alt="pinterest"
-                />
-                <Image
-                  className="img-fluid"
-                  src={TikTokIcon}
-                  alt="tik"
-                />
+              <div className={styles["socials"]}>
+                {socials.map(i => (
+                  <Image
+                    key={i.src}
+                    className="img-fluid"
+                    src={i.src}
+                    alt={i.alt}
+                  />
+                ))}
               </div>
             </div>
 
             {/* <!-- footer: 2nd column --> */}
             <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
               <ul className="nav flex-column">
-                <li className="nav-item mb-2">
-                  <a
-                    href="#"
-                    className="nav-link p-0 text-muted card-text"
+                {secondaryNavs.map(i => (
+                  <li
+                    key={i}
+                    className={`nav-item mb-2 ${styles["nav-hover"]}`}
                   >
-                    FAQ
-                  </a>
-                </li>
-                <li className="nav-item mb-2">
-                  <a
-                    href="#"
-                    className="nav-link p-0 text-muted card-text"
-                  >
-                    Advertise
-                  </a>
-                </li>
-                <li className="nav-item mb-2">
-                  <a
-                    href="#"
-                    className="nav-link p-0 text-muted"
-                  >
-                    Work for us
-                  </a>
-                </li>
-                <li className="nav-item mb-2">
-                  <a
-                    href="#"
-                    className="nav-link p-0 text-muted"
-                  >
-                    Contact
-                  </a>
-                </li>
-                <li className="nav-item mb-2">
-                  <a
-                    href="#"
-                    className="nav-link p-0 text-muted"
-                  >
-                    Editorial Process
-                  </a>
-                </li>
-                <li className="nav-item mb-2">
-                  <a
-                    href="#"
-                    className="nav-link p-0 text-muted"
-                  >
-                    Anti-Racism Pledge
-                  </a>
-                </li>
-                <li className="nav-item mb-2">
-                  <a
-                    href="#"
-                    className="nav-link p-0 text-muted"
-                  >
-                    Privacy Policy
-                  </a>
-                </li>
-                <li className="nav-item mb-2">
-                  <a
-                    href="#"
-                    className="nav-link p-0 text-muted"
-                  >
-                    Terms of Service
-                  </a>
-                </li>
+                    <a
+                      href="#"
+                      className={`nav-link p-0 text-muted ${styles["card-text"]}`}
+                    >
+                      {i}
+                    </a>
+                  </li>
+                ))}
               </ul>
               <br />
-              <div className="subscribe">
+              <div className={styles["subscribe"]}>
                 <Image
                   className="img-fluid"
                   src={SubscribeButton}
