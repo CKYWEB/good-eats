@@ -78,11 +78,14 @@ const handleLogin = async (payload) => {
         throw new Error("Password is not correct");
     }
 
-    const result = await User.find({email: payload.email}).select("-password");
+    const result = (await User.find({email: payload.email}).select("-password -_id -__v"))[0];
 
     await closeDbConnection();
 
-    return result;
+    return {
+        firstName: result.firstName,
+        token: undefined,
+    };
 };
 
 const handleFindUsers = async (payload) => {
