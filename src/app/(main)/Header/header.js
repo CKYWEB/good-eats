@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { Image } from "react-bootstrap";
 import styles from "../Header/header.module.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
@@ -10,10 +11,11 @@ export const Logo = () => {
   return (
     <div className="col d-flex">
       <div className="logo py-3">
-        <img
+        <Image
           className={styles.logo__image}
           src="/images/logo.png"
           alt="Good Eats Logo"
+          fluid
         />
       </div>
     </div>

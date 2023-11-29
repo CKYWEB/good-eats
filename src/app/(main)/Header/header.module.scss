@@ -54,10 +54,12 @@
   text-decoration: none;
   color: base.$global-black;
   border: none;
+  background-color: transparent;
 
   &:hover {
     text-decoration: underline;
     text-decoration-color: base.$primary-dark-color;
+    background-color: transparent;
   }
 
   &.btn-link {
