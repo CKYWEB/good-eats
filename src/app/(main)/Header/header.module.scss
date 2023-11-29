@@ -52,11 +52,18 @@
 
 .loginLink {
   text-decoration: none;
-  color: #000;
+  color: base.$global-black;
+  border: none;
 
   &:hover {
     text-decoration: underline;
     text-decoration-color: base.$primary-dark-color;
+  }
+
+  &.btn-link {
+    background-color: transparent;
+    border: none;
+    padding: 0;
   }
 }
 
