@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
-const {createDbConnection, closeDbConnection} = require("../utils");
+const {createDbConnection} = require("../utils");
 const EMAIL_REGEX = /^[a-zA-Z](\.?[a-zA-Z]){2,}@northeastern\.edu$/;
 const NAME_REGEX = /^[a-z ,.'-]+$/i;
 
@@ -54,8 +54,6 @@ const handleCreateUser = async (payload) => {
 
     const result = await User.find({email: payload.email}).select("-password");
 
-    await closeDbConnection();
-
     return result;
 };
 
@@ -80,8 +78,6 @@ const handleLogin = async (payload) => {
 
     const result = (await User.find({email: payload.email}).select("-password -_id -__v"))[0];
 
-    await closeDbConnection();
-
     return {
         firstName: result.firstName,
         token: undefined,
@@ -92,8 +88,6 @@ const handleFindUsers = async (payload) => {
     await createDbConnection();
 
     const result = await User.find(payload).select("-password");
-
-    await closeDbConnection();
 
     return result;
 };
