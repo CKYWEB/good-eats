@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
 const {createDbConnection} = require("../utils");
+const jwt = require("jsonwebtoken");
 const EMAIL_REGEX = /^[a-zA-Z](\.?[a-zA-Z]){2,}@northeastern\.edu$/;
 const NAME_REGEX = /^[a-z ,.'-]+$/i;
 
@@ -76,11 +77,11 @@ const handleLogin = async (payload) => {
         throw new Error("Password is not correct");
     }
 
-    const result = (await User.find({email: payload.email}).select("-password -_id -__v"))[0];
+    const result = (await User.findOne({email: payload.email})).toObject();
 
     return {
         firstName: result.firstName,
-        token: undefined,
+        token: jwt.sign(result, process.env.JWT_SECRET),
     };
 };
 

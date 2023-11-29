@@ -1,11 +1,13 @@
 const {handleLogin, handleCreateUser, handleFindUsers} = require("../services/user");
 const login = async (req, res) => {
     try {
-        const result = await handleLogin(req.body);
+        const data = await handleLogin(req.body);
 
         res.status(200).json({
-            msg: `Welcome, ${result.firstName}.`,
-            data: result,
+            msg: `Welcome, ${data.firstName}.`,
+            data: {
+                token: data.token,
+            },
             result: true,
         });
     } catch (err) {
