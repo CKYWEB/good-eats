@@ -3,9 +3,7 @@
 import React from "react";
 import { Image } from "react-bootstrap";
 import { useRouter } from "next/navigation";
-import styles from "../Header/header.module.scss";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import styles from "./header.module.scss";
 
 export const Logo = () => {
   return (
