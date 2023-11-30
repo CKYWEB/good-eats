@@ -28,21 +28,6 @@
   background-color: base.$primary-dark-color;
 }
 
-.listGroup .listGroupItem.active {
-  z-index: 2;
-  color: base.$global-black;
-  background-color: base.$primary-color;
-  border-color: base.$global-white;
-}
-
-.listGroup .listGroupItem {
-  background-color: base.$primary-color;
-}
-
-.listGroup .listGroupItem:hover {
-  background-color: base.$primary-dark-color;
-}
-
 .containerUserSvg {
   svg {
     position: relative;

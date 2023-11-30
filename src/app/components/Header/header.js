@@ -3,9 +3,11 @@
 import React from "react";
 import { Image } from "react-bootstrap";
 import { useRouter } from "next/navigation";
-import styles from "../Header/header.module.scss";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import styles from "./header.module.scss";
+import Offcanvas from "react-bootstrap/Offcanvas";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
 
 export const Logo = () => {
   return (
@@ -73,8 +75,8 @@ export const Avatar = ({ isUserLoggedIn, userName, handleLogout }) => {
               id="userDropdown"
               className="dropdown-menu"
             >
-              {menuItems.map((item, index) => (
-                <li key={index}>
+              {menuItems.map(item => (
+                <li key={item.label}>
                   <a
                     className="dropdown-item"
                     href={item.href}
@@ -122,113 +124,18 @@ export const Avatar = ({ isUserLoggedIn, userName, handleLogout }) => {
   );
 };
 
-export const HeaderMenu = () => {
-  const menuItems = [
-    { id: "homepage", label: "Home" },
-    { id: "mealspage", label: "Meals" },
-    { id: "cuisinespage", label: "Cuisines" },
-    { id: "ingredientspage", label: "Ingredients" },
-    { id: "tipsage", label: "Kitchen Tips" },
-    { id: "newspage", label: "News" },
-    { id: "featurespage", label: "Features" },
-    { id: "aboutuspage", label: "About Us" },
-  ];
-
-  return (
-    <nav
-      className={`${styles.navbarHome} navbar navbar-expand-lg border-bottom border-body`}
-      data-bs-theme="light"
-    >
-      <div className="container-fluid">
-        <button
-          className={`${styles.navbarToggler} navbar-toggler`}
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasNav"
-          aria-controls="offcanvasNav"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        <div
-          className="collapse navbar-collapse container-fluid"
-          id="navbarNav"
-        >
-          <ul className="navbar-nav">
-            {menuItems.map((item) => (
-              <li
-                key={item.id}
-                className="nav-item active"
-              >
-                <a
-                  id={item.id}
-                  className={`${styles.navLink} nav-link`}
-                  href="#"
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </nav>
-  );
-};
-
-export const OffcanvasMenu = () => {
-  const menuItems = [
-    { id: "homepage", label: "Home" },
-    { id: "mealspage", label: "Meals" },
-    { id: "cuisinespage", label: "Cuisines" },
-    { id: "ingredientspage", label: "Ingredients" },
-    { id: "tipsage", label: "Kitchen Tips" },
-    { id: "newspage", label: "News" },
-    { id: "featurespage", label: "Features" },
-    { id: "aboutuspage", label: "About Us" },
-  ];
-
-  return (
-    <div
-      className="offcanvas offcanvas-start"
-      tabIndex="-1"
-      id="offcanvasNav"
-      aria-labelledby="offcanvasNavLabel"
-    >
-      <div className="offcanvas-header">
-        <button
-          type="button"
-          className="btn-close text-reset"
-          data-bs-dismiss="offcanvas"
-          aria-label="Close"
-        >
-        </button>
-      </div>
-      <div className="offcanvas-body">
-        <ul className={`${styles.listGroup} list-group`}>
-          {menuItems.map((item) => (
-            <li
-              key={item.id}
-              className={`${styles.listGroupItem} list-group-item list-group-item-action active`}
-              aria-current="true"
-            >
-              <a
-                id={item.id}
-                className={`${styles.navLink} nav-link`}
-                href="#"
-              >
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-};
-
-
 export const Header = () => {
+  const menuItems = [
+    { id: "homepage", label: "Home" },
+    { id: "mealspage", label: "Meals" },
+    { id: "cuisinespage", label: "Cuisines" },
+    { id: "ingredientspage", label: "Ingredients" },
+    { id: "tipsage", label: "Kitchen Tips" },
+    { id: "newspage", label: "News" },
+    { id: "featurespage", label: "Features" },
+    { id: "aboutuspage", label: "About Us" },
+  ];
+
   return (
     <>
       <header className="bg-light">
@@ -238,8 +145,39 @@ export const Header = () => {
             <Avatar />
           </div>
           <div className="row">
-            <HeaderMenu />
-            <OffcanvasMenu />
+            <Navbar
+              expand="lg"
+              className={styles.navbarHome}
+            >
+              <Container fluid>
+                <Navbar.Toggle
+                  aria-controls="offcanvasNav"
+                  className={`ms-2 ${styles.navbarToggler}`}
+                />
+                <Navbar.Offcanvas
+                  id="offcanvasNav"
+                  className={styles.navbarHome}
+                >
+                  <Offcanvas.Header
+                    closeButton
+                    className="justify-content-end"
+                  />
+                  <Offcanvas.Body>
+                    <Nav className="me-auto px-3">
+                      {menuItems.map(item => (
+                        <Nav.Link
+                          key={item.id}
+                          href={item.id}
+                          className={styles.navLink}
+                        >
+                          {item.label}
+                        </Nav.Link>
+                    ))}
+                    </Nav>
+                  </Offcanvas.Body>
+                </Navbar.Offcanvas>
+              </Container>
+            </Navbar>
           </div>
         </div>
       </header >

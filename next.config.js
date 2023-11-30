@@ -11,7 +11,16 @@ const nextConfig = {
                 destination: `${process.env.NEXT_PUBLIC_SERVER_URL}/api/:path*` // Proxy to Backend
             }
         ];
-    }
+    },
+    async redirects() {
+        return [
+          {
+            source: "/",
+            destination: "/home",
+            permanent: true,
+          },
+        ];
+      },
 };
 
 module.exports = nextConfig;
