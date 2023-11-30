@@ -81,7 +81,7 @@ const handleLogin = async (payload) => {
 
     return {
         firstName: result.firstName,
-        token: jwt.sign(result, process.env.JWT_SECRET),
+        token: jwt.sign(result, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 24 * process.env.JWT_EXPIRES_IN }),
     };
 };
 
