@@ -97,7 +97,7 @@ export function Footer() {
               <div className={styles["socials"]}>
                 {socials.map(i => (
                   <Image
-                    key={i.src}
+                    key={i.alt}
                     className="img-fluid"
                     src={i.src}
                     alt={i.alt}
