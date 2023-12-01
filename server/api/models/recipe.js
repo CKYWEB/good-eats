@@ -13,17 +13,17 @@ const Recipe = mongoose.model("Recipe", new mongoose.Schema(
       cookTime: Number,
       totalTime: Number
     },
-    ingredients: {
+    ingredients: [{
       // ingredients of recipe
       item: String,
       quantity: Number,
       unit: String
-    },
-    directions: {
+    }],
+    directions: [{
       // steps to cook
       order: Number,
       detailInstruction: String
-    },
+    }],
   },
 ));
 
