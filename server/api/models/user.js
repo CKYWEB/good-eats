@@ -7,7 +7,7 @@ const User = mongoose.model("User", new mongoose.Schema(
         createdDate: { type: Date, default: Date.now()},
         firstName: String,
         lastName: String,
-        role: Number, // 1: admin 2: user
+        role: { type: Number, default: 2 }, // 1: admin 2: user
     },
 ));
 
