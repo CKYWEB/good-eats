@@ -8,11 +8,22 @@ const Recipe = mongoose.model("Recipe", new mongoose.Schema(
     description: String,
     author: String,
     createdDate: { type: Date, default: Date.now() },
-    prepTime: Number,
-    cookTime: Number,
-    totalTime: Number,
-    ingredients: Array,
-    directons: Array,
+    time: {
+      prepTime: Number,
+      cookTime: Number,
+      totalTime: Number
+    },
+    ingredients: {
+      // ingredients of recipe
+      item: String,
+      quantity: Number,
+      unit: String
+    },
+    directions: {
+      // steps to cook
+      order: Number,
+      detailInstruction: String
+    },
   },
 ));
 

@@ -8,18 +8,14 @@ const handleCreateRecipe = async (payload) => {
   await createDbConnection();
 
   await Recipe.create({
-    image: String,
-    // base64
+    image: payload.image,
     title: payload.title,
-    tag: payload.title,
+    tag: payload.tag,
     description: payload.description,
     author: payload.author,
-    prepTime: payload.prepTime,
-    cookTime: payload.cookTime,
-    totalTime: payload.totalTime,
+    time: payload.time,
     ingredients: payload.ingredients,
-    directons: payload.directions,
-    // array
+    directions: payload.directions,
   });
   const result = await Recipe.find({ title: payload.title });
 
