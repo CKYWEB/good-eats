@@ -1,4 +1,5 @@
-import {USER_PATH} from "@/api/config";
+import {USER_PATH, USER_TOKEN_NAME} from "@/api/config";
+import Cookies from "js-cookie";
 
 export const login = async (payload) => {
     const res = await fetch(`${USER_PATH}/login`, {
@@ -8,18 +9,27 @@ export const login = async (payload) => {
         },
         body: JSON.stringify(payload),
     });
-    const data = await res.json();
+    const {data, result, msg} = await res.json();
 
-    if (!data.result) {
-        throw new Error(data.msg);
+    if (data && data.token) {
+        Cookies.set(USER_TOKEN_NAME, data.token);
     }
 
-    return data;
+    if (!result) {
+        throw new Error(msg);
+    }
+
+    return {
+        msg,
+    };
 };
 
 export const fetchUsers = async () => {
     const res = await fetch(`${USER_PATH}/getUsers`, {
-        method: "GET"
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${Cookies.get(USER_TOKEN_NAME)}`,
+        }
     });
 
     return res.json();
