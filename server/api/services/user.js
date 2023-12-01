@@ -86,8 +86,16 @@ const handleFindUsers = async (payload) => {
     return result;
 };
 
+const handleGetUserInfo = async (req) => {
+    const token = req.headers.authorization.split(" ")[1];
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
+
+    return await User.findOne({_id: payload._id}).select("-password");
+};
+
 module.exports = {
     handleLogin,
     handleCreateUser,
     handleFindUsers,
+    handleGetUserInfo,
 };

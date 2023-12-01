@@ -52,3 +52,14 @@ export const createUser = async (payload) => {
 
     return data;
 };
+
+export const fetchUserInfo = async () => {
+    const res = await fetch(`${USER_PATH}/getUserInfo`, {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${Cookies.get(USER_TOKEN_NAME)}`,
+        }
+    });
+
+    return res.json();
+};
