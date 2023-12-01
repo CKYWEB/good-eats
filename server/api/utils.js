@@ -12,6 +12,8 @@ const createDbConnection = async () => {
 
 const closeDbConnection = async () => {
     await mongoose.disconnect();
+    console.log("Mongoose disconnected on app termination");
+    process.exit(0);
 };
 
 module.exports = {

@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
-const {createDbConnection, closeDbConnection} = require("../utils");
+const jwt = require("jsonwebtoken");
 const EMAIL_REGEX = /^[a-zA-Z](\.?[a-zA-Z]){2,}@northeastern\.edu$/;
 const NAME_REGEX = /^[a-z ,.'-]+$/i;
 
@@ -24,8 +24,6 @@ const handleCreateUser = async (payload) => {
     if (payload.password === undefined) {
         throw new Error("Password cant not be undefined");
     }
-
-    await createDbConnection();
 
     const existedUsers = await User.find({email: payload.email});
 
@@ -54,14 +52,10 @@ const handleCreateUser = async (payload) => {
 
     const result = await User.find({email: payload.email}).select("-password");
 
-    await closeDbConnection();
-
     return result;
 };
 
 const handleLogin = async (payload) => {
-    await createDbConnection();
-
     if (payload.email === undefined) {
         throw new Error("Email cant not be undefined");
     }
@@ -78,25 +72,30 @@ const handleLogin = async (payload) => {
         throw new Error("Password is not correct");
     }
 
-    const result = await User.find({email: payload.email}).select("-password");
+    const result = (await User.findOne({email: payload.email})).toObject();
 
-    await closeDbConnection();
+    return {
+        firstName: result.firstName,
+        token: jwt.sign(result, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 24 * process.env.JWT_EXPIRES_IN }),
+    };
+};
+
+const handleFindUsers = async (payload) => {
+    const result = await User.find(payload).select("-password");
 
     return result;
 };
 
-const handleFindUsers = async (payload) => {
-    await createDbConnection();
+const handleGetUserInfo = async (req) => {
+    const token = req.headers.authorization.split(" ")[1];
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
 
-    const result = await User.find(payload).select("-password");
-
-    await closeDbConnection();
-
-    return result;
+    return await User.findOne({_id: payload._id}).select("-password");
 };
 
 module.exports = {
     handleLogin,
     handleCreateUser,
     handleFindUsers,
+    handleGetUserInfo,
 };
