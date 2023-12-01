@@ -1,6 +1,5 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
-const {createDbConnection} = require("../utils");
 const jwt = require("jsonwebtoken");
 const EMAIL_REGEX = /^[a-zA-Z](\.?[a-zA-Z]){2,}@northeastern\.edu$/;
 const NAME_REGEX = /^[a-z ,.'-]+$/i;
@@ -25,8 +24,6 @@ const handleCreateUser = async (payload) => {
     if (payload.password === undefined) {
         throw new Error("Password cant not be undefined");
     }
-
-    await createDbConnection();
 
     const existedUsers = await User.find({email: payload.email});
 
@@ -59,8 +56,6 @@ const handleCreateUser = async (payload) => {
 };
 
 const handleLogin = async (payload) => {
-    await createDbConnection();
-
     if (payload.email === undefined) {
         throw new Error("Email cant not be undefined");
     }
@@ -86,8 +81,6 @@ const handleLogin = async (payload) => {
 };
 
 const handleFindUsers = async (payload) => {
-    await createDbConnection();
-
     const result = await User.find(payload).select("-password");
 
     return result;
