@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "installs": "yarn install && cd server && yarn install",
+    "dev": "next dev & cd server && yarn start",
+    "devui": "next dev",
+    "devserv": "cd server && yarn start"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
