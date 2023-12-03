@@ -1,5 +1,4 @@
 const Recipe = require("../models/recipe");
-const { createDbConnection, closeDbConnection } = require("../utils");
 
 
 const handleCreateRecipe = async (payload) => {
@@ -27,7 +26,14 @@ const handleFindAllRecipes = async (payload) => {
   return result;
 };
 
+const handleFindRecipeByTitle = async (title) => {
+
+  const result = await Recipe.findOne({ title });
+  return result;
+};
+
 module.exports = {
   handleCreateRecipe,
   handleFindAllRecipes,
+  handleFindRecipeByTitle,
 };

@@ -1,0 +1,13 @@
+@use "../styles/base";
+
+.title-description {
+  color: base.$global-dark-gray;
+}
+
+.time-table {
+  background-color: base.$light-color;
+}
+
+.published-date {
+  color: base.$global-dark-gray;
+}
