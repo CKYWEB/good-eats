@@ -8,6 +8,10 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import { useUserStore } from "@/store/user";
+import { logout } from "@/api/user";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import toast from "react-hot-toast";
 
 export const Logo = () => {
   return (
@@ -24,15 +28,21 @@ export const Logo = () => {
   );
 };
 
-export const Avatar = ({ isUserLoggedIn, userName, handleLogout }) => {
+export const Avatar = ({ user }) => {
   const router = useRouter();
-  //const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+  const isUserLoggedIn = !!user?.email;
 
-  const handleLoginClick = () => {
-    if (isUserLoggedIn) {
-      handleLogout();
-    } else {
-      router.push("/login");
+  const handleLogin = () => {
+    router.push("/login");
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      handleLogin();
+      toast.info("Log out successfully!");
+    } catch (err) {
+      toast.error(err.message);
     }
   };
 
@@ -60,62 +70,30 @@ export const Avatar = ({ isUserLoggedIn, userName, handleLogout }) => {
           </svg>
         </div>
         {isUserLoggedIn ? (
-          <div
-            id="userAvatar"
-            className="dropdown"
+          <NavDropdown
+            id="nav-dropdown-dark-example"
+            title={user.firstName}
           >
-            <div
-              className={styles.nameUser}
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              {userName}
-            </div>
-            <ul
-              id="userDropdown"
-              className="dropdown-menu"
-            >
-              {menuItems.map(item => (
-                <li key={item.label}>
-                  <a
-                    className="dropdown-item"
-                    href={item.href}
-                  >
-                    {item.label}
-                    {item.label === "Favorite Recipes" && (
-                      <span
-                        id="favorite-count"
-                        className="badge text-bg-secondary"
-                      >
-                        0
-                      </span>
-                    )}
-                  </a>
-                </li>
-              ))}
-              <span className="mx-2">
-                ____________________
-              </span>
-              <li
-                data-bs-toggle="modal"
-                data-bs-target="#confirmLogoutModal"
+            {menuItems.map(m=>(
+              <NavDropdown.Item
+                key={m.label}
+                href={m.href}
               >
-                <button
-                  className="dropdown-item"
-                  onClick={handleLogout}
-                >
-                  Logout
-                </button>
-              </li>
-            </ul>
-          </div>
+                {m.label}
+              </NavDropdown.Item>
+          ))}
+            <NavDropdown.Divider />
+            <NavDropdown.Item onClick={handleLogout}>
+              Log Out
+            </NavDropdown.Item>
+          </NavDropdown>
         ) : (
           <div id="loginButton">
             <button
-              onClick={handleLoginClick}
+              onClick={handleLogin}
               className={styles.loginLink}
             >
-              {isUserLoggedIn ? "Log Out" : "Log In"}
+              Log In
             </button>
           </div>
         )}
@@ -136,13 +114,15 @@ export const Header = () => {
     { id: "aboutuspage", label: "About Us" },
   ];
 
+  const {currentUser} = useUserStore();
+
   return (
     <>
       <header className="bg-light">
         <div>
           <div className="row row-cols-1 row-cols-md-2">
             <Logo />
-            <Avatar />
+            <Avatar user={currentUser} />
           </div>
           <div className="row">
             <Navbar

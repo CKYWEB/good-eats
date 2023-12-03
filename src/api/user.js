@@ -69,3 +69,8 @@ export const fetchUserInfo = async () => {
 
     return res.json();
 };
+
+export const logout = async () => {
+    // TODO: add token to block list
+    Cookies.remove(USER_TOKEN_NAME);
+};
