@@ -6,7 +6,7 @@ export const useUserStore = create((set) => ({
     fetchCurrentUser: async () => {
         const res = await fetchUserInfo();
         set({ 
-            currentUser: res.data,
+            currentUser: res?.data,
         });
     },
 }));
