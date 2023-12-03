@@ -54,12 +54,23 @@ export const createUser = async (payload) => {
 };
 
 export const fetchUserInfo = async () => {
+    const token = Cookies.get(USER_TOKEN_NAME);
+
+    if (token === undefined) {
+        return undefined;
+    }
+
     const res = await fetch(`${USER_PATH}/getUserInfo`, {
         method: "GET",
         headers: {
-            "Authorization": `Bearer ${Cookies.get(USER_TOKEN_NAME)}`,
+            "Authorization": `Bearer ${token}`,
         }
     });
 
     return res.json();
+};
+
+export const logout = async () => {
+    // TODO: add token to block list
+    Cookies.remove(USER_TOKEN_NAME);
 };
