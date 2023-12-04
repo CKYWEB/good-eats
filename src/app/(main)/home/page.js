@@ -2,16 +2,37 @@
 
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CardComponent from "@/app/components/Card/card";
 import OffcanvasComponent from "@/app/components/Offcanvas/offcanvas";
 import AccordionComponent from "@/app/components/Accordion/accordion";
 import CarouselComponent from "@/app/components/Carousel/carousel";
 import { ButtonGroup } from "react-bootstrap";
 import Button from "@/app/components/Button/button";
+import { getAllRecipes } from "@/api/recipe";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { parseISO, differenceInDays } from "date-fns";
+
 
 
 export default function Home() {
+  const [recipe, setRecipe] = useState(undefined);
+
+  const fetchRecipe = async () => {
+    try {
+      const res = await getAllRecipes();
+      const { data } = res;
+      setRecipe(data?.slice(0, 6));
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      toast.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchRecipe();
+  }, []);
 
   const carouselItems = [
     {
@@ -47,51 +68,18 @@ export default function Home() {
       label: "European",
     },];
 
-  const cards = [
-    {
-      imageUrl: "/images/card-1.webp",
-      title: "Simple Pasta Salad",
-      text: "Salad Recipes",
-      content: "It is very simple worth trying.",
-      shouldShowBadge: false,
-    },
-    {
-      imageUrl: "/images/card-2.webp",
-      title: "Cobb Salad",
-      text: "Salad Recipes",
-      content: "A super tasty salad.",
-      shouldShowBadge: true,
-    }, {
-      imageUrl: "/images/card-3.webp",
-      title: "The Denver Omelet",
-      text: "Omelet Recipes",
-      content: "The best omelet.",
-      shouldShowBadge: false,
-    }, {
-      imageUrl: "/images/card-4.webp",
-      title: "Hot Dog Mummies",
-      text: "Wraps and Rolls",
-      content: "A cute hot dog. Fun to make with kids.",
-      shouldShowBadge: true,
-    },
-    {
-      imageUrl: "/images/card-5.webp",
-      title: "Zesty Quinoa Salad",
-      text: "Quinoa Salad Recipes",
-      content: "Healthy food for body. It's good to have it after workout.",
-      shouldShowBadge: false,
-    },
-    {
-      imageUrl: "/images/card-6.webp",
-      title: "Garlic Bread Spread",
-      text: "Garlic Bread Recipes",
-      content: "Tasty food for every meal. Worth trying.",
-      shouldShowBadge: false,
-    },
-  ];
+  const cards = recipe?.map((recipeItem) => ({
+    id: recipeItem._id,
+    imageUrl: `data:image/png;base64,${recipeItem.image}`,
+    title: recipeItem.title,
+    text: recipeItem.tag,
+    content: recipeItem.description,
+    shouldShowBadge: differenceInDays(new Date(), parseISO(recipeItem.createdDate)) < 3,
+  }));
 
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const [currentCard, setCurrentCard] = useState({});
+  const router = useRouter();
 
   const handleCardBtnClick = (isLeftBtn, card) => {
     if (isLeftBtn) {
@@ -99,8 +87,7 @@ export default function Home() {
       setCurrentCard(card);
       setShowOffcanvas(true);
     } else {
-      // TODO
-      console.log("Right Button clicked!");
+      router.push(`/recipe/${card.id}`);
     }
   };
 
@@ -119,76 +106,79 @@ export default function Home() {
     "Yes, we are always on the lookout for fabulous new products and ideas to share with our Good Eats readers. Suggestions are welcome but will only consider those we think would be a good fit for our audience. In addition, we don't provide reviews of the products."
   ];
 
-  return (
-    <div>
-      <div className="w-75 mx-auto">
-        <CarouselComponent items={carouselItems} />
-      </div>
 
-      <div className="d-flex justify-content-center p-4">
-        <ButtonGroup>
-          {buttons.map((button) => (
-            <Button
-              key={button.id}
-              variant={button.variant}
-              onClick={() => handleBtnGroupClick(button)}
-              style={{ marginRight: "10px", borderRadius: "6px" }}
-            >
-              {button.label}
-            </Button>
-          ))}
-        </ButtonGroup>
-      </div>
+  if (recipe) {
+    return (
+      <div>
+        <div className="w-75 mx-auto">
+          <CarouselComponent items={carouselItems} />
+        </div>
 
-
-      <Container >
-        <Row >
-          {cards.map(card => {
-            return (
-              <Col
-                key={card.title}
-                xs={12}
-                md={6}
-                lg={4}
-                className="d-flex justify-content-center py-4"
+        <div className="d-flex justify-content-center p-4">
+          <ButtonGroup>
+            {buttons.map((button) => (
+              <Button
+                key={button.id}
+                variant={button.variant}
+                onClick={() => handleBtnGroupClick(button)}
+                style={{ marginRight: "10px", borderRadius: "6px" }}
               >
+                {button.label}
+              </Button>
+            ))}
+          </ButtonGroup>
+        </div>
 
-                <CardComponent
-                  card={card}
-                  showBadge={card.shouldShowBadge}
-                  badgeText="New"
-                  buttonTextLeft="Introduction"
-                  buttonTextRight="See Recipe"
-                  onBtnClick={handleCardBtnClick}
-                />
-              </Col>
-            );
-          })}
-        </Row>
-      </Container>
 
-      <OffcanvasComponent
-        show={showOffcanvas}
-        onHide={handleCloseOffcanvas}
-        title={currentCard.title}
-        content={<p>
-          {currentCard.content}
-        </p>}
-        imageUrl={currentCard.imageUrl}
-      />
+        <Container >
+          <Row >
+            {cards.map(card => {
+              return (
+                <Col
+                  key={card.title}
+                  xs={12}
+                  md={6}
+                  lg={4}
+                  className="d-flex justify-content-center py-4"
+                >
 
-      <div
-        className="w-75 mx-auto"
-      >
-        <h2 className="text-center">
-          FAQ
-        </h2>
-        <AccordionComponent
-          headers={accordionHeaders}
-          bodies={accordionBodies}
+                  <CardComponent
+                    card={card}
+                    showBadge={card.shouldShowBadge}
+                    badgeText="New"
+                    buttonTextLeft="Introduction"
+                    buttonTextRight="See Recipe"
+                    onBtnClick={handleCardBtnClick}
+                  />
+                </Col>
+              );
+            })}
+          </Row>
+        </Container>
+
+        <OffcanvasComponent
+          show={showOffcanvas}
+          onHide={handleCloseOffcanvas}
+          title={currentCard.title}
+          content={<p>
+            {currentCard.content}
+          </p>}
+          imageUrl={currentCard.imageUrl}
         />
-      </div>
 
-    </div >
-  );
+        <div
+          className="w-75 mx-auto"
+        >
+          <h2 className="text-center">
+            FAQ
+          </h2>
+          <AccordionComponent
+            headers={accordionHeaders}
+            bodies={accordionBodies}
+          />
+        </div>
+
+      </div >
+    );
+  }
 }
