@@ -1,4 +1,4 @@
-const { handleCreateRecipe, handleFindAllRecipes, handleFindRecipeByTitle } = require("../services/recipe");
+const { handleCreateRecipe, handleFindAllRecipes, handleGetRecipe } = require("../services/recipe");
 
 const createRecipe = async (req, res) => {
   try {
@@ -33,9 +33,9 @@ const getAllRecipes = async (req, res) => {
   }
 };
 
-const getRecipeByTitle = async (req, res) => {
+const getRecipe = async (req, res) => {
   try {
-    const result = await handleFindRecipeByTitle(req.query);
+    const result = await handleGetRecipe(req.query?.recipeId);
 
     res.status(200).json({
       data: result,
@@ -52,5 +52,5 @@ const getRecipeByTitle = async (req, res) => {
 module.exports = {
   createRecipe,
   getAllRecipes,
-  getRecipeByTitle,
+  getRecipe,
 };

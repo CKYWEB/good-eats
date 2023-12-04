@@ -16,7 +16,13 @@ const closeDbConnection = async () => {
     process.exit(0);
 };
 
+const generateMongoId = (raw) => {
+    const { ObjectId } = mongoose.Types;
+    return new ObjectId(raw);
+};
+
 module.exports = {
     createDbConnection,
     closeDbConnection,
+    generateMongoId,
 };

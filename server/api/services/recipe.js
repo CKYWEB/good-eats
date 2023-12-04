@@ -1,5 +1,5 @@
 const Recipe = require("../models/recipe");
-
+const { generateMongoId } = require("../utils");
 
 const handleCreateRecipe = async (payload) => {
   // TODO: validation
@@ -26,14 +26,17 @@ const handleFindAllRecipes = async (payload) => {
   return result;
 };
 
-const handleFindRecipeByTitle = async (title) => {
+const handleGetRecipe = async (recipeId) => {
+  const result = await Recipe.findById(generateMongoId(recipeId));
 
-  const result = await Recipe.findOne({ title });
+  if (!result) {
+    throw new Error("Recipe not found");
+  }
   return result;
 };
 
 module.exports = {
   handleCreateRecipe,
   handleFindAllRecipes,
-  handleFindRecipeByTitle,
+  handleGetRecipe,
 };

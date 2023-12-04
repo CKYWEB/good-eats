@@ -4,7 +4,7 @@ const UNPROTECTED_PATH = [
     `${USER_PATH}/login`,
     `${USER_PATH}/create`,
     `${RECIPE_PATH}/getAllRecipes`,
-    `${RECIPE_PATH}/getRecipeByTitle`,
+    `${RECIPE_PATH}/getRecipe`,
 ];
 
 const isPathUnprotected = (path) => {
