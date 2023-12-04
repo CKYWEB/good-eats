@@ -77,7 +77,6 @@ export default function Home() {
 
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const [currentCard, setCurrentCard] = useState({});
-  const [currentRecipeId, setCurrentRecipeId] = useState();
   const router = useRouter();
 
   const handleCardBtnClick = (isLeftBtn, card) => {
@@ -87,9 +86,7 @@ export default function Home() {
       setShowOffcanvas(true);
     } else {
       // TODO
-      setCurrentRecipeId(card.id);
-      console.log(currentRecipeId);
-      router.push("/recipe-detail");
+      router.push(`/recipe/${card.id}`);
     }
   };
 

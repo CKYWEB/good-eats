@@ -4,8 +4,12 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { getRecipe } from "@/api/recipe";
+import { useRouter } from "next/navigation";
 
-export default function RecipeDetail() {
+
+export default function RecipeDetail({ params }) {
+  const router = useRouter();
+  const { recipeId } = params;
   const [recipe, setRecipe] = useState(undefined);
 
   const fetchRecipe = async (recipeId) => {
@@ -20,9 +24,8 @@ export default function RecipeDetail() {
   };
 
   useEffect(() => {
-    const recipeId = "656a9c7e080e66909fd21059";
     fetchRecipe(recipeId);
-  }, []);
+  }, [recipeId]);
 
   if (recipe) {
     return (
