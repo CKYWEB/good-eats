@@ -6,3 +6,10 @@ export const getRecipe = async (recipeId) => {
   return res.json();
 
 };
+
+export const getAllRecipes = async () => {
+  const res = await fetch(`${RECIPE_PATH}/getAllRecipes`);
+
+  return res.json();
+
+};
