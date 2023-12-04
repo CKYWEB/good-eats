@@ -12,6 +12,8 @@ import Button from "@/app/components/Button/button";
 import { getAllRecipes } from "@/api/recipe";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { parseISO, differenceInDays } from "date-fns";
+
 
 
 export default function Home() {
@@ -72,7 +74,7 @@ export default function Home() {
     title: recipeItem.title,
     text: recipeItem.tag,
     content: recipeItem.description,
-    shouldShowBadge: recipeItem.isNew,
+    shouldShowBadge: differenceInDays(new Date(), parseISO(recipeItem.createdDate)) < 3,
   }));
 
   const [showOffcanvas, setShowOffcanvas] = useState(false);
@@ -85,7 +87,6 @@ export default function Home() {
       setCurrentCard(card);
       setShowOffcanvas(true);
     } else {
-      // TODO
       router.push(`/recipe/${card.id}`);
     }
   };
