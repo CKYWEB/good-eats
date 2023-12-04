@@ -11,6 +11,7 @@ import { ButtonGroup } from "react-bootstrap";
 import Button from "@/app/components/Button/button";
 import { getAllRecipes } from "@/api/recipe";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 
 export default function Home() {
@@ -77,6 +78,7 @@ export default function Home() {
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const [currentCard, setCurrentCard] = useState({});
   const [currentRecipeId, setCurrentRecipeId] = useState();
+  const router = useRouter();
 
   const handleCardBtnClick = (isLeftBtn, card) => {
     if (isLeftBtn) {
@@ -87,7 +89,7 @@ export default function Home() {
       // TODO
       setCurrentRecipeId(card.id);
       console.log(currentRecipeId);
-
+      router.push("/recipe-detail");
     }
   };
 
