@@ -4,18 +4,16 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { getRecipe } from "@/api/recipe";
-import { useRouter } from "next/navigation";
 
 
 export default function RecipeDetail({ params }) {
-  const router = useRouter();
   const { recipeId } = params;
   const [recipe, setRecipe] = useState(undefined);
 
   const fetchRecipe = async (recipeId) => {
     try {
       const res = await getRecipe(recipeId);
-      const { result, data } = res;
+      const { data } = res;
       setRecipe(data);
     } catch (error) {
       console.error("Error fetching data:", error);

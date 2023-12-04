@@ -22,7 +22,7 @@ export default function Home() {
   const fetchRecipe = async () => {
     try {
       const res = await getAllRecipes();
-      const { result, data } = res;
+      const { data } = res;
       setRecipe(data?.slice(0, 6));
     } catch (error) {
       console.error("Error fetching data:", error);
