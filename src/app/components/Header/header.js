@@ -40,7 +40,7 @@ export const Avatar = ({ user }) => {
     try {
       await logout();
       router.replace("/login");
-      toast.info("Log out successfully!");
+      toast.success("Log out successfully!");
     } catch (err) {
       toast.error(err.message);
     }
