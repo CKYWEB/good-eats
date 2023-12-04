@@ -1,59 +1,22 @@
 @use "../../styles/base";
 
-.logo__image {
-  width: 300px;
-  padding: 10px;
-
-  @media screen and (max-width: 465px) {
-    width: 248px;
-  }
+.logo__text {
+  color: #F15125;
+  font-family: 'Segoe UI';
 }
 
-.navbarHome {
-  background-color: base.$primary-color;
+.nav__link {
+  font-family: 'Segoe UI';
 }
 
-.navLink {
-  color: base.$decorating-color;
-  font-size: 16pt;
-  margin-right: 20px;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+.navbar__toggle {
+  border: none;
 }
 
-.navbarToggler:focus {
+.navbar__toggle:focus {
   box-shadow: none;
 }
 
-.navbarToggler:hover {
-  background-color: base.$primary-dark-color;
-}
-
-.containerUserSvg {
-  svg {
-    position: relative;
-    bottom: 2px;
-  }
-}
-
-.loginLink {
-  text-decoration: none;
-  color: base.$global-black;
-  border: none;
-  background-color: transparent;
-
-  &:hover {
-    text-decoration: underline;
-    text-decoration-color: base.$primary-dark-color;
-    background-color: transparent;
-  }
-
-  &.btn-link {
-    background-color: transparent;
-    border: none;
-    padding: 0;
-  }
-}
-
-.nameUser {
-  cursor: pointer;
+.nav-dropdown__title {
+  
 }

@@ -1,30 +1,34 @@
 "use client";
 
 import React from "react";
-import { Image } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import styles from "./header.module.scss";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { useUserStore } from "@/store/user";
 import { logout } from "@/api/user";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import toast from "react-hot-toast";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import Image from "next/image";
+
+const userMenuItems = [
+  { label: "My Profile", href: "#" },
+  { label: "Search", href: "#" },
+  { label: "Favorite Recipes", href: "#" },
+  { label: "Add a Recipe", href: "#" },
+  { label: "Help", href: "#" },
+];
 
 export const Logo = () => {
   return (
-    <div className="col d-flex">
-      <div className="logo py-3">
-        <Image
-          className={styles.logo__image}
-          src="/images/logo.png"
-          alt="Good Eats Logo"
-          fluid
-        />
-      </div>
-    </div>
+    <span className={`fs-1 fw-bolder ${styles["logo__text"]}`}>
+      Good Eats
+    </span>
   );
 };
 
@@ -32,73 +36,51 @@ export const Avatar = ({ user }) => {
   const router = useRouter();
   const isUserLoggedIn = !!user?.email;
 
-  const handleLogin = () => {
-    router.push("/login");
-  };
-
   const handleLogout = async () => {
     try {
       await logout();
-      handleLogin();
+      router.replace("/login");
       toast.info("Log out successfully!");
     } catch (err) {
       toast.error(err.message);
     }
   };
 
-  const menuItems = [
-    { label: "My Profile", href: "#" },
-    { label: "Search", href: "#" },
-    { label: "Favorite Recipes", href: "#" },
-    { label: "Add a Recipe", href: "#" },
-    { label: "Help", href: "#" },
-  ];
-
   return (
-    <div className="col d-flex justify-content-md-end">
-      <div className="d-flex gap-2 con">
-        <div className={`${styles.containerUserSvg} container__user-svg`}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="1em"
-            viewBox="0 0 448 512"
+    isUserLoggedIn ? (
+      <NavDropdown
+        id="nav-dropdown-dark-example"
+        title={
+          <span className={`fw-bold font-monospace ${styles["nav-dropdown__title"]}`}>
+            {user.firstName}
+          </span>
+        }
+        align="end"
+        className="d-none d-md-block"
+      >
+        {userMenuItems.map(m=>(
+          <NavDropdown.Item
+            key={m.label}
+            href={m.href}
           >
-            <style>
-              {"svg { fill: #d54215 }"}
-            </style>
-            <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
-          </svg>
+            {m.label}
+          </NavDropdown.Item>
+      ))}
+        <NavDropdown.Divider />
+        <NavDropdown.Item onClick={handleLogout}>
+          Log Out
+        </NavDropdown.Item>
+      </NavDropdown>
+    ) : (
+      <Nav.Link
+        href="login"
+        className="fs-5 d-none d-sm-block"
+      >
+        <div className="border border-secondary p-2 text-center">
+          Sign In
         </div>
-        {isUserLoggedIn ? (
-          <NavDropdown
-            id="nav-dropdown-dark-example"
-            title={user.firstName}
-          >
-            {menuItems.map(m=>(
-              <NavDropdown.Item
-                key={m.label}
-                href={m.href}
-              >
-                {m.label}
-              </NavDropdown.Item>
-          ))}
-            <NavDropdown.Divider />
-            <NavDropdown.Item onClick={handleLogout}>
-              Log Out
-            </NavDropdown.Item>
-          </NavDropdown>
-        ) : (
-          <div id="loginButton">
-            <button
-              onClick={handleLogin}
-              className={styles.loginLink}
-            >
-              Log In
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
+      </Nav.Link>
+    )
   );
 };
 
@@ -109,58 +91,99 @@ export const Header = () => {
     { id: "cuisinespage", label: "Cuisines" },
     { id: "ingredientspage", label: "Ingredients" },
     { id: "tipsage", label: "Kitchen Tips" },
-    { id: "newspage", label: "News" },
-    { id: "featurespage", label: "Features" },
-    { id: "aboutuspage", label: "About Us" },
   ];
 
   const {currentUser} = useUserStore();
+  const isUserLoggedIn = !!currentUser?.email;
 
   return (
-    <>
-      <header className="bg-light">
-        <div>
-          <div className="row row-cols-1 row-cols-md-2">
+    <Navbar
+      sticky="top"
+      bg="white"
+      className="shadow"
+      expand={false}
+    >
+      <Row className="w-100 justify-content-center align-items-center">
+        <Col
+          xs={2}
+          sm={3}
+        >
+          <Navbar.Toggle
+            aria-controls="offcanvasNav"
+            className={`ms-2 border-opacity-0 ${styles["navbar__toggle"]}`}
+          />
+        </Col>
+        <Col
+          xs={9}
+          sm={6}
+          className="text-center"
+        >
+          <Navbar.Brand href="home">
             <Logo />
-            <Avatar user={currentUser} />
-          </div>
-          <div className="row">
-            <Navbar
-              expand="lg"
-              className={styles.navbarHome}
-            >
-              <Container fluid>
-                <Navbar.Toggle
-                  aria-controls="offcanvasNav"
-                  className={`ms-2 ${styles.navbarToggler}`}
-                />
-                <Navbar.Offcanvas
-                  id="offcanvasNav"
-                  className={styles.navbarHome}
+          </Navbar.Brand>
+        </Col>
+        <Col
+          xs={1}
+          sm={3}
+          className="d-flex justify-content-end"
+        >
+          <Avatar user={currentUser} />
+          <FontAwesomeIcon
+            icon={faHeart}
+            className="d-block d-sm-none"
+            color="orange"
+          />
+        </Col>
+        <Navbar.Offcanvas id="offcanvasNav">
+          <Offcanvas.Header
+            closeButton
+            className="justify-content-end"
+          />
+          <Offcanvas.Title>
+            <Image 
+              alt="logo"
+              src="/images/logo.png"
+              width={60}
+              height={60}
+              className="ms-4"
+            />
+          </Offcanvas.Title>
+          <Offcanvas.Body>
+            <Nav className="me-auto px-3">
+              {menuItems.map(item => (
+                <Nav.Link
+                  key={item.id}
+                  href={item.id}
+                  className={`fs-3 ${styles["nav__link"]}`}
                 >
-                  <Offcanvas.Header
-                    closeButton
-                    className="justify-content-end"
-                  />
-                  <Offcanvas.Body>
-                    <Nav className="me-auto px-3">
-                      {menuItems.map(item => (
-                        <Nav.Link
-                          key={item.id}
-                          href={item.id}
-                          className={styles.navLink}
-                        >
-                          {item.label}
-                        </Nav.Link>
-                    ))}
-                    </Nav>
-                  </Offcanvas.Body>
-                </Navbar.Offcanvas>
-              </Container>
-            </Navbar>
-          </div>
-        </div>
-      </header >
-    </>
+                  {item.label}
+                </Nav.Link>
+              ))}
+            </Nav>
+            {isUserLoggedIn ? 
+              <Nav className="me-auto px-3 mt-5 border-top border-secondary">
+                {userMenuItems.map(item =>(
+                  <Nav.Link
+                    key={item.label}
+                    href={item.href}
+                    className={`fs-3 ${styles["nav__link"]}`}
+                  >
+                    {item.label}
+                  </Nav.Link>))
+                }
+              </Nav> :
+              <Nav.Link
+                href="login"
+                className="fs-5 mt-5 w-50"
+              >
+                <div className="border border-secondary p-2 text-center">
+                  Sign In
+                </div>
+              </Nav.Link>
+            }
+          </Offcanvas.Body>
+        </Navbar.Offcanvas>
+      </Row>
+    </Navbar>
   );
 };
