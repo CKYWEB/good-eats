@@ -66,6 +66,7 @@ export default function Home() {
     },];
 
   const cards = recipe?.map((recipeItem) => ({
+    id: recipeItem._id,
     imageUrl: `data:image/png;base64,${recipeItem.image}`,
     title: recipeItem.title,
     text: recipeItem.tag,
@@ -75,6 +76,7 @@ export default function Home() {
 
   const [showOffcanvas, setShowOffcanvas] = useState(false);
   const [currentCard, setCurrentCard] = useState({});
+  const [currentRecipeId, setCurrentRecipeId] = useState();
 
   const handleCardBtnClick = (isLeftBtn, card) => {
     if (isLeftBtn) {
@@ -83,7 +85,9 @@ export default function Home() {
       setShowOffcanvas(true);
     } else {
       // TODO
-      console.log("Right Button clicked!");
+      setCurrentRecipeId(card.id);
+      console.log(currentRecipeId);
+
     }
   };
 
