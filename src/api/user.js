@@ -1,4 +1,4 @@
-import {USER_PATH, USER_TOKEN_NAME} from "@/api/config";
+import { USER_PATH, USER_TOKEN_NAME } from "@/api/config";
 import Cookies from "js-cookie";
 
 export const login = async (payload) => {
@@ -9,7 +9,7 @@ export const login = async (payload) => {
         },
         body: JSON.stringify(payload),
     });
-    const {data, result, msg} = await res.json();
+    const { data, result, msg } = await res.json();
 
     if (data && data.token) {
         Cookies.set(USER_TOKEN_NAME, data.token);
@@ -68,6 +68,22 @@ export const fetchUserInfo = async () => {
     });
 
     return res.json();
+};
+
+export const saveRecipe = async (payload) => {
+    const res = await fetch(`${USER_PATH}/saveRecipe`, {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${Cookies.get(USER_TOKEN_NAME)}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+    });
+
+    const { msg } = await res.json();
+
+    return msg;
+
 };
 
 export const logout = async () => {
