@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "installs": "yarn install && cd server && yarn install",
-    "dev": "next dev & cd server && yarn start",
+    "dev": "concurrently -r -k \"yarn devui\" \"yarn devserv\"",
     "devui": "next dev",
     "devserv": "cd server && yarn start"
   },
@@ -26,6 +26,7 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
+    "concurrently": "^8.2.2",
     "eslint": "^8",
     "eslint-config-next": "14.0.1",
     "eslint-plugin-react": "^7.33.2",
