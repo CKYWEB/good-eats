@@ -1,9 +1,15 @@
-.error-container {
+@use "../../styles/base";
+
+.error-with-image {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f8f8f8;
+  
+  flex-direction: column;
+  @include base.media-breakpoint-up(sm) {
+    flex-direction: row;
+  }
 }
 
 .error-image {
@@ -11,7 +17,5 @@
 }
 
 .error-message {
-  margin-left: 20px;
-  font-size: 24px;
-  color: #333;
+  max-width: 70%;
 }
