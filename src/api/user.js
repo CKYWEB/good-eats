@@ -70,21 +70,7 @@ export const fetchUserInfo = async () => {
     return res.json();
 };
 
-export const saveRecipe = async (payload) => {
-    const res = await fetch(`${USER_PATH}/saveRecipe`, {
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${Cookies.get(USER_TOKEN_NAME)}`,
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-    });
 
-    const { msg } = await res.json();
-
-    return msg;
-
-};
 
 export const logout = async () => {
     // TODO: add token to block list

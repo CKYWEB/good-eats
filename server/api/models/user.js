@@ -8,7 +8,7 @@ const User = mongoose.model("User", new mongoose.Schema(
         firstName: String,
         lastName: String,
         role: { type: Number, default: 2 }, // 1: admin 2: user
-        saveRecipes: { type: Array, "default": [] },
+        saveRecipes: { type: String, default: "" },
     },
 ));
 

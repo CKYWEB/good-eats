@@ -93,20 +93,10 @@ const handleGetUserInfo = async (req) => {
     return await User.findOne({ _id: payload._id }).select("-password");
 };
 
-const handleSaveRecipe = async (payload) => {
-    const filter = { email: payload.email };
-    const update = { saveRecipe: payload.recipeId }; //TODO
-    await User.updateOne(filter, update);
-
-    const result = await User.find({ email: payload.email });
-
-    return result;
-};
 
 module.exports = {
     handleLogin,
     handleCreateUser,
     handleFindUsers,
     handleGetUserInfo,
-    handleSaveRecipe,
 };
