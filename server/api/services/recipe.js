@@ -38,14 +38,6 @@ const handleGetRecipe = async (recipeId) => {
 };
 
 const handleSaveRecipe = async (payload) => {
-  // const filter = { email: query.email };
-  // const update = { $addToSet: { savedRecipes: query.recipeId } };
-  // await User.updateOne(filter, update);
-  // console.log(query);
-
-  // const result = await User.findOne({ email: query?.email });
-
-  // return result;
 
   const { recipeId } = payload;
 
@@ -59,7 +51,6 @@ const handleSaveRecipe = async (payload) => {
   // 3. Set (no the same item)
   // 4. Set to Array
   // 5. Array to String: array.join(",")
-
 
   await User.updateOne({ email }, {
     savedRecipes: savedRecipes === "" ? recipeId : `${savedRecipes},${recipeId}`,
