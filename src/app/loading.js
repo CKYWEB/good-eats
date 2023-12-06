@@ -18,10 +18,10 @@ export default function Loading() {
           />
         </Col>
         <Col
-          className="col-4"
+          className="col-5 ps-4"
         >
-          <h4 className="text-center">
-            Loading...
+          <h4 className="text-left">
+            page cooking...
           </h4>
         </Col>
       </Row>
