@@ -18,7 +18,7 @@ export const getAllRecipes = async () => {
 
 export const saveRecipe = async (payload) => {
   const res = await fetch(`${RECIPE_PATH}/saveRecipe`, {
-    method: "",
+    method: "POST",
     headers: {
       "Authorization": `Bearer ${Cookies.get(USER_TOKEN_NAME)}`,
       "Content-Type": "application/json",
