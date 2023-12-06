@@ -57,9 +57,17 @@ const handleSaveRecipe = async (payload) => {
   });
 };
 
+const handleGetSavedRecipe = async () => {
+  const user = handleGetUserInfo();
+  const { savedRecipes } = user;
+
+  return savedRecipes;
+};
+
 module.exports = {
   handleCreateRecipe,
   handleFindAllRecipes,
   handleGetRecipe,
   handleSaveRecipe,
+  handleGetSavedRecipe,
 };

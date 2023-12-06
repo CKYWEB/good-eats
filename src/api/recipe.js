@@ -30,3 +30,17 @@ export const saveRecipe = async (payload) => {
   return res.json();
 
 };
+
+export const getSavedRecipe = async () => {
+  const res = await fetch(`${RECIPE_PATH}/getSavedRecipe`, {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${Cookies.get(USER_TOKEN_NAME)}`,
+      "Content-Type": "application/json",
+    },
+
+  });
+
+  return res.json();
+
+};
