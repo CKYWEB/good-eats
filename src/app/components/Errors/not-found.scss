@@ -1,21 +1,12 @@
 @use "../../styles/base";
 
-.error-with-image {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  
-  flex-direction: column;
-  @include base.media-breakpoint-up(sm) {
-    flex-direction: row;
-  }
-}
-
-.error-image {
-  max-width: 50%;
-}
+// For some reason text-center and text-md-left don't work
+// hence styling it manually
 
 .error-message {
-  max-width: 70%;
+    text-align: center;
+
+    @include base.media-breakpoint-up(md) {
+        text-align: left;
+    }
 }
