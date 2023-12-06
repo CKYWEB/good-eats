@@ -4,6 +4,8 @@ import BadgeComponent from "@/app/components/Badge/badge";
 import { FaHeart, FaCheckCircle } from "react-icons/fa";
 import styles from "./card.module.scss";
 import { useState } from "react";
+import { saveRecipe } from "@/api/recipe";
+import toast from "react-hot-toast";
 
 
 export default function CardComponent(props) {
@@ -13,9 +15,16 @@ export default function CardComponent(props) {
 
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
-  const showPopupMessage = () => {
-    handleShow();
+
+  const addRecipe = async () => {
+    try {
+      await saveRecipe(card);
+      handleShow();
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
+
 
   return (
     <Card style={{ width: "18rem" }}>
@@ -25,7 +34,7 @@ export default function CardComponent(props) {
       />
       <Button
         className={styles["save-button"]}
-        onClick={() => showPopupMessage(card)}
+        onClick={() => addRecipe()}
       >
         <FaHeart />
       </Button>
