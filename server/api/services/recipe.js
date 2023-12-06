@@ -37,11 +37,12 @@ const handleGetRecipe = async (recipeId) => {
   return result;
 };
 
-const handleSaveRecipe = async (payload) => {
+const handleSaveRecipe = async (req) => {
 
+  const payload = req.body;
   const { recipeId } = payload;
+  const user = await handleGetUserInfo(req);
 
-  const user = handleGetUserInfo();
   const { email, savedRecipes } = user;
   // const savedRecipesArr = savedRecipes.split(",");
 
@@ -57,8 +58,8 @@ const handleSaveRecipe = async (payload) => {
   });
 };
 
-const handleGetSavedRecipe = async () => {
-  const user = handleGetUserInfo();
+const handleGetSavedRecipe = async (req) => {
+  const user = handleGetUserInfo(req);
   const { savedRecipes } = user;
 
   return savedRecipes;

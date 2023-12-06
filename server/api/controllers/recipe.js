@@ -51,7 +51,7 @@ const getRecipe = async (req, res) => {
 
 const saveRecipe = async (req, res) => {
   try {
-    await handleSaveRecipe(req.body);
+    await handleSaveRecipe(req);
     res.status(200).json({
       msg: "Recipe saved successfully",
       result: true,
