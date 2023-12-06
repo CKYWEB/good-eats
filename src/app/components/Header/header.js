@@ -34,7 +34,7 @@ export const Logo = () => {
 
 export const Avatar = ({ user }) => {
   const router = useRouter();
-  const isUserLoggedIn = !!user?.email;
+  const {isLoggedIn} = useUserStore();
 
   const handleLogout = async () => {
     try {
@@ -47,7 +47,7 @@ export const Avatar = ({ user }) => {
   };
 
   return (
-    isUserLoggedIn ? (
+    isLoggedIn() ? (
       <NavDropdown
         id="nav-dropdown-dark-example"
         title={
@@ -92,10 +92,7 @@ export const Header = () => {
     { id: "ingredientspage", label: "Ingredients" },
     { id: "tipsage", label: "Kitchen Tips" },
   ];
-
-  const {currentUser} = useUserStore();
-  const isUserLoggedIn = !!currentUser?.email;
-
+  const {currentUser, isLoggedIn} = useUserStore();
   return (
     <Navbar
       sticky="top"
@@ -160,7 +157,8 @@ export const Header = () => {
                 </Nav.Link>
               ))}
             </Nav>
-            {isUserLoggedIn ? 
+
+            {isLoggedIn() ? 
               <Nav className="me-auto px-3 mt-5 border-top border-secondary">
                 {userMenuItems.map(item =>(
                   <Nav.Link
