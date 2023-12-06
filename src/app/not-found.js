@@ -30,16 +30,16 @@ export default function NotFound() {
             Ooops!
           </h1>
           <p>
-            Sorry, the page you are looking for cannot be found. Use this 
+            The page you are looking for cannot be found. Click 
             {" "}
             <a
               className="text-decoration-underline text-primary"
               href="/"
             >
-              link
+              here
             </a>
             {" "}
-            to go to homepage.
+            to try again
           </p>
         </Col>
       </Row>
