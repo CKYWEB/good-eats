@@ -35,8 +35,18 @@ const handleGetRecipe = async (recipeId) => {
   return result;
 };
 
+const handleGetAuthorRecipe = async (authorId) => {
+  const result = await Recipe.find({ authorId: authorId });
+
+  if (!result) {
+    throw new Error("Recipe not found");
+  }
+  return result;
+};
+
 module.exports = {
   handleCreateRecipe,
   handleFindAllRecipes,
   handleGetRecipe,
+  handleGetAuthorRecipe,
 };

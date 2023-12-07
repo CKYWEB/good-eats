@@ -13,3 +13,10 @@ export const getAllRecipes = async () => {
   return res.json();
 
 };
+
+export const getAuthorRecipe = async (authorId) => {
+  const res = await fetch(`${RECIPE_PATH}/getAuthorRecipe?authorId${authorId}`);
+
+  return res.json();
+
+};
