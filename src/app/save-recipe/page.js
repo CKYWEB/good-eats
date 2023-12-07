@@ -12,6 +12,7 @@ export default function SaveRecipe() {
 
   const [savedRecipe, setSavedRecipe] = useState(undefined);
   const [recipeDetails, setRecipeDetails] = useState([]);
+  const [recipeCount, setRecipeCount] = useState(0);
 
   const fetchSavedRecipe = async () => {
     try {
@@ -49,6 +50,10 @@ export default function SaveRecipe() {
     }
   }, [savedRecipe]);
 
+  useEffect(() => {
+    setRecipeCount(recipeDetails.length);
+  }, [recipeDetails]);
+
   const cards = recipeDetails.map((recipeItem) => ({
     id: recipeItem._id,
     imageUrl: `data:image/png;base64,${recipeItem.image}`,
@@ -79,45 +84,61 @@ export default function SaveRecipe() {
 
   return (
     <div>
-      <h1 className="text-center pt-5">
-        Recipe Cards
-      </h1>
-      <Container >
-        <Row >
-          {cards.map(card => {
-            return (
-              <Col
-                key={card.title}
-                xs={12}
-                md={6}
-                lg={4}
-                className="d-flex justify-content-center py-4"
-              >
+      <Container>
+        <p className="text-center pt-5 fs-2 fw-bold">
+          All Saved Recipes
+        </p>
+        <p className="text-center fs-5">
+          All your favorite content in one place!
+        </p>
+        <hr />
 
-                <CardComponent
-                  card={card}
-                  showBadge={card.shouldShowBadge}
-                  badgeText="New"
-                  buttonTextLeft="Introduction"
-                  buttonTextRight="See Recipe"
-                  onBtnClick={handleCardBtnClick}
-                />
-              </Col>
-            );
-          })}
+        <Row className="mb-3">
+          <Col>
+            <p>
+              {recipeCount}
+              {" "}
+              Items
+            </p>
+          </Col>
         </Row>
+
+        <Container >
+          <Row >
+            {cards.map(card => {
+              return (
+                <Col
+                  key={card.title}
+                  xs={12}
+                  md={6}
+                  lg={4}
+                  className="d-flex justify-content-center py-4"
+                >
+
+                  <CardComponent
+                    card={card}
+                    showBadge={card.shouldShowBadge}
+                    badgeText="New"
+                    buttonTextLeft="Introduction"
+                    buttonTextRight="See Recipe"
+                    onBtnClick={handleCardBtnClick}
+                  />
+                </Col>
+              );
+            })}
+          </Row>
+        </Container>
+
+        <OffcanvasComponent
+          show={showOffcanvas}
+          onHide={handleCloseOffcanvas}
+          title={currentCard.title}
+          content={<p>
+            {currentCard.content}
+          </p>}
+          imageUrl={currentCard.imageUrl}
+        />
       </Container>
-
-      <OffcanvasComponent
-        show={showOffcanvas}
-        onHide={handleCloseOffcanvas}
-        title={currentCard.title}
-        content={<p>
-          {currentCard.content}
-        </p>}
-        imageUrl={currentCard.imageUrl}
-      />
-
     </div>
   );
 }
