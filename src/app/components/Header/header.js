@@ -93,6 +93,8 @@ export const Header = () => {
     { id: "tipsage", label: "Kitchen Tips" },
   ];
   const {currentUser, isLoggedIn} = useUserStore();
+  const router = useRouter();
+
   return (
     <Navbar
       sticky="top"
@@ -115,7 +117,7 @@ export const Header = () => {
           sm={6}
           className="text-center"
         >
-          <Navbar.Brand href="home">
+          <Navbar.Brand onClick={() => router.push("/home")}>
             <Logo />
           </Navbar.Brand>
         </Col>
