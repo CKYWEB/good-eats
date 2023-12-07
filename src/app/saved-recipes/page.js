@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import OffcanvasComponent from "@/app/components/Offcanvas/offcanvas";
 
 
-export default function SaveRecipe() {
+export default function SavedRecipes() {
 
   const [savedRecipe, setSavedRecipe] = useState(undefined);
   const [recipeDetails, setRecipeDetails] = useState([]);

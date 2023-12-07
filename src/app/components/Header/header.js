@@ -19,7 +19,7 @@ import Image from "next/image";
 const userMenuItems = [
   { label: "My Profile", href: "#" },
   { label: "Search", href: "#" },
-  { label: "Favorite Recipes", href: "/save-recipe" },
+  { label: "Favorite Recipes", href: "/saved-recipes" },
   { label: "Add a Recipe", href: "#" },
   { label: "Help", href: "#" },
 ];
