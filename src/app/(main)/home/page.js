@@ -75,6 +75,7 @@ export default function Home() {
     text: recipeItem.tag,
     content: recipeItem.description,
     shouldShowBadge: differenceInDays(new Date(), parseISO(recipeItem.createdDate)) < 3,
+    shouldShowIcon: true,
   }));
 
   const [showOffcanvas, setShowOffcanvas] = useState(false);

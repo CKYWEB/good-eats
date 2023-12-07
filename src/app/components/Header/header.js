@@ -19,7 +19,7 @@ import Image from "next/image";
 const userMenuItems = [
   { label: "My Profile", href: "#" },
   { label: "Search", href: "#" },
-  { label: "Favorite Recipes", href: "#" },
+  { label: "Favorite Recipes", href: "/save-recipe" },
   { label: "Add a Recipe", href: "#" },
   { label: "Help", href: "#" },
 ];
@@ -58,14 +58,14 @@ export const Avatar = ({ user }) => {
         align="end"
         className="d-none d-md-block"
       >
-        {userMenuItems.map(m=>(
+        {userMenuItems.map(m => (
           <NavDropdown.Item
             key={m.label}
             href={m.href}
           >
             {m.label}
           </NavDropdown.Item>
-      ))}
+        ))}
         <NavDropdown.Divider />
         <NavDropdown.Item onClick={handleLogout}>
           Log Out
@@ -93,7 +93,7 @@ export const Header = () => {
     { id: "tipsage", label: "Kitchen Tips" },
   ];
 
-  const {currentUser} = useUserStore();
+  const { currentUser } = useUserStore();
   const isUserLoggedIn = !!currentUser?.email;
 
   return (
@@ -140,7 +140,7 @@ export const Header = () => {
             className="justify-content-end"
           />
           <Offcanvas.Title>
-            <Image 
+            <Image
               alt="logo"
               src="/images/logo.png"
               width={60}
@@ -160,9 +160,9 @@ export const Header = () => {
                 </Nav.Link>
               ))}
             </Nav>
-            {isUserLoggedIn ? 
+            {isUserLoggedIn ?
               <Nav className="me-auto px-3 mt-5 border-top border-secondary">
-                {userMenuItems.map(item =>(
+                {userMenuItems.map(item => (
                   <Nav.Link
                     key={item.label}
                     href={item.href}
