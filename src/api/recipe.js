@@ -15,7 +15,7 @@ export const getAllRecipes = async () => {
 };
 
 export const getAuthorRecipe = async (authorId) => {
-  const res = await fetch(`${RECIPE_PATH}/getAuthorRecipe?authorId${authorId}`);
+  const res = await fetch(`${RECIPE_PATH}/getAuthorRecipe?authorId=${authorId}`);
 
   return res.json();
 
