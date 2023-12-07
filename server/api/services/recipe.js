@@ -59,7 +59,7 @@ const handleSaveRecipe = async (req) => {
 };
 
 const handleGetSavedRecipe = async (req) => {
-  const user = handleGetUserInfo(req);
+  const user = await handleGetUserInfo(req);
   const { savedRecipes } = user;
 
   return savedRecipes;
