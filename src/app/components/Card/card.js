@@ -32,12 +32,12 @@ export default function CardComponent(props) {
         variant="top"
         src={card.imageUrl}
       />
-      <Button
+      {card.shouldShowIcon && <Button
         className={styles["save-button"]}
         onClick={() => addRecipe()}
       >
         <FaHeart />
-      </Button>
+      </Button>}
       <Card.Body>
         <Card.Title>
           {card.title}
