@@ -3,13 +3,7 @@
 .li--active {
   font-weight: bold;
   color: base.$primary-red-color;
-  background: linear-gradient(
-                  to right,
-                  base.$primary-red-color 0%,
-                  base.$primary-red-color 5%,
-                  transparent 5%,
-                  transparent 100%
-  );
+  border-left: 8px solid;
 }
 
 .li {
