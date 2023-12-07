@@ -44,17 +44,15 @@ const handleSaveRecipe = async (req) => {
   const user = await handleGetUserInfo(req);
 
   const { email, savedRecipes } = user;
-  // const savedRecipesArr = savedRecipes.split(",");
 
-  // TODO: find if the same
-  // 1. savedRecipesArr.push(recipeId)
-  // 2. Array to Set
-  // 3. Set (no the same item)
-  // 4. Set to Array
-  // 5. Array to String: array.join(",")
+  const savedRecipesArr = savedRecipes.split(",");
+  if (!savedRecipesArr.includes(recipeId)) {
+    savedRecipesArr.push(recipeId);
+  }
+  const updatedSavedRecipes = savedRecipesArr.join(",");
 
   await User.updateOne({ email }, {
-    savedRecipes: savedRecipes === "" ? recipeId : `${savedRecipes},${recipeId}`,
+    savedRecipes: updatedSavedRecipes,
   });
 };
 
