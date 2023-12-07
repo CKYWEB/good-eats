@@ -4,6 +4,8 @@ import { getSavedRecipe, getRecipe } from "@/api/recipe";
 import toast from "react-hot-toast";
 import CardComponent from "@/app/components/Card/card";
 import { Container, Row, Col } from "react-bootstrap";
+import { useRouter } from "next/navigation";
+import OffcanvasComponent from "@/app/components/Offcanvas/offcanvas";
 
 
 export default function SaveRecipe() {
@@ -54,10 +56,25 @@ export default function SaveRecipe() {
     text: recipeItem.tag,
     content: recipeItem.description,
     shouldShowBadge: false,
+    shouldShowIcon: false,
   }));
 
-  const handleCardBtnClick = () => {
+  const [showOffcanvas, setShowOffcanvas] = useState(false);
+  const [currentCard, setCurrentCard] = useState({});
+  const router = useRouter();
 
+  const handleCardBtnClick = (isLeftBtn, card) => {
+    if (isLeftBtn) {
+      // IF LEFT IS CLICKED
+      setCurrentCard(card);
+      setShowOffcanvas(true);
+    } else {
+      router.push(`/recipe/${card.id}`);
+    }
+  };
+
+  const handleCloseOffcanvas = () => {
+    setShowOffcanvas(false);
   };
 
   return (
@@ -90,6 +107,17 @@ export default function SaveRecipe() {
           })}
         </Row>
       </Container>
+
+      <OffcanvasComponent
+        show={showOffcanvas}
+        onHide={handleCloseOffcanvas}
+        title={currentCard.title}
+        content={<p>
+          {currentCard.content}
+        </p>}
+        imageUrl={currentCard.imageUrl}
+      />
+
     </div>
   );
 }
