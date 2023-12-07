@@ -17,7 +17,7 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
 const userMenuItems = [
-  { label: "My Profile", href: "#" },
+  { label: "Preferences", href: "/settings/profile" },
   { label: "Search", href: "#" },
   { label: "Favorite Recipes", href: "#" },
   { label: "Add a Recipe", href: "#" },
