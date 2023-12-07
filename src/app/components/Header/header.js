@@ -56,7 +56,7 @@ export const Avatar = ({ user }) => {
           </span>
         }
         align="end"
-        className="d-none d-md-block"
+        className="d-none d-sm-block"
       >
         {userMenuItems.map(m=>(
           <NavDropdown.Item
