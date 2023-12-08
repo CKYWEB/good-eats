@@ -113,7 +113,7 @@ export default function PostedRecipes() {
         </Container>
 
         <Container >
-          <div className="d-flex justify-content-center">
+          <div className="d-flex justify-content-between border-bottom py-3 ">
             <div className={`${styles["recipe-title"]}`}>
               My Recipes
             </div>
@@ -121,7 +121,7 @@ export default function PostedRecipes() {
               onClick={handleAddRecipe()}
               className={`${styles["btn-submit"]}`}
             >
-              +
+              Add
             </Button>
           </div>
           <Row>
