@@ -83,3 +83,16 @@ export const getAuthorInfo = async (authorId) => {
     return res.json();
 
 };
+
+export const deleteUser = async (userId) => {
+    const token = Cookies.get(USER_TOKEN_NAME);
+
+    const res = await fetch(`${USER_PATH}/deleteUser?userId=${userId}`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+        }
+    });
+
+    return res.json();
+};
