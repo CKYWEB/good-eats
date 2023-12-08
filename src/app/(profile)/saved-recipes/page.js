@@ -1,60 +1,35 @@
 "use client";
 import { useState, useEffect } from "react";
-import { getSavedRecipe, getRecipe } from "@/api/recipe";
+import { getSavedRecipe } from "@/api/recipe";
 import toast from "react-hot-toast";
 import CardComponent from "@/app/components/Card/card";
 import { Container, Row, Col } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import OffcanvasComponent from "@/app/components/Offcanvas/offcanvas";
-
+import { useUserStore } from "@/store/user";
 
 export default function SavedRecipes() {
-
-  const [savedRecipe, setSavedRecipe] = useState(undefined);
+  const { currentUser } = useUserStore();
   const [recipeDetails, setRecipeDetails] = useState([]);
-  const [recipeCount, setRecipeCount] = useState(0);
-
-  const fetchSavedRecipe = async () => {
-    try {
-      const res = await getSavedRecipe();
-      const { data } = res;
-      setSavedRecipe(data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      toast.error(error.message);
-    }
-  };
-
-  const fetchRecipeDetails = async (recipeId) => {
-    try {
-      const res = await getRecipe(recipeId);
-      const { data } = res;
-      setRecipeDetails((prevDetails) => [...prevDetails, data]);
-    } catch (error) {
-      console.error("Error fetching recipe details:", error);
-      toast.error(error.message);
-    }
-  };
 
   useEffect(() => {
-    fetchSavedRecipe();
-  }, []);
+    const fetchRecipeDetails = async () => {
+      try {
+        const { savedRecipe } = currentUser;
+        const res = await getSavedRecipe(savedRecipe);
+        const { data } = res;
+        console.log("Recipe Details:", data);
+        setRecipeDetails(data);
+      } catch (error) {
+        console.error("Error fetching recipe details:", error);
+        toast.error(error.message);
+      }
+    };
 
+    fetchRecipeDetails();
+  }, [currentUser]);
 
-  useEffect(() => {
-    if (savedRecipe) {
-      const recipeIds = savedRecipe.split(",");
-      recipeIds.forEach((recipeId) => {
-        fetchRecipeDetails(recipeId);
-      });
-    }
-  }, [savedRecipe]);
-
-  useEffect(() => {
-    setRecipeCount(recipeDetails.length);
-  }, [recipeDetails]);
-
-  const cards = recipeDetails.map((recipeItem) => ({
+  const cards = recipeDetails?.map((recipeItem) => ({
     id: recipeItem._id,
     imageUrl: `data:image/png;base64,${recipeItem.image}`,
     title: recipeItem.title,
@@ -96,25 +71,24 @@ export default function SavedRecipes() {
         <Row className="mb-3">
           <Col>
             <p>
-              {recipeCount}
+              {recipeDetails?.length || 0}
               {" "}
               Items
             </p>
           </Col>
         </Row>
 
-        <Container >
-          <Row >
-            {cards.map(card => {
-              return (
+        <Container>
+          <Row>
+            {cards?.length > 0 ? (
+              cards.map((card) => (
                 <Col
-                  key={card.title}
+                  key={card.id}
                   xs={12}
                   md={6}
                   lg={4}
                   className="d-flex justify-content-center py-4"
                 >
-
                   <CardComponent
                     card={card}
                     showBadge={card.shouldShowBadge}
@@ -124,8 +98,17 @@ export default function SavedRecipes() {
                     onBtnClick={handleCardBtnClick}
                   />
                 </Col>
-              );
-            })}
+              ))
+            ) : (
+              <Col
+                xs={12}
+                className="text-center py-4"
+              >
+                <p>
+                  You have no favorite recipe
+                </p>
+              </Col>
+            )}
           </Row>
         </Container>
 

@@ -18,11 +18,11 @@ import { faCrown } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
 const userMenuItems = [
-  { label: "Preferences", href: "/settings/profile", role: 2 },
-  { label: "Search", href: "#", role: 2 },
-  { label: "Favorite Recipes", href: "/saved-recipes", role: 2 },
-  { label: "Add a Recipe", href: "#", role: 2 },
-  { label: "Help", href: "#", role: 2 },
+  { label: "Preferences", href: "/settings/profile" },
+  { label: "Search", href: "#" },
+  { label: "Favorite Recipes", href: "/saved-recipes" },
+  { label: "Posted Recipes", href: "/posted-recipes" },
+  { label: "Help", href: "#" },
   { label: "Management", href: "/management", role: 1}
 ];
 
@@ -174,7 +174,7 @@ export const Header = () => {
                 </Nav.Link>
               ))}
             </Nav>
-            {isLoggedIn() ? 
+            {isLoggedIn() ?
               <Nav className="me-auto px-3 mt-3 pt-3 border-top border-secondary">
                 {userMenuItems.map(m => {
                   if (m.role === currentUser.role || isAdmin()) {
