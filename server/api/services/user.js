@@ -96,6 +96,19 @@ const handleGetAuthorInfo = async (authorId) => {
     return await User.findById(generateMongoId(authorId)).select("-password");
 };
 
+const handleDeleteUser = async (id) => {
+    if (id === undefined) {
+        throw new Error("Id is undefined.");
+    }
+    const existedUsers = await User.find({_id: id});
+
+    if (existedUsers.length === 0) {
+        throw new Error("User is not found.");
+    }
+
+    await User.deleteOne({_id: id});
+};
+
 
 module.exports = {
     handleLogin,
@@ -103,4 +116,5 @@ module.exports = {
     handleFindUsers,
     handleGetUserInfo,
     handleGetAuthorInfo,
+    handleDeleteUser,
 };

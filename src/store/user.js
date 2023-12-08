@@ -11,5 +11,8 @@ export const useUserStore = create((set, get) => ({
     },
     isLoggedIn: () => {
         return !!get().currentUser?.email;
-    }
+    },
+    isAdmin: () => {
+        return get().currentUser?.role === 1;
+    },
 }));
