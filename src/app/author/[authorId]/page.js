@@ -6,17 +6,32 @@ import CardComponent from "@/app/components/Card/card";
 import { Container, Row, Col } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import OffcanvasComponent from "@/app/components/Offcanvas/offcanvas";
+import { getAuthorInfo } from "@/api/user";
+import Image from "react-bootstrap/Image";
+import styles from "./author.module.scss";
 
 export default function AuthorRecipe({ params }) {
 
   const { authorId } = params;
-  const [recipe, setRecipe] = useState(undefined);
+  const [recipes, setRecipes] = useState([]);
+  const [authorInfo, setAuthorInfo] = useState(undefined);
 
   const fetchAuthorRecipe = async (authorId) => {
     try {
       const res = await getAuthorRecipe(authorId);
       const { data } = res;
-      setRecipe(data);
+      setRecipes(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      toast.error(error.message);
+    }
+  };
+
+  const fetchAuthorInfo = async (authorId) => {
+    try {
+      const res = await getAuthorInfo(authorId);
+      const { data } = res;
+      setAuthorInfo(data);
     } catch (error) {
       console.error("Error fetching data:", error);
       toast.error(error.message);
@@ -27,7 +42,11 @@ export default function AuthorRecipe({ params }) {
     fetchAuthorRecipe(authorId);
   }, [authorId]);
 
-  const cards = recipe?.map((recipeItem) => ({
+  useEffect(() => {
+    fetchAuthorInfo(authorId);
+  }, [authorId]);
+
+  const cards = recipes?.map((recipeItem) => ({
     id: recipeItem._id,
     imageUrl: `data:image/png;base64,${recipeItem.image}`,
     title: recipeItem.title,
@@ -56,11 +75,39 @@ export default function AuthorRecipe({ params }) {
     setShowOffcanvas(false);
   };
 
-  if (recipe) {
+  if (recipes.length > 0 && authorInfo) {
     return (
 
       <div>
+        <Container
+          fluid
+          className={`${styles["profile-background"]}`}
+        >
+          <div className={`fs-3 ${styles["profile-group"]}`}>
+            <Image
+              src={`data:image/png;base64,${authorInfo.image}`}
+              rounded
+              className={`${styles["profile-image"]}`}
+              alt="Author Image"
+            />
+            {authorInfo.firstName}
+            {" "}
+            {authorInfo.lastName}
+          </div>
+
+          <div className={`${styles["profile-description"]}`}>
+            {authorInfo.description}
+          </div>
+        </Container>
+
         <Container >
+          <div className={`fs-5 ${styles["recipe-title"]}`}>
+            Lates from
+            {" "}
+            {authorInfo.firstName}
+            {" "}
+            {authorInfo.lastName}
+          </div>
           <Row >
             {cards.map(card => {
               return (
