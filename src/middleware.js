@@ -32,7 +32,7 @@ export async function middleware(request) {
     })).json();
     
     // if token is invalid, delete token
-    if (!res.result) {
+    if (!res.result || res.data === null) {
         request.cookies.delete(USER_TOKEN_NAME);
         
         return;
