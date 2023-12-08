@@ -104,23 +104,28 @@ export default function PostedRecipes() {
               className={`${styles["profile-image"]}`}
               alt="User Image"
             />
-            <div>
+            <div className={`${styles["profile-name"]}`}>
               {userInfo.firstName}
               {" "}
               {userInfo.lastName}
             </div>
-            <Button
-              onClick={handleAddRecipe()}
-            >
-              + Add Recipe
-            </Button>
           </div>
         </Container>
 
         <Container >
-          <div className={`fs-5 ${styles["recipe-title"]}`}>
-            My Recipes
+          <div className="d-flex justify-content-center">
+            <div className={`${styles["recipe-title"]}`}>
+              My Recipes
+            </div>
+            <Button
+              onClick={handleAddRecipe()}
+              className={`${styles["btn-submit"]}`}
+            >
+              +
+            </Button>
           </div>
+
+
           <Row >
             {cards.map(card => {
               return (
