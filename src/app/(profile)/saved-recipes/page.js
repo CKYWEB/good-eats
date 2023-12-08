@@ -61,7 +61,7 @@ export default function SavedRecipes() {
     <div>
       <Container>
         <p className="text-center pt-5 fs-2 fw-bold">
-          All Saved Recipes
+          Saved Recipes
         </p>
         <p className="text-center fs-5">
           All your favorite content in one place!
