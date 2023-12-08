@@ -51,9 +51,7 @@ const handleCreateUser = async (payload) => {
         lastName: payload.lastName,
     });
 
-    const result = await User.find({ email: payload.email }).select("-password");
-
-    return result;
+    return User.find({email: payload.email}).select("-password");
 };
 
 const handleLogin = async (payload) => {
@@ -73,7 +71,9 @@ const handleLogin = async (payload) => {
         throw new Error("Password is not correct");
     }
 
-    const result = (await User.findOne({ email: payload.email })).toObject();
+    const result = (await User.findOne({email: payload.email})
+        .select("-password -image"))
+        .toObject();
 
     return {
         firstName: result.firstName,
@@ -82,22 +82,20 @@ const handleLogin = async (payload) => {
 };
 
 const handleFindUsers = async (payload) => {
-    const result = await User.find(payload).select("-password");
-
-    return result;
+    return User.find(payload).select("-password");
 };
 
 const handleGetUserInfo = async (req) => {
     const token = req.headers.authorization.split(" ")[1];
     const payload = jwt.verify(token, process.env.JWT_SECRET);
 
-    return await User.findOne({ _id: payload._id }).select("-password");
+    return User.findOne({_id: payload._id}).select("-password");
 };
 
 const handleGetAuthorInfo = async (authorId) => {
-
     return await User.findById(generateMongoId(authorId)).select("-password");
 };
+
 
 module.exports = {
     handleLogin,

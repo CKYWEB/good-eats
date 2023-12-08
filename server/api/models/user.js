@@ -10,6 +10,7 @@ const User = mongoose.model("User", new mongoose.Schema(
         role: { type: Number, default: 2 }, // 1: admin 2: user
         image: String,
         description: String,
+        savedRecipes: { type: String, default: "" },
     },
 ));
 
