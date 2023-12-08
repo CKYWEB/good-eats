@@ -12,9 +12,8 @@ import {faEllipsisVertical, faCalendarDay} from "@fortawesome/free-solid-svg-ico
 import Button from "react-bootstrap/Button";
 import {useRouter} from "next/navigation";
 import {format, parseISO} from "date-fns";
-import {Container, Spinner} from "react-bootstrap";
 import Empty from "@/app/components/Empty";
-
+import Loading from "@/app/components/Loading";
 
 export default function RecipeManagement () {
     const router = useRouter();
@@ -46,17 +45,7 @@ export default function RecipeManagement () {
 
     if (isLoading) {
         return (
-          <Container>
-            <Spinner
-              animation="border"
-              role="status"
-              variant="danger"
-            >
-              <span className="visually-hidden">
-                Loading...
-              </span>
-            </Spinner>
-          </Container>
+          <Loading />
         );
     }
     if (recipes.length === 0) {
