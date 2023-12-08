@@ -14,6 +14,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import toast from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faCrown } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
 const userMenuItems = [
@@ -54,9 +55,16 @@ export const Avatar = ({ user }) => {
       <NavDropdown
         id="nav-dropdown-dark-example"
         title={
-          <span className={`fw-bold font-monospace ${styles["nav-dropdown__title"]}`}>
-            {user.firstName}
-          </span>
+          <>
+            <FontAwesomeIcon
+              icon={faCrown}
+              color="orange"
+              className="me-2"
+            />
+            <span className={`fw-bold font-monospace ${styles["nav-dropdown__title"]}`}>
+              {user.firstName}
+            </span>
+          </>
         }
         align="end"
         className="d-none d-sm-block"

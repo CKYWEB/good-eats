@@ -8,7 +8,7 @@ import {useForm} from "react-hook-form";
 import FormInput from "@/app/components/FormInput/formInput";
 import {useRouter} from "next/navigation";
 import toast from "react-hot-toast";
-import {createUser, login} from "@/api/user";
+import {createUser, fetchUserInfo, login} from "@/api/user";
 
 export default function Login () {
     const [loading, setLoading] = useState(false);
@@ -24,8 +24,6 @@ export default function Login () {
     const onSubmit = async (data) => {
         setLoading(true);
 
-        console.log("Form Data: ", data);
-
         if (isRegister) {
             try {
                 const {msg} = await createUser(data);
@@ -40,9 +38,25 @@ export default function Login () {
         } else {
             try {
                 const {msg} = await login(data);
+                const res = await fetchUserInfo();
 
-                toast.success(msg);
-                router.replace("/");
+                if (res?.data) {
+                    if (res.data.role === 1) {
+                        toast(`Hello Admin ${res.data.firstName}`,
+                            {
+                                icon: "💙",
+                                style: {
+                                    borderRadius: "10px",
+                                    background: "#333",
+                                    color: "#fff",
+                                },
+                            }
+                        );
+                    } else {
+                        toast.success(msg);
+                    }
+                    router.replace("/");
+                }
             } catch (err) {
                 toast.error(err.message);
             } finally {
