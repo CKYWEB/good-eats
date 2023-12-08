@@ -1,0 +1,12 @@
+@use "../../styles/base";
+
+// For some reason text-center and text-md-left don't work
+// hence styling it manually
+
+.error-message {
+    text-align: center;
+
+    @include base.media-breakpoint-up(md) {
+        text-align: left;
+    }
+}
