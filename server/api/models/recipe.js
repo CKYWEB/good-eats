@@ -6,7 +6,7 @@ const Recipe = mongoose.model("Recipe", new mongoose.Schema(
     title: String,
     tag: String,
     description: String,
-    author: String,
+    authorId: String,
     createdDate: { type: Date, default: Date.now() },
     time: {
       prepTime: Number,

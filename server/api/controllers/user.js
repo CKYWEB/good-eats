@@ -1,4 +1,5 @@
-const { handleLogin, handleCreateUser, handleFindUsers, handleGetUserInfo } = require("../services/user");
+const { handleLogin, handleCreateUser, handleFindUsers, handleGetUserInfo, handleGetAuthorInfo } = require("../services/user");
+
 const login = async (req, res) => {
     try {
         const data = await handleLogin(req.body);
@@ -67,11 +68,26 @@ const getUserInfo = async (req, res) => {
     }
 };
 
+const getAuthorInfo = async (req, res) => {
+    try {
+        const result = await handleGetAuthorInfo(req.query?.authorId);
 
+        res.status(200).json({
+            data: result,
+            result: true,
+        });
+    } catch (err) {
+        res.status(403).json({
+            msg: err.message,
+            result: false,
+        });
+    }
+};
 
 module.exports = {
     login,
     createUser,
     getUsers,
     getUserInfo,
+    getAuthorInfo,
 };

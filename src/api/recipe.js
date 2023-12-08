@@ -16,6 +16,12 @@ export const getAllRecipes = async () => {
 
 };
 
+export const getAuthorRecipe = async (authorId) => {
+  const res = await fetch(`${RECIPE_PATH}/getAuthorRecipe?authorId=${authorId}`);
+  
+  return res.json();
+};
+
 export const saveRecipe = async (payload) => {
   const res = await fetch(`${RECIPE_PATH}/saveRecipe`, {
     method: "POST",
@@ -28,7 +34,6 @@ export const saveRecipe = async (payload) => {
   });
 
   return res.json();
-
 };
 
 export const getSavedRecipe = async () => {
@@ -42,5 +47,4 @@ export const getSavedRecipe = async () => {
   });
 
   return res.json();
-
 };

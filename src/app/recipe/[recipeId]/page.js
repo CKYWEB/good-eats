@@ -52,12 +52,11 @@ export default function RecipeDetail({ params }) {
               By
               {" "}
               <a
-                href="https://example.com"
-                target="_blank"
+                href={`/author/${recipe.authorId}`}
                 rel="noopener noreferrer"
                 className="text-decoration-underline"
               >
-                {recipe.author}
+                {recipe.authorId}
               </a>
             </div>
             <div className={styles["published-date"]}>

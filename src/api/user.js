@@ -76,3 +76,10 @@ export const logout = async () => {
     // TODO: add token to block list
     Cookies.remove(USER_TOKEN_NAME);
 };
+
+export const getAuthorInfo = async (authorId) => {
+    const res = await fetch(`${USER_PATH}/getAuthorInfo?authorId=${authorId}`);
+
+    return res.json();
+
+};

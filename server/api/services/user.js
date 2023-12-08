@@ -3,6 +3,7 @@ const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const EMAIL_REGEX = /^[a-zA-Z](\.?[a-zA-Z]){2,}@northeastern\.edu$/;
 const NAME_REGEX = /^[a-z ,.'-]+$/i;
+const { generateMongoId } = require("../utils");
 
 const checkPassword = (password1, password2) => {
     return bcrypt.compareSync(password1, password2);
@@ -91,10 +92,15 @@ const handleGetUserInfo = async (req) => {
     return User.findOne({_id: payload._id}).select("-password");
 };
 
+const handleGetAuthorInfo = async (authorId) => {
+    return await User.findById(generateMongoId(authorId)).select("-password");
+};
+
 
 module.exports = {
     handleLogin,
     handleCreateUser,
     handleFindUsers,
     handleGetUserInfo,
+    handleGetAuthorInfo,
 };
