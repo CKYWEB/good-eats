@@ -6,6 +6,7 @@ const HOME_PATH = "/home";
 
 const PROTECTED_PATHS = [
     "/settings",
+    "/management",
 ];
 
 const isPathProtected = (path) => {

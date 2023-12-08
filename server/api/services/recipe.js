@@ -37,17 +37,26 @@ const handleGetRecipe = async (recipeId) => {
   return result;
 };
 
+const handleGetAuthorRecipe = async (authorId) => {
+  const result = await Recipe.find({ authorId: authorId });
+
+  if (!result) {
+    throw new Error("Recipe not found");
+  }
+  return result;
+};
+
 const handleSaveRecipe = async (req) => {
 
   const payload = req.body;
-  const { recipeId } = payload;
+  const { id } = payload;
   const user = await handleGetUserInfo(req);
 
   const { email, savedRecipes } = user;
 
   const savedRecipesArr = savedRecipes.split(",");
-  if (!savedRecipesArr.includes(recipeId)) {
-    savedRecipesArr.push(recipeId);
+  if (!savedRecipesArr.includes(id)) {
+    savedRecipesArr.push(id);
   }
   const updatedSavedRecipes = savedRecipesArr.join(",");
 
@@ -60,13 +69,24 @@ const handleGetSavedRecipe = async (req) => {
   const user = await handleGetUserInfo(req);
   const { savedRecipes } = user;
 
-  return savedRecipes;
+  if (!savedRecipes) {
+    return [];
+  }
+
+  const ids = savedRecipes.split(",");
+
+  return Recipe.find({
+    "_id": {
+      $in: ids,
+    }
+  });
 };
 
 module.exports = {
   handleCreateRecipe,
   handleFindAllRecipes,
   handleGetRecipe,
+  handleGetAuthorRecipe,
   handleSaveRecipe,
   handleGetSavedRecipe,
 };

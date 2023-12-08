@@ -3,6 +3,7 @@ const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const EMAIL_REGEX = /^[a-zA-Z](\.?[a-zA-Z]){2,}@northeastern\.edu$/;
 const NAME_REGEX = /^[a-z ,.'-]+$/i;
+const { generateMongoId } = require("../utils");
 
 const checkPassword = (password1, password2) => {
     return bcrypt.compareSync(password1, password2);
@@ -139,6 +140,23 @@ const handleChangePassword = async (payload) => {
     return { message: "Password updated successfully" };
 };
 
+const handleGetAuthorInfo = async (authorId) => {
+    return await User.findById(generateMongoId(authorId)).select("-password");
+};
+
+const handleDeleteUser = async (id) => {
+    if (id === undefined) {
+        throw new Error("Id is undefined.");
+    }
+    const existedUsers = await User.find({_id: id});
+
+    if (existedUsers.length === 0) {
+        throw new Error("User is not found.");
+    }
+
+    await User.deleteOne({_id: id});
+};
+
 module.exports = {
     handleLogin,
     handleCreateUser,
@@ -146,4 +164,6 @@ module.exports = {
     handleGetUserInfo,
     handleUpdateProfile,
     handleChangePassword,
+    handleGetAuthorInfo,
+    handleDeleteUser,
 };

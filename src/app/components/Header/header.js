@@ -14,27 +14,32 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import toast from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faCrown } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
 const userMenuItems = [
-  { label: "Preferences", href: "/settings/profile" },
+  { label: "Preferences", href: "/settings" },
   { label: "Search", href: "#" },
   { label: "Favorite Recipes", href: "/saved-recipes" },
-  { label: "My Recipe", href: "#" },
+  { label: "Posted Recipes", href: "/posted-recipes" },
   { label: "Help", href: "#" },
+  { label: "Management", href: "/management", role: 1}
 ];
 
 export const Logo = () => {
   return (
-    <span className={`fs-1 fw-bolder ${styles["logo__text"]}`}>
-      Good Eats
-    </span>
+    <Image
+      alt="logo"
+      src="/images/logo.png"
+      width={256}
+      height={50}
+    />
   );
 };
 
 export const Avatar = ({ user }) => {
   const router = useRouter();
-  const { isLoggedIn } = useUserStore();
+  const {isLoggedIn, isAdmin, currentUser} = useUserStore();
 
   const handleLogout = async () => {
     try {
@@ -51,21 +56,36 @@ export const Avatar = ({ user }) => {
       <NavDropdown
         id="nav-dropdown-dark-example"
         title={
-          <span className={`fw-bold font-monospace ${styles["nav-dropdown__title"]}`}>
-            {user.firstName}
-          </span>
+          <>
+            {isAdmin() && (
+            <FontAwesomeIcon
+              icon={faCrown}
+              color="orange"
+              className="me-2"
+            />
+            )}
+            <span className={`fw-bold font-monospace ${styles["nav-dropdown__title"]}`}>
+              {user.firstName}
+            </span>
+          </>
         }
         align="end"
         className="d-none d-sm-block"
       >
-        {userMenuItems.map(m => (
-          <NavDropdown.Item
-            key={m.label}
-            href={m.href}
-          >
-            {m.label}
-          </NavDropdown.Item>
-        ))}
+        {userMenuItems.map(m => {
+          if (m.role === currentUser.role || isAdmin()) {
+            return (
+              <NavDropdown.Item
+                key={m.label}
+                href={m.href}
+              >
+                {m.label}
+              </NavDropdown.Item>
+            );
+          }
+
+          return null;
+        })}
         <NavDropdown.Divider />
         <NavDropdown.Item onClick={handleLogout}>
           Log Out
@@ -93,8 +113,7 @@ export const Header = () => {
     { id: "tips", label: "Kitchen Tips" },
     { id: "aboutus", label: "About Us" },
   ];
-
-  const { currentUser, isLoggedIn } = useUserStore();
+  const {currentUser, isLoggedIn, isAdmin} = useUserStore();
   const router = useRouter();
 
   return (
@@ -140,14 +159,8 @@ export const Header = () => {
             closeButton
             className="justify-content-end"
           />
-          <Offcanvas.Title>
-            <Image
-              alt="logo"
-              src="/images/logo.png"
-              width={60}
-              height={60}
-              className="ms-4"
-            />
+          <Offcanvas.Title className="ps-4">
+            <Logo />
           </Offcanvas.Title>
           <Offcanvas.Body>
             <Nav className="me-auto px-3">
@@ -162,16 +175,22 @@ export const Header = () => {
               ))}
             </Nav>
             {isLoggedIn() ?
-              <Nav className="me-auto px-3 mt-5 border-top border-secondary">
-                {userMenuItems.map(item => (
-                  <Nav.Link
-                    key={item.label}
-                    href={item.href}
-                    className={`fs-3 ${styles["nav__link"]}`}
-                  >
-                    {item.label}
-                  </Nav.Link>))
-                }
+              <Nav className="me-auto px-3 mt-3 pt-3 border-top border-secondary">
+                {userMenuItems.map(m => {
+                  if (m.role === currentUser.role || isAdmin()) {
+                    return (
+                      <Nav.Link
+                        key={m.label}
+                        href={m.href}
+                        className={`fs-3 ${styles["nav__link"]}`}
+                      >
+                        {m.label}
+                      </Nav.Link>
+                    );
+                  }
+
+                  return null;
+                })}
               </Nav> :
               <Nav.Link
                 href="login"
