@@ -124,19 +124,16 @@ export default function PostedRecipes() {
               +
             </Button>
           </div>
-
-
-          <Row >
-            {cards.map(card => {
-              return (
+          <Row>
+            {cards?.length > 0 ? (
+              cards.map((card) => (
                 <Col
-                  key={card.title}
+                  key={card.id}
                   xs={12}
                   md={6}
                   lg={4}
                   className="d-flex justify-content-center py-4"
                 >
-
                   <CardComponent
                     card={card}
                     showBadge={card.shouldShowBadge}
@@ -146,8 +143,17 @@ export default function PostedRecipes() {
                     onBtnClick={handleCardBtnClick}
                   />
                 </Col>
-              );
-            })}
+              ))
+            ) : (
+              <Col
+                xs={12}
+                className="text-center py-4"
+              >
+                <p>
+                  You have no posted recipe
+                </p>
+              </Col>
+            )}
           </Row>
         </Container>
 
