@@ -44,7 +44,7 @@ const handleGetAuthorRecipe = async (authorId) => {
     throw new Error("Recipe not found");
   }
   return result;
-}
+};
 
 const handleSaveRecipe = async (req) => {
 
@@ -69,7 +69,17 @@ const handleGetSavedRecipe = async (req) => {
   const user = await handleGetUserInfo(req);
   const { savedRecipes } = user;
 
-  return savedRecipes;
+  if (!savedRecipes) {
+    return [];
+  }
+
+  const ids = savedRecipes.split(",");
+
+  return Recipe.find({
+    "_id": {
+      $in: ids,
+    }
+  });
 };
 
 module.exports = {
