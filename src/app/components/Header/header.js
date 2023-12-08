@@ -20,7 +20,7 @@ const userMenuItems = [
   { label: "Preferences", href: "/settings/profile" },
   { label: "Search", href: "#" },
   { label: "Favorite Recipes", href: "/saved-recipes" },
-  { label: "Add a Recipe", href: "#" },
+  { label: "My Recipe", href: "#" },
   { label: "Help", href: "#" },
 ];
 
@@ -34,7 +34,7 @@ export const Logo = () => {
 
 export const Avatar = ({ user }) => {
   const router = useRouter();
-  const {isLoggedIn} = useUserStore();
+  const { isLoggedIn } = useUserStore();
 
   const handleLogout = async () => {
     try {
@@ -86,14 +86,15 @@ export const Avatar = ({ user }) => {
 
 export const Header = () => {
   const menuItems = [
-    { id: "homepage", label: "Home" },
-    { id: "mealspage", label: "Meals" },
-    { id: "cuisinespage", label: "Cuisines" },
-    { id: "ingredientspage", label: "Ingredients" },
-    { id: "tipsage", label: "Kitchen Tips" },
+    { id: "home", label: "Home" },
+    { id: "meals", label: "Meals" },
+    { id: "cuisines", label: "Cuisines" },
+    { id: "ingredients", label: "Ingredients" },
+    { id: "tips", label: "Kitchen Tips" },
+    { id: "aboutus", label: "About Us" },
   ];
 
-  const {currentUser, isLoggedIn} = useUserStore();
+  const { currentUser, isLoggedIn } = useUserStore();
   const router = useRouter();
 
   return (
@@ -160,7 +161,7 @@ export const Header = () => {
                 </Nav.Link>
               ))}
             </Nav>
-            {isLoggedIn() ? 
+            {isLoggedIn() ?
               <Nav className="me-auto px-3 mt-5 border-top border-secondary">
                 {userMenuItems.map(item => (
                   <Nav.Link

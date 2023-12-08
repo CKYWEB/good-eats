@@ -1,4 +1,4 @@
-const { handleLogin, handleCreateUser, handleFindUsers, handleGetUserInfo } = require("../services/user");
+const { handleLogin, handleCreateUser, handleFindUsers, handleGetUserInfo, handleChangePassword } = require("../services/user");
 const login = async (req, res) => {
     try {
         const data = await handleLogin(req.body);
@@ -67,11 +67,27 @@ const getUserInfo = async (req, res) => {
     }
 };
 
+//Change password
+const changePassword = async (req, res) => {
+    try {
+        const result = await handleChangePassword(req.body);
 
+        res.status(200).json({
+            msg: result.message,
+            result: true,
+        });
+    } catch (err) {
+        res.status(403).json({
+            msg: err.message,
+            result: false,
+        });
+    }
+};
 
 module.exports = {
     login,
     createUser,
     getUsers,
     getUserInfo,
+    changePassword,
 };

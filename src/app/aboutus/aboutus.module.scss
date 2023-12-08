@@ -1,0 +1,43 @@
+@import '../styles/base/base';
+
+$blue-color: #3498db;
+$frame-width: 100%;
+
+.aboutus-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.aboutus-member {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 2px solid $blue-color;
+  border-radius: 10px;
+  //max-width: 300px;
+  width: $frame-width;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.member-image {
+  border: 4px solid $blue-color;
+  border-radius: 50%;
+  overflow: hidden;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+}
+
+.member-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.member-description {
+  margin-top: 20px;
+  color: $blue-color;
+}

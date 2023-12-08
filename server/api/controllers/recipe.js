@@ -80,10 +80,29 @@ const getSavedRecipe = async (req, res) => {
   }
 };
 
+//Add a recipe
+const handleAddRecipe = async (req, res) => {
+  try {
+    const result = await handleCreateRecipe(req.body);
+
+    res.status(200).json({
+      msg: "Recipe added successfully.",
+      data: result,
+      result: true,
+    });
+  } catch (err) {
+    res.status(403).json({
+      msg: err.message,
+      result: false,
+    });
+  }
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getRecipe,
   saveRecipe,
   getSavedRecipe,
+  handleAddRecipe,
 };

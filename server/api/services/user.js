@@ -50,7 +50,7 @@ const handleCreateUser = async (payload) => {
         lastName: payload.lastName,
     });
 
-    return User.find({email: payload.email}).select("-password");
+    return User.find({ email: payload.email }).select("-password");
 };
 
 const handleLogin = async (payload) => {
@@ -70,7 +70,7 @@ const handleLogin = async (payload) => {
         throw new Error("Password is not correct");
     }
 
-    const result = (await User.findOne({email: payload.email})
+    const result = (await User.findOne({ email: payload.email })
         .select("-password -image"))
         .toObject();
 
@@ -88,13 +88,33 @@ const handleGetUserInfo = async (req) => {
     const token = req.headers.authorization.split(" ")[1];
     const payload = jwt.verify(token, process.env.JWT_SECRET);
 
-    return User.findOne({_id: payload._id}).select("-password");
+    return User.findOne({ _id: payload._id }).select("-password");
 };
 
+//Change password
+const handleChangePassword = async (payload) => {
+    const { oldPassword, newPassword, userEmail } = payload;
+
+    const user = await User.findOne({ email: userEmail });
+
+    if (!user) {
+        throw new Error("User not found");
+    }
+
+    if (!checkPassword(oldPassword, user.password)) {
+        throw new Error("Old password is incorrect");
+    }
+
+    user.password = bcrypt.hashSync(newPassword, 10);
+    await user.save();
+
+    return { message: "Password updated successfully" };
+};
 
 module.exports = {
     handleLogin,
     handleCreateUser,
     handleFindUsers,
     handleGetUserInfo,
+    handleChangePassword,
 };
