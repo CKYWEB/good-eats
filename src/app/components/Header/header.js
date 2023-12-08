@@ -26,9 +26,12 @@ const userMenuItems = [
 
 export const Logo = () => {
   return (
-    <span className={`fs-1 fw-bolder ${styles["logo__text"]}`}>
-      Good Eats
-    </span>
+    <Image
+      alt="logo"
+      src="/images/logo.png"
+      width={256}
+      height={50}
+    />
   );
 };
 
@@ -139,14 +142,8 @@ export const Header = () => {
             closeButton
             className="justify-content-end"
           />
-          <Offcanvas.Title>
-            <Image
-              alt="logo"
-              src="/images/logo.png"
-              width={60}
-              height={60}
-              className="ms-4"
-            />
+          <Offcanvas.Title className="ps-4">
+            <Logo />
           </Offcanvas.Title>
           <Offcanvas.Body>
             <Nav className="me-auto px-3">
@@ -161,7 +158,7 @@ export const Header = () => {
               ))}
             </Nav>
             {isLoggedIn() ? 
-              <Nav className="me-auto px-3 mt-5 border-top border-secondary">
+              <Nav className="me-auto px-3 mt-3 pt-3 border-top border-secondary">
                 {userMenuItems.map(item => (
                   <Nav.Link
                     key={item.label}
