@@ -38,6 +38,17 @@ const createUser = async (req, res) => {
 
 const getUsers = async (req, res) => {
     try {
+        const { role } = (await handleGetUserInfo(req)).toObject();
+
+        if (role !== 1) {
+            res.status(403).json({
+                msg: "Unauthorized role",
+                result: false,
+            });
+
+            return;
+        }
+
         const result = await handleFindUsers(req.query);
 
         res.status(200).json({
