@@ -1,0 +1,71 @@
+@use "../../styles/base";
+
+.profile-image {
+  width: 80px;
+
+  @include base.media-breakpoint-up(md) {
+    width: 120px;
+
+  }
+}
+
+.profile-background {
+  background-color: base.$light-color;
+  height: 150px;
+  position: relative;
+  margin-bottom: 15%;
+
+  @include base.media-breakpoint-up(md) {
+    margin-bottom: 10%;
+
+  }
+}
+
+.profile-group {
+  position: absolute;
+  top: 70%;
+  left: 15%;
+  font-weight: 500;
+
+  @include base.media-breakpoint-up(md) {
+    top: 50%;
+
+  }
+}
+
+.profile-image {
+  margin-right: 20px;
+
+  @include base.media-breakpoint-up(md) {
+    margin-right: 60px;
+
+  }
+
+}
+
+.recipe-title {
+  font-size: 18px;
+  margin-right: 10px;
+
+  @include base.media-breakpoint-up(md) {
+    font-size: 26px;
+
+  }
+}
+
+.profile-name {
+  font-size: 16px;
+
+  @include base.media-breakpoint-up(md) {
+    font-size: 28px;
+  }
+}
+
+.btn-submit {
+  font-size: 12px;
+
+  @include base.media-breakpoint-up(md) {
+    font-size: 18px;
+  }
+
+}
