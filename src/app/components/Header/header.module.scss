@@ -1,12 +1,7 @@
 @use "../../styles/base";
 
-.logo__text {
-  color: #F15125;
-  font-family: 'Segoe UI';
-}
-
 .nav__link {
-  font-family: 'Segoe UI';
+  font-family: 'Segoe UI', serif;
 }
 
 .navbar__toggle {
@@ -15,8 +10,4 @@
 
 .navbar__toggle:focus {
   box-shadow: none;
-}
-
-.nav-dropdown__title {
-  
 }
