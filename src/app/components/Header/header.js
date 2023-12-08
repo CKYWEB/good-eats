@@ -21,7 +21,7 @@ const userMenuItems = [
   { label: "Preferences", href: "/settings/profile" },
   { label: "Search", href: "#" },
   { label: "Favorite Recipes", href: "/saved-recipes" },
-  { label: "Add a Recipe", href: "#" },
+  { label: "Posted Recipes", href: "/posted-recipes" },
   { label: "Help", href: "#" },
 ];
 
@@ -38,7 +38,7 @@ export const Logo = () => {
 
 export const Avatar = ({ user }) => {
   const router = useRouter();
-  const {isLoggedIn} = useUserStore();
+  const { isLoggedIn } = useUserStore();
 
   const handleLogout = async () => {
     try {
@@ -104,7 +104,7 @@ export const Header = () => {
     { id: "tipsage", label: "Kitchen Tips" },
   ];
 
-  const {currentUser, isLoggedIn} = useUserStore();
+  const { currentUser, isLoggedIn } = useUserStore();
   const router = useRouter();
 
   return (
@@ -165,7 +165,7 @@ export const Header = () => {
                 </Nav.Link>
               ))}
             </Nav>
-            {isLoggedIn() ? 
+            {isLoggedIn() ?
               <Nav className="me-auto px-3 mt-3 pt-3 border-top border-secondary">
                 {userMenuItems.map(item => (
                   <Nav.Link
