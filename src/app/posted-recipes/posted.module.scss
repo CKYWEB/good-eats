@@ -1,0 +1,33 @@
+@use "../styles/base";
+
+.profile-image {
+  width: 120px;
+}
+
+.profile-background {
+  background-color: base.$light-color;
+  height: 150px;
+  position: relative;
+  margin-bottom: 15%;
+}
+
+.profile-group {
+  position: absolute;
+  top: 50%;
+  left: 15%;
+  font-weight: 500;
+}
+
+.profile-image {
+  margin-right: 60px;
+}
+
+.profile-description {
+  position: absolute;
+  top: 160%;
+  left: 15%;
+}
+
+.recipe-title {
+  padding-left: 60px;
+}
