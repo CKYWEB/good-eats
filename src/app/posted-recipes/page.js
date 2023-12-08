@@ -9,6 +9,7 @@ import Image from "react-bootstrap/Image";
 import styles from "./posted.module.scss";
 import { useRouter } from "next/navigation";
 import { Container, Row, Col } from "react-bootstrap";
+import Button from "@/app/components/Button/button";
 
 
 export default function PostedRecipes() {
@@ -85,6 +86,10 @@ export default function PostedRecipes() {
     }
   };
 
+  const handleAddRecipe = () => {
+
+  };
+
   if (userInfo) {
     return (
       <div>
@@ -92,16 +97,23 @@ export default function PostedRecipes() {
           fluid
           className={`${styles["profile-background"]}`}
         >
-          <div className={`fs-3 ${styles["profile-group"]}`}>
+          <div className={`fs-3 d-flex align-items-center justify-content-around ${styles["profile-group"]}`}>
             <Image
               src={profileImage()}
               rounded
               className={`${styles["profile-image"]}`}
               alt="User Image"
             />
-            {userInfo.firstName}
-            {" "}
-            {userInfo.lastName}
+            <div>
+              {userInfo.firstName}
+              {" "}
+              {userInfo.lastName}
+            </div>
+            <Button
+              onClick={handleAddRecipe()}
+            >
+              + Add Recipe
+            </Button>
           </div>
 
           <div className={`${styles["profile-description"]}`}>
