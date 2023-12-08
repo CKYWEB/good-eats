@@ -75,6 +75,16 @@ export default function AuthorRecipe({ params }) {
     setShowOffcanvas(false);
   };
 
+  const defaultProfileImage = "/images/default-profile.png";
+
+  const profileImage = () => {
+    if (authorInfo.image === "") {
+      return defaultProfileImage;
+    } else {
+      return `data:image/png;base64,${authorInfo.image}`;
+    }
+  };
+
   if (recipes.length > 0 && authorInfo) {
     return (
 
@@ -85,7 +95,7 @@ export default function AuthorRecipe({ params }) {
         >
           <div className={`fs-3 ${styles["profile-group"]}`}>
             <Image
-              src={`data:image/png;base64,${authorInfo.image}`}
+              src={profileImage()}
               rounded
               className={`${styles["profile-image"]}`}
               alt="Author Image"
