@@ -49,14 +49,14 @@ const handleGetAuthorRecipe = async (authorId) => {
 const handleSaveRecipe = async (req) => {
 
   const payload = req.body;
-  const { recipeId } = payload;
+  const { id } = payload;
   const user = await handleGetUserInfo(req);
 
   const { email, savedRecipes } = user;
 
   const savedRecipesArr = savedRecipes.split(",");
-  if (!savedRecipesArr.includes(recipeId)) {
-    savedRecipesArr.push(recipeId);
+  if (!savedRecipesArr.includes(id)) {
+    savedRecipesArr.push(id);
   }
   const updatedSavedRecipes = savedRecipesArr.join(",");
 
