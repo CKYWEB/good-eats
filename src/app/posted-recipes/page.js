@@ -115,19 +115,11 @@ export default function PostedRecipes() {
               + Add Recipe
             </Button>
           </div>
-
-          <div className={`${styles["profile-description"]}`}>
-            {userInfo.description}
-          </div>
         </Container>
 
         <Container >
           <div className={`fs-5 ${styles["recipe-title"]}`}>
-            Latest from
-            {" "}
-            {userInfo.firstName}
-            {" "}
-            {userInfo.lastName}
+            My Recipes
           </div>
           <Row >
             {cards.map(card => {
