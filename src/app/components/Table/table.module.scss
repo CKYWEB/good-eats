@@ -1,0 +1,31 @@
+@use "../../styles/base";
+
+.table {
+  margin-bottom: 48px;
+  margin-top: 24px;
+  border-spacing: 0;
+
+  table {
+    width: 100%;
+  }
+
+  th {
+    text-align: start;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 24px 18px 18px 0;
+    border-bottom: 1px solid base.$global-dark-gray;
+  }
+
+  td {
+    text-align: start;
+    padding: 18px 0;
+    background-color: #FFFFFF;
+  }
+
+  tr:not(:last-child) {
+    td {
+      border-bottom: 1px solid #E5E7EB;
+    }
+  }
+}
