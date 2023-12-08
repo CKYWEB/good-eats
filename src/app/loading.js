@@ -1,4 +1,3 @@
-
 "use client";
 
 import Container from "react-bootstrap/Container";
@@ -9,20 +8,16 @@ import Image from "react-bootstrap/Image";
 export default function Loading() {
   return (
     <Container>
-      <Row className="d-flex justify-content-center align-items-center flex-column vh-100">
-        <Col className="col-10">
+      <Row className="vh-100 align-items-center gap-0">
+        <Col
+          xs={12}
+          className="d-flex justify-content-center"
+        >
           <Image
             src="/images/loader.gif"
             alt="Loader animation"
             fluid
           />
-        </Col>
-        <Col
-          className="col-5 ps-4"
-        >
-          <h4 className="text-left">
-            page cooking...
-          </h4>
         </Col>
       </Row>
     </Container>
