@@ -1,4 +1,4 @@
-import {USER_PATH, USER_TOKEN_NAME} from "@/api/config";
+import { USER_PATH, USER_TOKEN_NAME } from "@/api/config";
 import Cookies from "js-cookie";
 
 export const login = async (payload) => {
@@ -9,7 +9,7 @@ export const login = async (payload) => {
         },
         body: JSON.stringify(payload),
     });
-    const {data, result, msg} = await res.json();
+    const { data, result, msg } = await res.json();
 
     if (data && data.token) {
         Cookies.set(USER_TOKEN_NAME, data.token);
@@ -69,6 +69,8 @@ export const fetchUserInfo = async () => {
 
     return res.json();
 };
+
+
 
 export const logout = async () => {
     // TODO: add token to block list

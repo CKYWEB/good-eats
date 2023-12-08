@@ -1,4 +1,6 @@
 const Recipe = require("../models/recipe");
+const User = require("../models/user");
+const { handleGetUserInfo } = require("../services/user");
 const { generateMongoId } = require("../utils");
 
 const handleCreateRecipe = async (payload) => {
@@ -35,8 +37,36 @@ const handleGetRecipe = async (recipeId) => {
   return result;
 };
 
+const handleSaveRecipe = async (req) => {
+
+  const payload = req.body;
+  const { recipeId } = payload;
+  const user = await handleGetUserInfo(req);
+
+  const { email, savedRecipes } = user;
+
+  const savedRecipesArr = savedRecipes.split(",");
+  if (!savedRecipesArr.includes(recipeId)) {
+    savedRecipesArr.push(recipeId);
+  }
+  const updatedSavedRecipes = savedRecipesArr.join(",");
+
+  await User.updateOne({ email }, {
+    savedRecipes: updatedSavedRecipes,
+  });
+};
+
+const handleGetSavedRecipe = async (req) => {
+  const user = await handleGetUserInfo(req);
+  const { savedRecipes } = user;
+
+  return savedRecipes;
+};
+
 module.exports = {
   handleCreateRecipe,
   handleFindAllRecipes,
   handleGetRecipe,
+  handleSaveRecipe,
+  handleGetSavedRecipe,
 };

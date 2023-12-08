@@ -25,7 +25,7 @@ const handleCreateUser = async (payload) => {
         throw new Error("Password cant not be undefined");
     }
 
-    const existedUsers = await User.find({email: payload.email});
+    const existedUsers = await User.find({ email: payload.email });
 
     if (existedUsers.length !== 0) {
         throw new Error("The same email exists");
@@ -50,7 +50,7 @@ const handleCreateUser = async (payload) => {
         lastName: payload.lastName,
     });
 
-    const result = await User.find({email: payload.email}).select("-password");
+    const result = await User.find({ email: payload.email }).select("-password");
 
     return result;
 };
@@ -64,7 +64,7 @@ const handleLogin = async (payload) => {
         throw new Error("Password cant not be undefined");
     }
 
-    const existedUsers = await User.find({email: payload.email});
+    const existedUsers = await User.find({ email: payload.email });
 
     if (existedUsers.length === 0) {
         throw new Error("User not exists");
@@ -72,7 +72,7 @@ const handleLogin = async (payload) => {
         throw new Error("Password is not correct");
     }
 
-    const result = (await User.findOne({email: payload.email})).toObject();
+    const result = (await User.findOne({ email: payload.email })).toObject();
 
     return {
         firstName: result.firstName,
@@ -90,8 +90,9 @@ const handleGetUserInfo = async (req) => {
     const token = req.headers.authorization.split(" ")[1];
     const payload = jwt.verify(token, process.env.JWT_SECRET);
 
-    return await User.findOne({_id: payload._id}).select("-password");
+    return await User.findOne({ _id: payload._id }).select("-password");
 };
+
 
 module.exports = {
     handleLogin,
