@@ -53,7 +53,6 @@ export default function RecipeDetail({ params }) {
               {" "}
               <a
                 href={`/author/${recipe.authorId}`}
-                target="_blank"
                 rel="noopener noreferrer"
                 className="text-decoration-underline"
               >
