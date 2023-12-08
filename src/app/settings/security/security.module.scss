@@ -13,8 +13,24 @@
     margin-bottom: 10px;
   }
 
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+
+  .formLabel {
+    margin-bottom: 8px;
+  }
+
+  .inputContainer {
+    display: flex;
+    max-width: fit-content;
+    flex-direction: column;
+  }
+
   .error {
-    color: $error-color;
+    color: red;
     font-size: 14px;
   }
 }

@@ -1,4 +1,4 @@
-const { handleLogin, handleCreateUser, handleFindUsers, handleGetUserInfo, handleChangePassword } = require("../services/user");
+const { handleLogin, handleCreateUser, handleFindUsers, handleGetUserInfo, handleUpdateProfile, handleChangePassword } = require("../services/user");
 const login = async (req, res) => {
     try {
         const data = await handleLogin(req.body);
@@ -67,6 +67,24 @@ const getUserInfo = async (req, res) => {
     }
 };
 
+//Update profile
+const updateProfile = async (req, res) => {
+    try {
+        const result = await handleUpdateProfile(req);
+
+        res.status(200).json({
+            msg: "Profile updated successfully.",
+            data: result,
+            result: true,
+        });
+    } catch (err) {
+        res.status(403).json({
+            msg: err.message,
+            result: false,
+        });
+    }
+};
+
 //Change password
 const changePassword = async (req, res) => {
     try {
@@ -89,5 +107,6 @@ module.exports = {
     createUser,
     getUsers,
     getUserInfo,
+    updateProfile,
     changePassword,
 };

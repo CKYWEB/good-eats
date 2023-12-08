@@ -91,6 +91,34 @@ const handleGetUserInfo = async (req) => {
     return User.findOne({ _id: payload._id }).select("-password");
 };
 
+//Update profile
+const handleUpdateProfile = async (req) => {
+    try {
+        const payload = req.body;
+
+        const updatedUserProfile = await User.findOneAndUpdate(
+            { _id: req.user._id },
+            { $set: payload },
+            { new: true }
+        );
+
+        if (req.file) {
+            const profilePicture = req.file;
+            updatedUserProfile.profilePicture = profilePicture.filename;
+            await updatedUserProfile.save();
+        }
+
+        // If no profile picture, return response for profile update only
+        return {
+            msg: "Profile updated successfully",
+            data: updatedUserProfile,
+            result: true,
+        };
+    } catch (err) {
+        throw new Error("Failed to update profile");
+    }
+};
+
 //Change password
 const handleChangePassword = async (payload) => {
     const { oldPassword, newPassword, userEmail } = payload;
@@ -116,5 +144,6 @@ module.exports = {
     handleCreateUser,
     handleFindUsers,
     handleGetUserInfo,
+    handleUpdateProfile,
     handleChangePassword,
 };

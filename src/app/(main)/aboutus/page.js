@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import styles from "@/app/aboutus/aboutus.module.scss";
+import styles from "@/app/(main)/aboutus/about-us.module.scss";
 
 const AboutUs = () => {
   return (

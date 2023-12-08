@@ -3,7 +3,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { changePassword } from "@/api/security";
-import styles from "./Security.module.scss";
+import styles from "./security.module.scss";
 import Button from "../../components/Button/button";
 
 const Security = () => {
@@ -33,55 +33,61 @@ const Security = () => {
         Security Settings
       </h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
+        <div className={styles.formGroup}>
           <label
             htmlFor="oldPassword"
-            className="form-label fw-bold"
+            className={`${styles.formLabel} form-label fw-bold`}
           >
             Old Password
           </label>
-          <input
-            type="password"
-            id="oldPassword"
-            {...register("oldPassword", { required: "Please enter your old password" })}
-          />
-          {errors.oldPassword && <span className="error">
-            {errors.oldPassword.message}
-          </span>}
+          <div className={styles.inputContainer}>
+            <input
+              type="password"
+              id="oldPassword"
+              {...register("oldPassword", { required: "Please enter your old password" })}
+            />
+            {errors.oldPassword && <span className={`${styles.error} error`}>
+              {errors.oldPassword.message}
+            </span>}
+          </div>
         </div>
         <br />
-        <div>
+        <div className={styles.formGroup}>
           <label
             htmlFor="newPassword"
-            className="form-label fw-bold"
+            className={`${styles.formLabel} form-label fw-bold`}
           >
             New Password
           </label>
-          <input
-            type="password"
-            id="newPassword"
-            {...register("newPassword", { required: "Please enter your new password" })}
-          />
-          {errors.newPassword && <span className="error">
-            {errors.newPassword.message}
-          </span>}
+          <div className={styles.inputContainer}>
+            <input
+              type="password"
+              id="newPassword"
+              {...register("newPassword", { required: "Please enter your new password" })}
+            />
+            {errors.newPassword && <span className={`${styles.error} error`}>
+              {errors.newPassword.message}
+            </span>}
+          </div>
         </div>
         <br />
-        <div>
+        <div className={styles.formGroup}>
           <label
             htmlFor="confirmPassword"
-            className="form-label fw-bold"
+            className={`${styles.formLabel} form-label fw-bold`}
           >
             Confirm Password
           </label>
-          <input
-            type="password"
-            id="confirmPassword"
-            {...register("confirmPassword", { required: "Please confirm your new password" })}
-          />
-          {errors.confirmPassword && <span className="error">
-            {errors.confirmPassword.message}
-          </span>}
+          <div className={styles.inputContainer}>
+            <input
+              type="password"
+              id="confirmPassword"
+              {...register("confirmPassword", { required: "Please confirm your new password" })}
+            />
+            {errors.confirmPassword && <span className={`${styles.error} error`}>
+              {errors.confirmPassword.message}
+            </span>}
+          </div>
         </div>
         <br />
         <Button
