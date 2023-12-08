@@ -25,7 +25,7 @@ const handleCreateUser = async (payload) => {
         throw new Error("Password cant not be undefined");
     }
 
-    const existedUsers = await User.find({email: payload.email});
+    const existedUsers = await User.find({ email: payload.email });
 
     if (existedUsers.length !== 0) {
         throw new Error("The same email exists");
@@ -62,7 +62,7 @@ const handleLogin = async (payload) => {
         throw new Error("Password cant not be undefined");
     }
 
-    const existedUsers = await User.find({email: payload.email});
+    const existedUsers = await User.find({ email: payload.email });
 
     if (existedUsers.length === 0) {
         throw new Error("User not exists");
@@ -90,6 +90,7 @@ const handleGetUserInfo = async (req) => {
 
     return User.findOne({_id: payload._id}).select("-password");
 };
+
 
 module.exports = {
     handleLogin,

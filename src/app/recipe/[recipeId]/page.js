@@ -50,6 +50,7 @@ export default function RecipeDetail({ params }) {
           <div>
             <div>
               By
+              {" "}
               <a
                 href="https://example.com"
                 target="_blank"
