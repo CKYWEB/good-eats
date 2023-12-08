@@ -19,6 +19,11 @@ const nextConfig = {
             destination: "/home",
             permanent: true,
           },
+          {
+            source: "/settings",
+            destination: "/settings/profile",
+            permanent: true,
+          },
         ];
       },
 };

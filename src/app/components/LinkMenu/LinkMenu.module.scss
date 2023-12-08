@@ -1,0 +1,14 @@
+@use "../../styles/base";
+
+.li--active {
+  font-weight: bold;
+  color: base.$primary-red-color;
+  border-left: 8px solid;
+}
+
+.li {
+  &:hover {
+    background-color: base.$global-gray;
+    color: base.$primary-red-color;
+  }
+}

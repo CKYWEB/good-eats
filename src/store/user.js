@@ -1,14 +1,15 @@
 import { fetchUserInfo } from "@/api/user";
 import { create } from "zustand";
 
-export const useUserStore = create((set) => ({
+export const useUserStore = create((set, get) => ({
     currentUser: {},
-    loading: true,
     fetchCurrentUser: async () => {
         const res = await fetchUserInfo();
         set({ 
             currentUser: res?.data,
-            loading: false,
         });
     },
+    isLoggedIn: () => {
+        return !!get().currentUser?.email;
+    }
 }));

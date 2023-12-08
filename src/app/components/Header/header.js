@@ -17,7 +17,7 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
 const userMenuItems = [
-  { label: "My Profile", href: "#" },
+  { label: "Preferences", href: "/settings/profile" },
   { label: "Search", href: "#" },
   { label: "Favorite Recipes", href: "/saved-recipes" },
   { label: "Add a Recipe", href: "#" },
@@ -34,7 +34,7 @@ export const Logo = () => {
 
 export const Avatar = ({ user }) => {
   const router = useRouter();
-  const isUserLoggedIn = !!user?.email;
+  const {isLoggedIn} = useUserStore();
 
   const handleLogout = async () => {
     try {
@@ -47,7 +47,7 @@ export const Avatar = ({ user }) => {
   };
 
   return (
-    isUserLoggedIn ? (
+    isLoggedIn() ? (
       <NavDropdown
         id="nav-dropdown-dark-example"
         title={
@@ -56,7 +56,7 @@ export const Avatar = ({ user }) => {
           </span>
         }
         align="end"
-        className="d-none d-md-block"
+        className="d-none d-sm-block"
       >
         {userMenuItems.map(m => (
           <NavDropdown.Item
@@ -93,8 +93,8 @@ export const Header = () => {
     { id: "tipsage", label: "Kitchen Tips" },
   ];
 
-  const { currentUser } = useUserStore();
-  const isUserLoggedIn = !!currentUser?.email;
+  const {currentUser, isLoggedIn} = useUserStore();
+  const router = useRouter();
 
   return (
     <Navbar
@@ -118,7 +118,7 @@ export const Header = () => {
           sm={6}
           className="text-center"
         >
-          <Navbar.Brand href="home">
+          <Navbar.Brand onClick={() => router.push("/home")}>
             <Logo />
           </Navbar.Brand>
         </Col>
@@ -160,7 +160,7 @@ export const Header = () => {
                 </Nav.Link>
               ))}
             </Nav>
-            {isUserLoggedIn ?
+            {isLoggedIn() ? 
               <Nav className="me-auto px-3 mt-5 border-top border-secondary">
                 {userMenuItems.map(item => (
                   <Nav.Link
