@@ -40,9 +40,6 @@ export default function AuthorRecipe({ params }) {
 
   useEffect(() => {
     fetchAuthorRecipe(authorId);
-  }, [authorId]);
-
-  useEffect(() => {
     fetchAuthorInfo(authorId);
   }, [authorId]);
 
@@ -112,7 +109,7 @@ export default function AuthorRecipe({ params }) {
 
         <Container >
           <div className={`fs-5 ${styles["recipe-title"]}`}>
-            Lates from
+            Latest from
             {" "}
             {authorInfo.firstName}
             {" "}
@@ -147,9 +144,11 @@ export default function AuthorRecipe({ params }) {
           show={showOffcanvas}
           onHide={handleCloseOffcanvas}
           title={currentCard.title}
-          content={<p>
-            {currentCard.content}
-          </p>}
+          content={(
+            <p>
+              {currentCard.content}
+            </p>
+          )}
           imageUrl={currentCard.imageUrl}
         />
 
