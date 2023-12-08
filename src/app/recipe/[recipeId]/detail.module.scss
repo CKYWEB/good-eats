@@ -1,13 +1,92 @@
 @use "../../styles/base";
 
+.recipe-title {
+  font-size: 30px;
+  font-weight: 500;
+
+  @include base.media-breakpoint-up(lg) {
+    font-size: 36px;
+
+  }
+
+}
+
 .title-description {
   color: base.$global-dark-gray;
 }
 
 .time-table {
   background-color: base.$light-color;
+  width: 220px;
+
+  @include base.media-breakpoint-up(md) {
+    width: 450px;
+
+  }
+
+  @include base.media-breakpoint-up(lg) {
+    width: 680px;
+
+  }
 }
 
 .published-date {
   color: base.$global-dark-gray;
+  font-size: 10px;
+
+  @include base.media-breakpoint-up(md) {
+    font-size: 14px;
+
+  }
+
+}
+
+.profile-image {
+  width: 35px;
+  margin-right: 10px;
+
+  @include base.media-breakpoint-up(md) {
+    width: 35px;
+
+  }
+}
+
+.container-group {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 50px;
+  padding-right: 50px;
+
+  @include base.media-breakpoint-up(md) {
+    max-width: 1000px;
+
+  }
+}
+
+.recipe-image {
+  width: 220px;
+  height: auto;
+
+  @include base.media-breakpoint-up(md) {
+    width: 450px;
+
+  }
+
+  @include base.media-breakpoint-up(lg) {
+    width: 680px;
+
+  }
+}
+
+.table-content {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  text-align: center;
+  font-size: 10px;
+
+  @include base.media-breakpoint-up(md) {
+    font-size: 16px;
+
+  }
 }
