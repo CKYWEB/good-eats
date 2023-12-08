@@ -1,7 +1,7 @@
 "use client";
 
 import {useEffect, useState} from "react";
-import {fetchUsers} from "@/api/user";
+import {deleteUser, fetchUsers} from "@/api/user";
 import toast from "react-hot-toast";
 import Container from "react-bootstrap/Container";
 import TableComponent from "@/app/components/Table";
@@ -10,9 +10,50 @@ import {format, parseISO} from "date-fns";
 import Image from "react-bootstrap/Image";
 import {Col, Row} from "react-bootstrap";
 import Badge from "react-bootstrap/Badge";
+import {useUserStore} from "@/store/user";
+import Confirm from "@/app/components/Confirm";
 
 export default function UserManagement () {
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [currentRow, setCurrentRow] = useState({});
     const [users, setUsers] = useState([]);
+    const {currentUser} = useUserStore();
+
+    const handleDeleteBtnClick = (row) => {
+        setCurrentRow(row);
+        setShowDeleteConfirm(true);
+    };
+    const handleDeleteUser = async (id) => {
+        try {
+            const {result, msg} = await deleteUser(id);
+
+            if (!result) {
+                toast.error(msg);
+
+                return;
+            }
+
+            toast.success(msg);
+
+            const usersRes = await fetchUsers();
+            if (!usersRes.result) {
+                toast.error(usersRes.msg);
+                return;
+            }
+
+            setUsers(usersRes.data);
+        } catch (e) {
+            toast.error(e.message);
+        }
+    };
+
+    const handleCloseConfirm = (result) => {
+        setShowDeleteConfirm(false);
+
+        if (result) {
+            handleDeleteUser(currentRow._id);
+        }
+    };
     const columns = [
         {
             title: "Name",
@@ -80,16 +121,21 @@ export default function UserManagement () {
             title: " ",
             key: "actions",
             width: 180,
-            render: () => {
+            render: (_, row) => {
                 return (
                   <>
                     <Button
                       variant="link"
                       className="me-2"
+                      disabled={row._id === currentUser._id}
                     >
                       Edit
                     </Button>
-                    <Button variant="link">
+                    <Button
+                      variant="link"
+                      onClick={() => handleDeleteBtnClick(row)}
+                      disabled={row._id === currentUser._id}
+                    >
                       Delete
                     </Button>
                   </>
@@ -117,6 +163,11 @@ export default function UserManagement () {
           scroll={{
               x: 768
           }}
+        />
+        <Confirm
+          show={showDeleteConfirm}
+          onClose={(result) => handleCloseConfirm(result)}
+          text={`Are you sure to delete ${currentRow.firstName} ${currentRow.lastName}?`}
         />
       </Container>
     );
