@@ -44,7 +44,7 @@ const handleGetAuthorRecipe = async (authorId) => {
     throw new Error("Recipe not found");
   }
   return result;
-}
+};
 
 const handleSaveRecipe = async (req) => {
 
