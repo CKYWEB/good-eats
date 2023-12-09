@@ -21,8 +21,10 @@ export default function EditProfile() {
     } = useForm({
       values: currentUser,
     });
+    const [isLoading, setLoading] = useState(false);
 
   const onSubmit = async (data) => {
+    setLoading(true);
     const image = images.length > 0 ? images[0].dataUrl : "";
 
     try {
@@ -40,6 +42,8 @@ export default function EditProfile() {
         toast.success(msg);
     } catch (e) {
         toast.error(e.message);
+    } finally {
+        setLoading(false);
     }
   };
 
@@ -132,6 +136,7 @@ export default function EditProfile() {
         <Button
           className="mt-3"
           type="submit"
+          loading={isLoading}
         >
           Save Changes
         </Button>
