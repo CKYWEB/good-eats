@@ -92,7 +92,7 @@ export default function Home() {
         </div>
 
 
-        <Container >
+        <Container className="my-5">
           <Row >
             {cards.map(card => {
               return (
@@ -129,7 +129,7 @@ export default function Home() {
         />
 
         <div
-          className="w-75 mx-auto"
+          className="w-75 mx-auto my-5"
         >
           <h2 className="text-center">
             FAQ
@@ -149,5 +149,5 @@ export default function Home() {
         <Loading />
       </div>
     </Container>)
-  ;
+    ;
 }
