@@ -117,12 +117,12 @@ const handleAddRecipe = async (req, res) => {
 
 const deleteRecipe = async (req, res) => {
   try {
-    const result = await handleDeleteRecipe(req.query?.recipeId);
+    const { recipeId } = req.query;
+    await handleDeleteRecipe(recipeId);
 
     res.status(200).json({
-      msg: "Recipe deleted successfully.",
-      data: result,
       result: true,
+      msg: "Recipe deleted successfully!"
     });
   } catch (err) {
     res.status(403).json({

@@ -8,6 +8,8 @@ import { getAuthorInfo } from "@/api/user";
 import { Container } from "react-bootstrap";
 import { useUserStore } from "@/store/user";
 import Button from "@/app/components/Button/button";
+import { useRouter } from "next/navigation";
+import { deleteRecipe } from "@/api/recipe";
 
 
 export default function RecipeDetail({ params }) {
@@ -15,7 +17,7 @@ export default function RecipeDetail({ params }) {
   const [recipe, setRecipe] = useState(undefined);
   const [authorId, setAuthorId] = useState(undefined);
   const [authorInfo, setAuthorInfo] = useState(undefined);
-  const { fetchCurrentUser, currentUser, isLoggedIn, isAdmin } = useUserStore();
+  const { fetchCurrentUser, currentUser, isLoggedIn } = useUserStore();
 
 
   const fetchRecipe = async (recipeId) => {
@@ -63,6 +65,22 @@ export default function RecipeDetail({ params }) {
     }
   };
 
+  const router = useRouter();
+  const handleEditRecipe = (recipeId) => {
+    router.push(`/edit-recipe/${recipeId}`);
+
+  };
+
+  const handleDeleteRecipe = async (recipeId) => {
+    try {
+      await deleteRecipe(recipeId);
+      toast.success("Recipe deleted!");
+      router.back();
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+
   if (recipe && authorInfo && currentUser) {
     return (
       <Container>
@@ -104,11 +122,24 @@ export default function RecipeDetail({ params }) {
                 {new Date(recipe.createdDate).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
               </div>
             </div>
-            {isLoggedIn() && authorId === currentUser.id && (
-              <div className="align-self-center">
-                <Button className="p-2 ml-auto">
-                  Delete
-                </Button>
+            {(isLoggedIn()) && (
+              <div className="d-flex">
+                <div className="align-self-center">
+                  <Button
+                    className="p-2 ml-auto mx-3"
+                    onClick={() => handleEditRecipe(recipeId)}
+                  >
+                    Edit
+                  </Button>
+                </div>
+                <div className="align-self-center">
+                  <Button
+                    className="p-2 ml-auto"
+                    onClick={() => handleDeleteRecipe(recipeId)}
+                  >
+                    Delete
+                  </Button>
+                </div>
               </div>
             )}
           </div>
