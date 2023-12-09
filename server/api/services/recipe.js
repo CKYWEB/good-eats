@@ -82,6 +82,16 @@ const handleGetSavedRecipe = async (req) => {
   });
 };
 
+const handleDeleteRecipe = async (recipeId) => {
+  console.log(recipeId);
+  const result = await Recipe.findByIdAndDelete(generateMongoId(recipeId));
+
+  if (!result) {
+    throw new Error("Recipe not found");
+  }
+  return result;
+};
+
 module.exports = {
   handleCreateRecipe,
   handleFindAllRecipes,
@@ -89,4 +99,5 @@ module.exports = {
   handleGetAuthorRecipe,
   handleSaveRecipe,
   handleGetSavedRecipe,
+  handleDeleteRecipe,
 };

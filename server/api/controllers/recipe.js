@@ -1,4 +1,4 @@
-const { handleCreateRecipe, handleFindAllRecipes, handleGetRecipe, handleSaveRecipe, handleGetSavedRecipe, handleGetAuthorRecipe } = require("../services/recipe");
+const { handleCreateRecipe, handleFindAllRecipes, handleGetRecipe, handleSaveRecipe, handleGetSavedRecipe, handleGetAuthorRecipe, handleDeleteRecipe } = require("../services/recipe");
 
 const createRecipe = async (req, res) => {
   try {
@@ -68,7 +68,7 @@ const getAuthorRecipe = async (req, res) => {
 const saveRecipe = async (req, res) => {
   try {
     await handleSaveRecipe(req);
-    
+
     res.status(200).json({
       msg: "Recipe saved successfully",
       result: true,
@@ -115,6 +115,23 @@ const handleAddRecipe = async (req, res) => {
   }
 };
 
+const deleteRecipe = async (req, res) => {
+  try {
+    const result = await handleDeleteRecipe(req.query?.recipeId);
+
+    res.status(200).json({
+      msg: "Recipe deleted successfully.",
+      data: result,
+      result: true,
+    });
+  } catch (err) {
+    res.status(403).json({
+      msg: err.message,
+      result: false,
+    });
+  }
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
@@ -123,4 +140,5 @@ module.exports = {
   saveRecipe,
   getSavedRecipe,
   handleAddRecipe,
+  deleteRecipe,
 };

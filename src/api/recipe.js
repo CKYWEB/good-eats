@@ -18,7 +18,7 @@ export const getAllRecipes = async () => {
 
 export const getAuthorRecipe = async (authorId) => {
   const res = await fetch(`${RECIPE_PATH}/getAuthorRecipe?authorId=${authorId}`);
-  
+
   return res.json();
 };
 
@@ -39,6 +39,19 @@ export const saveRecipe = async (payload) => {
 export const getSavedRecipe = async () => {
   const res = await fetch(`${RECIPE_PATH}/getSavedRecipe`, {
     method: "GET",
+    headers: {
+      "Authorization": `Bearer ${Cookies.get(USER_TOKEN_NAME)}`,
+      "Content-Type": "application/json",
+    },
+
+  });
+
+  return res.json();
+};
+
+export const deleteRecipe = async (recipeId) => {
+  const res = await fetch(`${RECIPE_PATH}/deleteRecipe?recipeId=${recipeId}`, {
+    method: "DELETE",
     headers: {
       "Authorization": `Bearer ${Cookies.get(USER_TOKEN_NAME)}`,
       "Content-Type": "application/json",

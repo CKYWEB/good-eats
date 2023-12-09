@@ -63,7 +63,7 @@ export default function RecipeDetail({ params }) {
     }
   };
 
-  if (recipe && authorInfo) {
+  if (recipe && authorInfo && currentUser) {
     return (
       <Container>
         <div className={`${styles["container-group"]}`}>
@@ -104,14 +104,13 @@ export default function RecipeDetail({ params }) {
                 {new Date(recipe.createdDate).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
               </div>
             </div>
-            {((authorId === currentUser.id) || isAdmin()) && (
+            {isLoggedIn() && authorId === currentUser.id && (
               <div className="align-self-center">
                 <Button className="p-2 ml-auto">
                   Delete
                 </Button>
               </div>
             )}
-
           </div>
 
           <Image
