@@ -79,6 +79,14 @@ const handleGetSavedRecipe = async (req) => {
   });
 };
 
+const handleUpdateRecipe = async (req) => {
+  const payload = req.body;
+
+  await Recipe.updateOne({ _id: payload._id }, payload);
+
+  return Recipe.findById(generateMongoId(payload._id));
+};
+
 module.exports = {
   handleCreateRecipe,
   handleFindAllRecipes,
@@ -86,4 +94,5 @@ module.exports = {
   handleGetAuthorRecipe,
   handleSaveRecipe,
   handleGetSavedRecipe,
+  handleUpdateRecipe,
 };

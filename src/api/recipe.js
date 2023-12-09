@@ -60,3 +60,16 @@ export const addRecipe = async (payload) => {
 
   return res.json();
 };
+
+export const updateRecipe = async (payload) => {
+  const res = await fetch(`${RECIPE_PATH}/updateRecipe`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${Cookies.get(USER_TOKEN_NAME)}`,
+    },
+    body: JSON.stringify(payload),
+  });
+
+  return res.json();
+};

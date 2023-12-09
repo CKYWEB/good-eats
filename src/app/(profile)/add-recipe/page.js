@@ -10,7 +10,7 @@ import Button from "@/app/components/Button/button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faRectangleXmark} from "@fortawesome/free-solid-svg-icons";
 import toast from "react-hot-toast";
-import {addRecipe} from "@/api/recipe";
+import {addRecipe, updateRecipe} from "@/api/recipe";
 import {useRouter} from "next/navigation";
 
 export const IngredientsInput = ({control}) => {
@@ -196,16 +196,17 @@ export const DirectionsInput = ({control}) => {
   );
 };
 
-export default function AddRecipe() {
+export default function AddRecipe({defaultValues}) {
   const [images, setImages] = useState([]);
   const [isLoading, setLoading] = useState(false);
+  const isEdit = !!defaultValues;
   const {
     register,
     handleSubmit,
     formState: { errors },
     control
   } = useForm({
-      defaultValues: {
+      defaultValues: defaultValues || {
           ingredients: [
               {
                   quantity: 1,
@@ -258,15 +259,21 @@ export default function AddRecipe() {
               totalTime: Number(payload.time.prepTime) + Number(payload.time.cookTime),
           };
           payload.image = images.length > 0 ? images[0].dataUrl : "";
-          const {data, result, msg} = await addRecipe(payload);
 
-          if (!result) {
-              toast.error(msg);
+          let res;
+          if (isEdit) {
+              res = await updateRecipe(payload);
+          } else {
+            res = await addRecipe(payload);
+          }
+
+          if (!res.result) {
+              toast.error(res.msg);
 
               return;
           }
-          toast.success("Recipe has created successfully");
-          router.replace(`/recipe/${data._id}`);
+          toast.success(res.msg);
+          router.replace(`/recipe/${res.data._id}`);
       } catch (e) {
           toast.error(e.message);
       } finally {
@@ -279,7 +286,7 @@ export default function AddRecipe() {
     >
       <div className={`mb-3 ${styles["header__wrapper"]}`}>
         <h1 className={`fw-bold ms-4 pb-1 d-inline-block ${styles["header--title"]}`}>
-          Add a Recipe
+          {`${isEdit ? "Edit Recipe" : "Add a Recipe"}`}
         </h1>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
