@@ -8,12 +8,13 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEllipsisVertical, faCalendarDay} from "@fortawesome/free-solid-svg-icons";
+import {faCalendarDay} from "@fortawesome/free-solid-svg-icons";
 import Button from "react-bootstrap/Button";
 import {useRouter} from "next/navigation";
 import {format, parseISO} from "date-fns";
 import Empty from "@/app/components/Empty";
 import Loading from "@/app/components/Loading";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
 export default function RecipeManagement () {
     const router = useRouter();
@@ -107,7 +108,15 @@ export default function RecipeManagement () {
               xs={1}
               className="d-flex align-items-center justify-content-center"
             >
-              <FontAwesomeIcon icon={faEllipsisVertical} />
+              <NavDropdown
+                title="more"
+                align="end"
+                className="d-none d-sm-block"
+              >
+                <NavDropdown.Item onClick={() => router.push(`/edit-recipe/${r._id}`)}>
+                  Edit
+                </NavDropdown.Item>
+              </NavDropdown>
             </Col>
           </Row>
         </ListGroup.Item>

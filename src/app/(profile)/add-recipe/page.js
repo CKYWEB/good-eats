@@ -4,7 +4,7 @@ import {Col, Container, Form, Row, Image} from "react-bootstrap";
 import styles from "./addRecipe.module.scss";
 import FormInput from "@/app/components/FormInput/formInput";
 import {useFieldArray, useForm, Controller} from "react-hook-form";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import ImageUploading from "react-images-uploading";
 import Button from "@/app/components/Button/button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -238,6 +238,13 @@ export default function AddRecipe({defaultValues}) {
   });
   const router = useRouter();
 
+    useEffect(() => {
+        if (defaultValues.image) {
+            setImages([{
+                dataUrl: `data:image/png;base64, ${defaultValues.image}`
+            }]);
+        }
+    }, [defaultValues]);
   const handleImageChange = (imageList) => {
     setImages(imageList);
   };
@@ -258,7 +265,15 @@ export default function AddRecipe({defaultValues}) {
               cookTime: Number(payload.time.cookTime),
               totalTime: Number(payload.time.prepTime) + Number(payload.time.cookTime),
           };
-          payload.image = images.length > 0 ? images[0].dataUrl : "";
+          if (images.length > 0) {
+              if (images[0].dataUrl.startsWith("data:image")) {
+                  payload.image = images[0].dataUrl.split(",")[1];
+              } else {
+                  payload.image = images[0].dataUrl;
+              }
+          } else {
+              payload.image = "";
+          }
 
           let res;
           if (isEdit) {
