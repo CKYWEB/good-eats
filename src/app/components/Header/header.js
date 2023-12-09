@@ -106,12 +106,8 @@ export const Avatar = ({ user }) => {
 
 export const Header = () => {
   const menuItems = [
-    { id: "home", label: "Home" },
-    { id: "meals", label: "Meals" },
-    { id: "cuisines", label: "Cuisines" },
-    { id: "ingredients", label: "Ingredients" },
-    { id: "tips", label: "Kitchen Tips" },
-    { id: "aboutus", label: "About Us" },
+    { id: "/home", label: "Home" },
+    { id: "/aboutus", label: "About Us" },
   ];
   const {currentUser, isLoggedIn, isAdmin} = useUserStore();
   const router = useRouter();
