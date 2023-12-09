@@ -4,6 +4,8 @@ const {
     handleFindUsers,
     handleGetUserInfo,
     handleGetAuthorInfo,
+    handleUpdateProfile,
+    handleChangePassword
     handleDeleteUser,
 } = require("../services/user");
 
@@ -89,6 +91,40 @@ const getUserInfo = async (req, res) => {
     }
 };
 
+//Update profile
+const updateProfile = async (req, res) => {
+    try {
+        const result = await handleUpdateProfile(req);
+
+        res.status(200).json({
+            msg: "Profile updated successfully.",
+            data: result,
+            result: true,
+        });
+    } catch (err) {
+        res.status(403).json({
+            msg: err.message,
+            result: false,
+        });
+    }
+};
+
+//Change password
+const changePassword = async (req, res) => {
+    try {
+        const result = await handleChangePassword(req.body);
+
+        res.status(200).json({
+            msg: result.message,
+            result: true,
+    } catch (err) {
+        res.status(403).json({
+            msg: err.message,
+            result: false,
+        });
+    }
+};
+
 const getAuthorInfo = async (req, res) => {
     try {
         const result = await handleGetAuthorInfo(req.query?.authorId);
@@ -138,6 +174,8 @@ module.exports = {
     createUser,
     getUsers,
     getUserInfo,
+    updateProfile,
+    changePassword,
     getAuthorInfo,
     deleteUser,
 };

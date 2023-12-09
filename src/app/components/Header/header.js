@@ -18,7 +18,7 @@ import { faCrown } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
 const userMenuItems = [
-  { label: "Preferences", href: "/settings/profile" },
+  { label: "Preferences", href: "/settings" },
   { label: "Search", href: "#" },
   { label: "Favorite Recipes", href: "/saved-recipes" },
   { label: "Posted Recipes", href: "/posted-recipes" },
@@ -106,13 +106,13 @@ export const Avatar = ({ user }) => {
 
 export const Header = () => {
   const menuItems = [
-    { id: "homepage", label: "Home" },
-    { id: "mealspage", label: "Meals" },
-    { id: "cuisinespage", label: "Cuisines" },
-    { id: "ingredientspage", label: "Ingredients" },
-    { id: "tipsage", label: "Kitchen Tips" },
+    { id: "home", label: "Home" },
+    { id: "meals", label: "Meals" },
+    { id: "cuisines", label: "Cuisines" },
+    { id: "ingredients", label: "Ingredients" },
+    { id: "tips", label: "Kitchen Tips" },
+    { id: "aboutus", label: "About Us" },
   ];
-
   const {currentUser, isLoggedIn, isAdmin} = useUserStore();
   const router = useRouter();
 
