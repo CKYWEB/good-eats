@@ -6,6 +6,8 @@ import toast from "react-hot-toast";
 import { getRecipe } from "@/api/recipe";
 import { getAuthorInfo } from "@/api/user";
 import { Container } from "react-bootstrap";
+import { useUserStore } from "@/store/user";
+import Button from "@/app/components/Button/button";
 
 
 export default function RecipeDetail({ params }) {
@@ -13,6 +15,7 @@ export default function RecipeDetail({ params }) {
   const [recipe, setRecipe] = useState(undefined);
   const [authorId, setAuthorId] = useState(undefined);
   const [authorInfo, setAuthorInfo] = useState(undefined);
+  const { fetchCurrentUser, currentUser, isLoggedIn, isAdmin } = useUserStore();
 
 
   const fetchRecipe = async (recipeId) => {
@@ -46,6 +49,10 @@ export default function RecipeDetail({ params }) {
     fetchAuthorInfo(authorId);
   }, [authorId]);
 
+  useEffect(() => {
+    fetchCurrentUser();
+  }, [fetchCurrentUser]);
+
   const defaultProfileImage = "/images/default-profile.png";
 
   const profileImage = () => {
@@ -56,7 +63,7 @@ export default function RecipeDetail({ params }) {
     }
   };
 
-  if (recipe) {
+  if (recipe && authorInfo) {
     return (
       <Container>
         <div className={`${styles["container-group"]}`}>
@@ -69,7 +76,7 @@ export default function RecipeDetail({ params }) {
           </div>
 
           <div className="d-flex py-3">
-            <div className="d-flex align-items-center">
+            <div className="d-flex align-items-center p-2">
               <Image
                 src={profileImage()}
                 alt="profile image"
@@ -77,7 +84,7 @@ export default function RecipeDetail({ params }) {
               >
               </Image>
             </div>
-            <div>
+            <div className="p-2">
               <div>
                 By
                 {" "}
@@ -97,6 +104,14 @@ export default function RecipeDetail({ params }) {
                 {new Date(recipe.createdDate).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
               </div>
             </div>
+            {((authorId === currentUser.id) || isAdmin()) && (
+              <div className="align-self-center">
+                <Button className="p-2 ml-auto">
+                  Delete
+                </Button>
+              </div>
+            )}
+
           </div>
 
           <Image
@@ -174,7 +189,6 @@ export default function RecipeDetail({ params }) {
         </div >
       </Container >
     );
-  }
 
-  return null;
+  }
 }
