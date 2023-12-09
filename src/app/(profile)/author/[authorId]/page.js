@@ -90,16 +90,18 @@ export default function AuthorRecipe({ params }) {
           fluid
           className={`${styles["profile-background"]}`}
         >
-          <div className={`fs-3 ${styles["profile-group"]}`}>
+          <div className={`fs-3 d-flex align-items-center justify-content-around ${styles["profile-group"]}`}>
             <Image
               src={profileImage()}
               rounded
               className={`${styles["profile-image"]}`}
               alt="Author Image"
             />
-            {authorInfo.firstName}
-            {" "}
-            {authorInfo.lastName}
+            <div className={`${styles["profile-name"]}`}>
+              {authorInfo.firstName}
+              {" "}
+              {authorInfo.lastName}
+            </div>
           </div>
 
           <div className={`${styles["profile-description"]}`}>
@@ -107,7 +109,7 @@ export default function AuthorRecipe({ params }) {
           </div>
         </Container>
 
-        <Container >
+        <Container className={`${styles["recipe-cards"]}`}>
           <div className={`fs-5 ${styles["recipe-title"]}`}>
             Latest from
             {" "}
@@ -115,6 +117,7 @@ export default function AuthorRecipe({ params }) {
             {" "}
             {authorInfo.lastName}
           </div>
+          <hr></hr>
           <Row >
             {cards.map(card => {
               return (

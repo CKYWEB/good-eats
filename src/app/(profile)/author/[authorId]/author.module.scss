@@ -1,7 +1,12 @@
 @use "../../../styles/base";
 
 .profile-image {
-  width: 120px;
+  width: 80px;
+
+  @include base.media-breakpoint-up(md) {
+    width: 120px;
+
+  }
 }
 
 .profile-background {
@@ -9,25 +14,86 @@
   height: 150px;
   position: relative;
   margin-bottom: 15%;
+
+  @include base.media-breakpoint-up(md) {
+    margin-bottom: 10%;
+
+  }
 }
 
 .profile-group {
   position: absolute;
-  top: 50%;
+  top: 70%;
   left: 15%;
   font-weight: 500;
+
+  @include base.media-breakpoint-up(md) {
+    top: 50%;
+
+  }
 }
 
 .profile-image {
-  margin-right: 60px;
+  margin-right: 20px;
+
+  @include base.media-breakpoint-up(md) {
+    margin-right: 60px;
+
+  }
+
 }
 
 .profile-description {
   position: absolute;
   top: 160%;
   left: 15%;
+  width: 260px;
+  text-align: justify;
+
+  @include base.media-breakpoint-up(sm) {
+    margin-right: 60px;
+    width: 300px;
+
+  }
+
+  @include base.media-breakpoint-up(md) {
+    width: 600px;
+
+  }
+
+  @include base.media-breakpoint-up(lg) {
+    width: 800px;
+
+  }
+
+  @include base.media-breakpoint-up(xl) {
+    width: 1000px;
+
+  }
 }
 
 .recipe-title {
-  padding-left: 60px;
+  font-size: 18px;
+  margin-right: 10px;
+
+  @include base.media-breakpoint-up(md) {
+    font-size: 26px;
+
+  }
+}
+
+.profile-name {
+  font-size: 16px;
+
+  @include base.media-breakpoint-up(md) {
+    font-size: 28px;
+  }
+}
+
+.recipe-cards {
+  margin-top: 550px;
+
+  @include base.media-breakpoint-up(md) {
+    margin-top: 350px;
+  }
 }
