@@ -43,10 +43,10 @@
 
 .profile-image {
   width: 35px;
-  margin-right: 10px;
 
   @include base.media-breakpoint-up(md) {
     width: 35px;
+    margin-right: 10px;
 
   }
 }

@@ -79,6 +79,15 @@ const handleGetSavedRecipe = async (req) => {
   });
 };
 
+const handleDeleteRecipe = async (recipeId) => {
+  const result = await Recipe.findByIdAndDelete(generateMongoId(recipeId));
+
+  if (!result) {
+    throw new Error("Recipe not found");
+  }
+  return result;
+};
+
 const handleUpdateRecipe = async (req) => {
   const payload = req.body;
 
@@ -94,5 +103,6 @@ module.exports = {
   handleGetAuthorRecipe,
   handleSaveRecipe,
   handleGetSavedRecipe,
+  handleDeleteRecipe,
   handleUpdateRecipe,
 };
