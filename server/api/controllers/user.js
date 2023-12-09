@@ -118,13 +118,23 @@ const updateUser = async (req, res) => {
     }
 };
 
-//Change password
 const changePassword = async (req, res) => {
     try {
-        const result = await handleChangePassword(req.body);
+        const { role, _id } = req.user;
+
+        if (!isAdmin(role) && _id !== req.body._id) {
+            res.status(403).json({
+                msg: "Unauthorized role",
+                result: false,
+            });
+
+            return;
+        }
+
+        await handleChangePassword(req.body, isAdmin(role));
 
         res.status(200).json({
-            msg: result.message,
+            msg: "Password has updated successfully",
             result: true,
         });
     } catch (err) {

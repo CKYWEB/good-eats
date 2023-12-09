@@ -110,3 +110,16 @@ export const updateUser = async (payload) => {
 
     return res.json();
 };
+
+export const changePassword = async (payload) => {
+    const res = await fetch(`${USER_PATH}/changePassword`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${Cookies.get(USER_TOKEN_NAME)}`,
+        },
+        body: JSON.stringify(payload),
+    });
+
+    return res.json();
+};

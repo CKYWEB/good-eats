@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 if (process.env.NODE_ENV !== "production") {
     require("dotenv").config();
@@ -21,8 +22,13 @@ const generateMongoId = (raw) => {
     return new ObjectId(raw);
 };
 
+const checkPassword = (password1, password2) => {
+    return bcrypt.compareSync(password1, password2);
+};
+
 module.exports = {
     createDbConnection,
     closeDbConnection,
     generateMongoId,
+    checkPassword
 };
