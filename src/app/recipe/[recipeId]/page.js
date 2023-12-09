@@ -99,6 +99,7 @@ export default function RecipeDetail({ params }) {
                 src={profileImage()}
                 alt="profile image"
                 className={`${styles["profile-image"]}`}
+                roundedCircle
               >
               </Image>
             </div>

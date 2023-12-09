@@ -93,7 +93,7 @@ export default function AuthorRecipe({ params }) {
           <div className={`fs-3 d-flex align-items-center justify-content-around ${styles["profile-group"]}`}>
             <Image
               src={profileImage()}
-              rounded
+              roundedCircle
               className={`${styles["profile-image"]}`}
               alt="Author Image"
             />
