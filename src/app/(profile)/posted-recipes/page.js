@@ -87,6 +87,7 @@ export default function PostedRecipes() {
   };
 
   const handleAddRecipe = () => {
+    router.push("/add-recipe");
 
   };
 
@@ -118,7 +119,7 @@ export default function PostedRecipes() {
               My Recipes
             </div>
             <Button
-              onClick={handleAddRecipe()}
+              onClick={handleAddRecipe}
               className={`${styles["btn-submit"]}`}
             >
               Add
