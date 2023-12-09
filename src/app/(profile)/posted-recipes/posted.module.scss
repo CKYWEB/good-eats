@@ -1,4 +1,4 @@
-@use "../../../styles/base";
+@use "../../styles/base";
 
 .profile-image {
   width: 80px;
@@ -43,35 +43,6 @@
 
 }
 
-.profile-description {
-  position: absolute;
-  top: 160%;
-  left: 15%;
-  width: 260px;
-  text-align: justify;
-
-  @include base.media-breakpoint-up(sm) {
-    margin-right: 60px;
-    width: 300px;
-
-  }
-
-  @include base.media-breakpoint-up(md) {
-    width: 600px;
-
-  }
-
-  @include base.media-breakpoint-up(lg) {
-    width: 800px;
-
-  }
-
-  @include base.media-breakpoint-up(xl) {
-    width: 1000px;
-
-  }
-}
-
 .recipe-title {
   font-size: 18px;
   margin-right: 10px;
@@ -90,10 +61,11 @@
   }
 }
 
-.recipe-cards {
-  margin-top: 550px;
+.btn-submit {
+  font-size: 12px;
 
   @include base.media-breakpoint-up(md) {
-    margin-top: 350px;
+    font-size: 18px;
   }
+
 }

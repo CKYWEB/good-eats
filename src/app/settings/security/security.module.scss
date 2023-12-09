@@ -1,0 +1,36 @@
+@import '../../styles/base/base';
+
+.security {
+  background-color: $global-white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+
+  .title {
+    color: $primary-color;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+
+  .formLabel {
+    margin-bottom: 8px;
+  }
+
+  .inputContainer {
+    display: flex;
+    max-width: fit-content;
+    flex-direction: column;
+  }
+
+  .error {
+    color: red;
+    font-size: 14px;
+  }
+}

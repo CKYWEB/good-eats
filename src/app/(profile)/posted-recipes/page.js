@@ -1,24 +1,37 @@
 "use client";
-import { getAuthorRecipe } from "@/api/recipe";
 import { useState, useEffect } from "react";
+import { fetchUserInfo } from "@/api/user";
+import { getAuthorRecipe } from "@/api/recipe";
 import toast from "react-hot-toast";
 import CardComponent from "@/app/components/Card/card";
-import { Container, Row, Col } from "react-bootstrap";
-import { useRouter } from "next/navigation";
 import OffcanvasComponent from "@/app/components/Offcanvas/offcanvas";
-import { getAuthorInfo } from "@/api/user";
 import Image from "react-bootstrap/Image";
-import styles from "./author.module.scss";
+import styles from "./posted.module.scss";
+import { useRouter } from "next/navigation";
+import { Container, Row, Col } from "react-bootstrap";
+import Button from "@/app/components/Button/button";
 
-export default function AuthorRecipe({ params }) {
 
-  const { authorId } = params;
+export default function PostedRecipes() {
+
+  const [userInfo, setUserInfo] = useState();
+  const [userId, setUserId] = useState();
   const [recipes, setRecipes] = useState([]);
-  const [authorInfo, setAuthorInfo] = useState(undefined);
 
-  const fetchAuthorRecipe = async (authorId) => {
+  const getUserInfo = async () => {
     try {
-      const res = await getAuthorRecipe(authorId);
+      const res = await fetchUserInfo();
+      setUserInfo(res.data);
+      setUserId(res.data._id);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      toast.error(error.message);
+    }
+  };
+
+  const fetchUserRecipes = async (userId) => {
+    try {
+      const res = await getAuthorRecipe(userId);
       const { data } = res;
       setRecipes(data);
     } catch (error) {
@@ -26,22 +39,6 @@ export default function AuthorRecipe({ params }) {
       toast.error(error.message);
     }
   };
-
-  const fetchAuthorInfo = async (authorId) => {
-    try {
-      const res = await getAuthorInfo(authorId);
-      const { data } = res;
-      setAuthorInfo(data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      toast.error(error.message);
-    }
-  };
-
-  useEffect(() => {
-    fetchAuthorRecipe(authorId);
-    fetchAuthorInfo(authorId);
-  }, [authorId]);
 
   const cards = recipes?.map((recipeItem) => ({
     id: recipeItem._id,
@@ -71,20 +68,30 @@ export default function AuthorRecipe({ params }) {
   const handleCloseOffcanvas = () => {
     setShowOffcanvas(false);
   };
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
+  useEffect(() => {
+    fetchUserRecipes(userId);
+  }, [userId]);
 
   const defaultProfileImage = "/images/default-profile.png";
 
   const profileImage = () => {
-    if (authorInfo.image === "") {
+    if (userInfo.image === "") {
       return defaultProfileImage;
     } else {
-      return `data:image/png;base64,${authorInfo.image}`;
+      return `data:image/png;base64,${userInfo.image}`;
     }
   };
 
-  if (recipes.length > 0 && authorInfo) {
-    return (
+  const handleAddRecipe = () => {
 
+  };
+
+  if (userInfo) {
+    return (
       <div>
         <Container
           fluid
@@ -95,40 +102,38 @@ export default function AuthorRecipe({ params }) {
               src={profileImage()}
               rounded
               className={`${styles["profile-image"]}`}
-              alt="Author Image"
+              alt="User Image"
             />
             <div className={`${styles["profile-name"]}`}>
-              {authorInfo.firstName}
+              {userInfo.firstName}
               {" "}
-              {authorInfo.lastName}
+              {userInfo.lastName}
             </div>
-          </div>
-
-          <div className={`${styles["profile-description"]}`}>
-            {authorInfo.description}
           </div>
         </Container>
 
-        <Container className={`${styles["recipe-cards"]}`}>
-          <div className={`fs-5 ${styles["recipe-title"]}`}>
-            Latest from
-            {" "}
-            {authorInfo.firstName}
-            {" "}
-            {authorInfo.lastName}
+        <Container >
+          <div className="d-flex justify-content-between border-bottom py-3 ">
+            <div className={`${styles["recipe-title"]}`}>
+              My Recipes
+            </div>
+            <Button
+              onClick={handleAddRecipe()}
+              className={`${styles["btn-submit"]}`}
+            >
+              Add
+            </Button>
           </div>
-          <hr></hr>
-          <Row >
-            {cards.map(card => {
-              return (
+          <Row>
+            {cards?.length > 0 ? (
+              cards.map((card) => (
                 <Col
-                  key={card.title}
+                  key={card.id}
                   xs={12}
                   md={6}
                   lg={4}
                   className="d-flex justify-content-center py-4"
                 >
-
                   <CardComponent
                     card={card}
                     showBadge={card.shouldShowBadge}
@@ -138,8 +143,17 @@ export default function AuthorRecipe({ params }) {
                     onBtnClick={handleCardBtnClick}
                   />
                 </Col>
-              );
-            })}
+              ))
+            ) : (
+              <Col
+                xs={12}
+                className="text-center py-4"
+              >
+                <p>
+                  You have no posted recipe
+                </p>
+              </Col>
+            )}
           </Row>
         </Container>
 
@@ -158,4 +172,5 @@ export default function AuthorRecipe({ params }) {
       </div>
     );
   }
+
 }

@@ -6,19 +6,16 @@ const { generateMongoId } = require("../utils");
 const handleCreateRecipe = async (payload) => {
   // TODO: validation
 
-  await Recipe.create({
+  return Recipe.create({
     image: payload.image,
     title: payload.title,
     tag: payload.tag,
     description: payload.description,
-    author: payload.author,
+    authorId: payload.authorId,
     time: payload.time,
     ingredients: payload.ingredients,
     directions: payload.directions,
   });
-  const result = await Recipe.find({ title: payload.title });
-
-  return result;
 };
 
 const handleFindAllRecipes = async (payload) => {
@@ -49,14 +46,14 @@ const handleGetAuthorRecipe = async (authorId) => {
 const handleSaveRecipe = async (req) => {
 
   const payload = req.body;
-  const { recipeId } = payload;
+  const { id } = payload;
   const user = await handleGetUserInfo(req);
 
   const { email, savedRecipes } = user;
 
   const savedRecipesArr = savedRecipes.split(",");
-  if (!savedRecipesArr.includes(recipeId)) {
-    savedRecipesArr.push(recipeId);
+  if (!savedRecipesArr.includes(id)) {
+    savedRecipesArr.push(id);
   }
   const updatedSavedRecipes = savedRecipesArr.join(",");
 
@@ -69,7 +66,25 @@ const handleGetSavedRecipe = async (req) => {
   const user = await handleGetUserInfo(req);
   const { savedRecipes } = user;
 
-  return savedRecipes;
+  if (!savedRecipes) {
+    return [];
+  }
+
+  const ids = savedRecipes.split(",");
+
+  return Recipe.find({
+    "_id": {
+      $in: ids,
+    }
+  });
+};
+
+const handleUpdateRecipe = async (req) => {
+  const payload = req.body;
+
+  await Recipe.updateOne({ _id: payload._id }, payload);
+
+  return Recipe.findById(generateMongoId(payload._id));
 };
 
 module.exports = {
@@ -79,4 +94,5 @@ module.exports = {
   handleGetAuthorRecipe,
   handleSaveRecipe,
   handleGetSavedRecipe,
+  handleUpdateRecipe,
 };

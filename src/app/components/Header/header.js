@@ -18,11 +18,12 @@ import { faCrown } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
 const userMenuItems = [
-  { label: "Preferences", href: "/settings/profile" },
-  { label: "Search", href: "#" },
-  { label: "Favorite Recipes", href: "/saved-recipes" },
-  { label: "Add a Recipe", href: "#" },
-  { label: "Help", href: "#" },
+  { label: "Preferences", href: "/settings", role: 2 },
+  { label: "Search", href: "#", role: 2 },
+  { label: "Favorite Recipes", href: "/saved-recipes", role: 2 },
+  { label: "Posted Recipes", href: "/posted-recipes", role: 2 },
+  { label: "Help", href: "#", role: 2 },
+  { label: "Management", href: "/management", role: 1}
 ];
 
 export const Logo = () => {
@@ -38,7 +39,7 @@ export const Logo = () => {
 
 export const Avatar = ({ user }) => {
   const router = useRouter();
-  const {isLoggedIn} = useUserStore();
+  const {isLoggedIn, isAdmin, currentUser} = useUserStore();
 
   const handleLogout = async () => {
     try {
@@ -56,11 +57,13 @@ export const Avatar = ({ user }) => {
         id="nav-dropdown-dark-example"
         title={
           <>
+            {isAdmin() && (
             <FontAwesomeIcon
               icon={faCrown}
               color="orange"
               className="me-2"
             />
+            )}
             <span className={`fw-bold font-monospace ${styles["nav-dropdown__title"]}`}>
               {user.firstName}
             </span>
@@ -69,14 +72,20 @@ export const Avatar = ({ user }) => {
         align="end"
         className="d-none d-sm-block"
       >
-        {userMenuItems.map(m => (
-          <NavDropdown.Item
-            key={m.label}
-            href={m.href}
-          >
-            {m.label}
-          </NavDropdown.Item>
-        ))}
+        {userMenuItems.map(m => {
+          if (m.role === currentUser.role || isAdmin()) {
+            return (
+              <NavDropdown.Item
+                key={m.label}
+                href={m.href}
+              >
+                {m.label}
+              </NavDropdown.Item>
+            );
+          }
+
+          return null;
+        })}
         <NavDropdown.Divider />
         <NavDropdown.Item onClick={handleLogout}>
           Log Out
@@ -97,14 +106,14 @@ export const Avatar = ({ user }) => {
 
 export const Header = () => {
   const menuItems = [
-    { id: "homepage", label: "Home" },
-    { id: "mealspage", label: "Meals" },
-    { id: "cuisinespage", label: "Cuisines" },
-    { id: "ingredientspage", label: "Ingredients" },
-    { id: "tipsage", label: "Kitchen Tips" },
+    { id: "home", label: "Home" },
+    { id: "meals", label: "Meals" },
+    { id: "cuisines", label: "Cuisines" },
+    { id: "ingredients", label: "Ingredients" },
+    { id: "tips", label: "Kitchen Tips" },
+    { id: "aboutus", label: "About Us" },
   ];
-
-  const {currentUser, isLoggedIn} = useUserStore();
+  const {currentUser, isLoggedIn, isAdmin} = useUserStore();
   const router = useRouter();
 
   return (
@@ -165,17 +174,23 @@ export const Header = () => {
                 </Nav.Link>
               ))}
             </Nav>
-            {isLoggedIn() ? 
+            {isLoggedIn() ?
               <Nav className="me-auto px-3 mt-3 pt-3 border-top border-secondary">
-                {userMenuItems.map(item => (
-                  <Nav.Link
-                    key={item.label}
-                    href={item.href}
-                    className={`fs-3 ${styles["nav__link"]}`}
-                  >
-                    {item.label}
-                  </Nav.Link>))
-                }
+                {userMenuItems.map(m => {
+                  if (m.role === currentUser.role || isAdmin()) {
+                    return (
+                      <Nav.Link
+                        key={m.label}
+                        href={m.href}
+                        className={`fs-3 ${styles["nav__link"]}`}
+                      >
+                        {m.label}
+                      </Nav.Link>
+                    );
+                  }
+
+                  return null;
+                })}
               </Nav> :
               <Nav.Link
                 href="login"

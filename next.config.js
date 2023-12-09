@@ -24,6 +24,11 @@ const nextConfig = {
             destination: "/settings/profile",
             permanent: true,
           },
+          {
+            source: "/management",
+            destination: "/management/users",
+            permanent: true,
+          },
         ];
       },
 };

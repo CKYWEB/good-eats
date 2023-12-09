@@ -6,7 +6,7 @@ const recipeRouter = require("./routes/recipe");
 const newsletterRouter = require("./routes/newsletter");
 const cors = require("cors");
 const { closeDbConnection, createDbConnection } = require("./utils");
-const {authMiddleware} = require("./middleware");
+const { authMiddleware } = require("./middleware");
 
 app.use(express.json());
 app.use(authMiddleware);
