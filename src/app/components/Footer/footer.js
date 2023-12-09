@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 
-import Image from "react-bootstrap/image";
+import Image from "react-bootstrap/Image";
 
 import styles from "./footer.module.scss";
 import NewsLetterComponent from "../Newsletter/newsletter";
