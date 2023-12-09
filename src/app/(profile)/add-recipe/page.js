@@ -1,20 +1,20 @@
 "use client";
 
-import {Col, Container, Form, Row, Image} from "react-bootstrap";
+import { Col, Container, Form, Row, Image } from "react-bootstrap";
 import styles from "./addRecipe.module.scss";
 import FormInput from "@/app/components/FormInput/formInput";
-import {useFieldArray, useForm, Controller} from "react-hook-form";
-import React, {useEffect, useState} from "react";
+import { useFieldArray, useForm, Controller } from "react-hook-form";
+import React, { useEffect, useState } from "react";
 import ImageUploading from "react-images-uploading";
 import Button from "@/app/components/Button/button";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faRectangleXmark} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRectangleXmark } from "@fortawesome/free-solid-svg-icons";
 import toast from "react-hot-toast";
-import {addRecipe, updateRecipe} from "@/api/recipe";
-import {useRouter} from "next/navigation";
+import { addRecipe, updateRecipe } from "@/api/recipe";
+import { useRouter } from "next/navigation";
 
-export const IngredientsInput = ({control}) => {
-  const { fields, append, remove} = useFieldArray({
+export const IngredientsInput = ({ control }) => {
+  const { fields, append, remove } = useFieldArray({
     control,
     name: "ingredients", // unique name for your Field Array
   });
@@ -40,7 +40,7 @@ export const IngredientsInput = ({control}) => {
             <Row>
               <Col xs={4}>
                 <Controller
-                  render={({ field  }) => (
+                  render={({ field }) => (
                     <>
                       <input
                         {...field}
@@ -50,7 +50,7 @@ export const IngredientsInput = ({control}) => {
                         placeholder="quantity (1)"
                       />
                     </>
-                        )}
+                  )}
                   rules={{ required: true }}
                   name={`ingredients.${index}.quantity`}
                   control={control}
@@ -66,7 +66,7 @@ export const IngredientsInput = ({control}) => {
                         placeholder="unit (cup)"
                       />
                     </>
-                        )}
+                  )}
                   rules={{ required: true }}
                   name={`ingredients.${index}.unit`}
                   control={control}
@@ -82,7 +82,7 @@ export const IngredientsInput = ({control}) => {
                         placeholder="item (sugar)"
                       />
                     </>
-                        )}
+                  )}
                   rules={{ required: true }}
                   name={`ingredients.${index}.item`}
                   control={control}
@@ -100,17 +100,17 @@ export const IngredientsInput = ({control}) => {
               </Col>
             </Row>
           </Col>
-          ))}
+        ))}
       </Row>
       <Button
         className="w-25 ms-2"
         onClick={() => append(
-                {
-                  quantity: 1,
-                  unit: "",
-                  item: ""
-                }
-            )}
+          {
+            quantity: 1,
+            unit: "",
+            item: ""
+          }
+        )}
       >
         ADD INGREDIENT
       </Button>
@@ -118,8 +118,8 @@ export const IngredientsInput = ({control}) => {
   );
 };
 
-export const DirectionsInput = ({control}) => {
-  const { fields, append, remove} = useFieldArray({
+export const DirectionsInput = ({ control }) => {
+  const { fields, append, remove } = useFieldArray({
     control,
     name: "directions", // unique name for your Field Array
   });
@@ -162,7 +162,7 @@ export const DirectionsInput = ({control}) => {
                         placeholder="detailed instruction"
                       />
                     </>
-                        )}
+                  )}
                   rules={{ required: true }}
                   name={`directions.${index}.detailInstruction`}
                   control={control}
@@ -180,15 +180,15 @@ export const DirectionsInput = ({control}) => {
               </Col>
             </Row>
           </Col>
-          ))}
+        ))}
       </Row>
       <Button
         className="w-25 ms-2"
         onClick={() => append(
-                {
-                  detailInstruction: "",
-                }
-            )}
+          {
+            detailInstruction: "",
+          }
+        )}
       >
         ADD DIRECTION
       </Button>
@@ -196,7 +196,7 @@ export const DirectionsInput = ({control}) => {
   );
 };
 
-export default function AddRecipe({defaultValues}) {
+export default function AddRecipe({ defaultValues }) {
   const [images, setImages] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const isEdit = !!defaultValues;
@@ -206,94 +206,94 @@ export default function AddRecipe({defaultValues}) {
     formState: { errors },
     control
   } = useForm({
-      defaultValues: defaultValues || {
-          ingredients: [
-              {
-                  quantity: 1,
-                  unit: "",
-                  item: ""
-              },
-              {
-                  quantity: 1,
-                  unit: "",
-                  item: ""
-              }
-          ],
-          directions: [
-              {
-                  detailInstruction: "",
-              },
-              {
-                  detailInstruction: "",
-              },
-              {
-                  detailInstruction: "",
-              }
-          ],
-          time: {
-              prepTime: 1,
-              cookTime: 1,
-          }
+    defaultValues: defaultValues || {
+      ingredients: [
+        {
+          quantity: 1,
+          unit: "",
+          item: ""
+        },
+        {
+          quantity: 1,
+          unit: "",
+          item: ""
+        }
+      ],
+      directions: [
+        {
+          detailInstruction: "",
+        },
+        {
+          detailInstruction: "",
+        },
+        {
+          detailInstruction: "",
+        }
+      ],
+      time: {
+        prepTime: 1,
+        cookTime: 1,
       }
+    }
   });
   const router = useRouter();
 
-    useEffect(() => {
-        if (defaultValues.image) {
-            setImages([{
-                dataUrl: `data:image/png;base64, ${defaultValues.image}`
-            }]);
-        }
-    }, [defaultValues]);
+  useEffect(() => {
+    if (defaultValues?.image) {
+      setImages([{
+        dataUrl: `data:image/png;base64, ${defaultValues.image}`
+      }]);
+    }
+  }, [defaultValues]);
   const handleImageChange = (imageList) => {
     setImages(imageList);
   };
 
   const onSubmit = async (payload) => {
-      setLoading(true);
-      try {
-          payload.directions.forEach((item, index) => {
-            item.order = index;
-        });
+    setLoading(true);
+    try {
+      payload.directions.forEach((item, index) => {
+        item.order = index;
+      });
 
-          payload.ingredients.forEach((item) => {
-              item.quantity = Number(item.quantity);
-          });
+      payload.ingredients.forEach((item) => {
+        item.quantity = Number(item.quantity);
+      });
 
-          payload.time = {
-              prepTime: Number(payload.time.prepTime),
-              cookTime: Number(payload.time.cookTime),
-              totalTime: Number(payload.time.prepTime) + Number(payload.time.cookTime),
-          };
-          if (images.length > 0) {
-              if (images[0].dataUrl.startsWith("data:image")) {
-                  payload.image = images[0].dataUrl.split(",")[1];
-              } else {
-                  payload.image = images[0].dataUrl;
-              }
-          } else {
-              payload.image = "";
-          }
-
-          let res;
-          if (isEdit) {
-              res = await updateRecipe(payload);
-          } else {
-            res = await addRecipe(payload);
-          }
-
-          if (!res.result) {
-              toast.error(res.msg);
-
-              return;
-          }
-          toast.success(res.msg);
-          router.replace(`/recipe/${res.data._id}`);
-      } catch (e) {
-          toast.error(e.message);
-      } finally {
-          setLoading(false);
+      payload.time = {
+        prepTime: Number(payload.time.prepTime),
+        cookTime: Number(payload.time.cookTime),
+        totalTime: Number(payload.time.prepTime) + Number(payload.time.cookTime),
+      };
+      if (images.length > 0) {
+        if (images[0].dataUrl.startsWith("data:image")) {
+          payload.image = images[0].dataUrl.split(",")[1];
+        } else {
+          payload.image = images[0].dataUrl;
+        }
+      } else {
+        payload.image = "";
       }
+
+      let res;
+      if (isEdit) {
+        res = await updateRecipe(payload);
+      } else {
+        res = await addRecipe(payload);
+      }
+
+      if (!res.result) {
+        toast.error(res.msg);
+
+        return;
+      }
+      toast.success(res.msg);
+      router.replace(`/recipe/${res.data._id}`);
+    } catch (e) {
+      toast.error(e.message);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <Container
@@ -336,7 +336,7 @@ export default function AddRecipe({defaultValues}) {
                 as="textarea"
                 placeholder="Share the story behind your
                 recipe and what makes it special"
-                style={{height: "100px"}}
+                style={{ height: "100px" }}
                 {...register("description", {})}
               />
             </Col>
@@ -355,18 +355,18 @@ export default function AddRecipe({defaultValues}) {
               dataURLKey="dataUrl"
             >
               {({
-                  onImageUpload,
-                }) => (
-                  <div
-                    className={styles["image__container"]}
-                    onClick={onImageUpload}
-                  >
-                    <Image
-                      alt="Profile"
-                      src={images.length > 0 ? images[0].dataUrl : "/images/recipe-add-photo.png"}
-                      width={180}
-                    />
-                  </div>
+                onImageUpload,
+              }) => (
+                <div
+                  className={styles["image__container"]}
+                  onClick={onImageUpload}
+                >
+                  <Image
+                    alt="Profile"
+                    src={images.length > 0 ? images[0].dataUrl : "/images/recipe-add-photo.png"}
+                    width={180}
+                  />
+                </div>
               )}
             </ImageUploading>
           </Col>
@@ -387,7 +387,7 @@ export default function AddRecipe({defaultValues}) {
                   required: "Please enter prep time",
                 })}
               errors={errors}
-              style={{width: 240}}
+              style={{ width: 240 }}
               placeholder="0"
             />
           </Col>
@@ -397,11 +397,11 @@ export default function AddRecipe({defaultValues}) {
               type="number"
               min={1}
               register={
-                  register("time.cookTime", {
-                    required: "Please enter cook time",
-                  })}
+                register("time.cookTime", {
+                  required: "Please enter cook time",
+                })}
               errors={errors}
-              style={{width: 240}}
+              style={{ width: 240 }}
               placeholder="0"
             />
           </Col>
