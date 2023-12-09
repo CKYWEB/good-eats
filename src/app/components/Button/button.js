@@ -7,6 +7,7 @@ export default function Button(props) {
     return (
       <button
         type="button"
+        disabled={loading}
         className={`btn ${styles[buttonStyle]} ${className}`}
         {...rest}
       >
