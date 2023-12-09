@@ -58,9 +58,9 @@ export default function EditProfile() {
   };
 
     useEffect(() => {
-        if (currentUser.image) {
+        if (currentUser?.image) {
             setImages([{
-                dataUrl: currentUser.image,
+                dataUrl: `data:image/png;base64, ${currentUser.image}`
             }]);
         }
     }, [currentUser]);
