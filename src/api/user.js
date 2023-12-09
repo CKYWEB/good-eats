@@ -96,3 +96,30 @@ export const deleteUser = async (userId) => {
 
     return res.json();
 };
+
+export const updateUser = async (payload) => {
+    const token = Cookies.get(USER_TOKEN_NAME);
+    const res = await fetch(`${USER_PATH}/updateUser`, {
+        method: "PUT",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+    });
+
+    return res.json();
+};
+
+export const changePassword = async (payload) => {
+    const res = await fetch(`${USER_PATH}/changePassword`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${Cookies.get(USER_TOKEN_NAME)}`,
+        },
+        body: JSON.stringify(payload),
+    });
+
+    return res.json();
+};

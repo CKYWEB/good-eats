@@ -1,0 +1,11 @@
+@use "../../styles/base";
+
+.image__container {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+
+  &:hover {
+    filter: grayscale(50%);
+  }
+}

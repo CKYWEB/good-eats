@@ -3,11 +3,7 @@ const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const EMAIL_REGEX = /^[a-zA-Z](\.?[a-zA-Z]){2,}@northeastern\.edu$/;
 const NAME_REGEX = /^[a-z ,.'-]+$/i;
-const { generateMongoId } = require("../utils");
-
-const checkPassword = (password1, password2) => {
-    return bcrypt.compareSync(password1, password2);
-};
+const { generateMongoId, checkPassword } = require("../utils");
 
 const handleCreateUser = async (payload) => {
     if (payload.firstName === undefined) {
@@ -93,51 +89,30 @@ const handleGetUserInfo = async (req) => {
 };
 
 //Update profile
-const handleUpdateProfile = async (req) => {
-    try {
-        const payload = req.body;
+const handleUpdateUser = async (req) => {
+    const payload = req.body;
 
-        const updatedUserProfile = await User.findOneAndUpdate(
-            { _id: req.user._id },
-            { $set: payload },
-            { new: true }
-        );
+    await User.updateOne({ _id: payload._id }, payload);
 
-        if (req.file) {
-            const profilePicture = req.file;
-            updatedUserProfile.profilePicture = profilePicture.filename;
-            await updatedUserProfile.save();
-        }
-
-        // If no profile picture, return response for profile update only
-        return {
-            msg: "Profile updated successfully",
-            data: updatedUserProfile,
-            result: true,
-        };
-    } catch (err) {
-        throw new Error("Failed to update profile");
-    }
+    return await handleFindUsers({ _id: payload._id });
 };
 
-//Change password
-const handleChangePassword = async (payload) => {
-    const { oldPassword, newPassword, userEmail } = payload;
+const handleChangePassword = async (payload, isAdmin) => {
+    const { oldPassword, password } = payload;
 
-    const user = await User.findOne({ email: userEmail });
+    const user = await User.findOne({ _id: payload._id });
 
     if (!user) {
         throw new Error("User not found");
     }
 
-    if (!checkPassword(oldPassword, user.password)) {
+    if (isAdmin || !checkPassword(oldPassword, user.password)) {
         throw new Error("Old password is incorrect");
     }
 
-    user.password = bcrypt.hashSync(newPassword, 10);
-    await user.save();
-
-    return { message: "Password updated successfully" };
+    await User.updateOne({ _id: payload._id }, {
+        password: bcrypt.hashSync(password, 10),
+    });
 };
 
 const handleGetAuthorInfo = async (authorId) => {
@@ -162,7 +137,7 @@ module.exports = {
     handleCreateUser,
     handleFindUsers,
     handleGetUserInfo,
-    handleUpdateProfile,
+    handleUpdateUser,
     handleChangePassword,
     handleGetAuthorInfo,
     handleDeleteUser,
