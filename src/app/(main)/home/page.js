@@ -149,5 +149,5 @@ export default function Home() {
         <Loading />
       </div>
     </Container>)
-    ;
+  ;
 }
