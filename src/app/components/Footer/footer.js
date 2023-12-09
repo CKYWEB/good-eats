@@ -1,15 +1,18 @@
+import React, { useState } from "react";
+
 import Image from "next/image";
 
 import MagazineImage from "./images/magazine.jpg";
 import FacebookIcon from "./images/Icons/facebook.png";
 import InstagramIcon from "./images/Icons/Instagram.png";
 import TwitterIcon from "./images/Icons/twitter.png";
-import YoutubeIcon from  "./images/Icons/Youtube.png";
+import YoutubeIcon from "./images/Icons/Youtube.png";
 import PinterestIcon from "./images/Icons/pinterest.png";
 import TikTokIcon from "./images/Icons/tiktok.png";
 import SubscribeButton from "./images/Icons/subscribebutton.png";
 
 import styles from "./footer.module.scss";
+import NewsLetterComponent from "../Newsletter/newsletter";
 
 export function Footer() {
   const mainNavs = ["Home", "Meals", "Cuisines", "Ingredients", "Kitchen Tips", "News", "Features", "About Us"];
@@ -41,13 +44,27 @@ export function Footer() {
   ];
   const secondaryNavs = ["FAQ", "Advertise", "Work for us", "Contact", "Editorial Process", "Anti-Racism Pledge", "Privacy Policy", "Terms of Service"];
 
+  const [showNewsletterSignup, setshowNewsletterSignup] = useState(false);
+
+  const handleShowNewsletterSignup = () => setshowNewsletterSignup(true);
+  const handleCloseNewsletterSignup = () => setshowNewsletterSignup(false);
+
+
+  
   return (
     <>
       <div className="b-example-divider"></div>
       <footer className="section-size border-top">
+        <NewsLetterComponent
+          show={showNewsletterSignup}
+          onHide={handleCloseNewsletterSignup}
+        />
+
         <div className="container">
           <div className="row justify-content-between">
-            <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+            <div
+              className="col-lg-3 col-md-6 col-sm-12 col-xs-12"
+            >
               <p className={styles["card-text"]}>
                 Enjoy a Magazine Subscription!
               </p>
@@ -124,7 +141,10 @@ export function Footer() {
                 ))}
               </ul>
               <br />
-              <div className={styles["subscribe"]}>
+              <div
+                className={styles["subscribe"]}
+                onClick={handleShowNewsletterSignup}
+              >
                 <Image
                   className="img-fluid"
                   src={SubscribeButton}
