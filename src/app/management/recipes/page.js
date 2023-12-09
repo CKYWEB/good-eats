@@ -3,7 +3,7 @@
 import {useEffect, useState} from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import toast from "react-hot-toast";
-import {getAllRecipes} from "@/api/recipe";
+import {deleteRecipe, getAllRecipes} from "@/api/recipe";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
@@ -23,6 +23,16 @@ export default function RecipeManagement () {
 
     const handleViewRecipe = (recipeId) => {
         router.push(`/recipe/${recipeId}`);
+    };
+
+    const handleDeleteRecipe = async (recipeId) => {
+        try {
+            await deleteRecipe(recipeId);
+            toast.success("Recipe deleted!");
+            await getAllRecipes();
+        } catch (err) {
+            toast.error(err.message);
+        }
     };
 
     useEffect(() => {
@@ -115,6 +125,9 @@ export default function RecipeManagement () {
               >
                 <NavDropdown.Item onClick={() => router.push(`/edit-recipe/${r._id}`)}>
                   Edit
+                </NavDropdown.Item>
+                <NavDropdown.Item onClick={() => handleDeleteRecipe(r._id)}>
+                  Delete
                 </NavDropdown.Item>
               </NavDropdown>
             </Col>

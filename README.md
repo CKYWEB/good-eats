@@ -1,6 +1,5 @@
 <div align="center">
     <img width="200px" alt="logo" src="/public/images/logo.png" />
-    <h1>GoodEats</h1>
 </div>
 
 ## About the Project
@@ -25,7 +24,7 @@ GoodEats is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-
 4. Install the dependencies of both UI and server:
     ```bash
     
-    yarn install
+    yarn installs
 
     ```
 5. Start UI and server both:
