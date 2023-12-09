@@ -224,7 +224,11 @@ export default function AddRecipe() {
               {
                   detailInstruction: "",
               }
-          ]
+          ],
+          time: {
+              prepTime: 1,
+              cookTime: 1,
+          }
       }
   });
 
@@ -243,9 +247,9 @@ export default function AddRecipe() {
       });
 
       data.time = {
-          prepTime: Number(data.prepTime),
-          cookTime: Number(data.cookTime),
-          totalTime: Number(data.prepTime) + Number(data.cookTime),
+          prepTime: Number(data.time.prepTime),
+          cookTime: Number(data.time.cookTime),
+          totalTime: Number(data.time.prepTime) + Number(data.time.cookTime),
       };
 
       console.log(data);
@@ -338,7 +342,7 @@ export default function AddRecipe() {
               type="number"
               min={1}
               register={
-                register("prepTime", {
+                register("time.prepTime", {
                   required: "Please enter prep time",
                 })}
               errors={errors}
@@ -352,7 +356,7 @@ export default function AddRecipe() {
               type="number"
               min={1}
               register={
-                  register("cookTime", {
+                  register("time.cookTime", {
                     required: "Please enter cook time",
                   })}
               errors={errors}
