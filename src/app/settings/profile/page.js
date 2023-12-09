@@ -25,13 +25,18 @@ export default function EditProfile() {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    const image = images.length > 0 ? images[0].dataUrl : "";
+    if (images.length > 0) {
+      if (images[0].dataUrl.startsWith("data:image")) {
+          data.image = images[0].dataUrl.split(",")[1];
+      } else {
+          data.image = images[0].dataUrl;
+      }
+    } else {
+      data.image = "";
+    }
 
     try {
-        const {result, msg} = await updateUser({
-            ...data,
-            image,
-        });
+        const {result, msg} = await updateUser(data);
 
         if (!result) {
             toast.error(msg);
