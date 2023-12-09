@@ -18,11 +18,11 @@ import { faCrown } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
 const userMenuItems = [
-  { label: "Preferences", href: "/settings" },
-  { label: "Search", href: "#" },
-  { label: "Favorite Recipes", href: "/saved-recipes" },
-  { label: "Posted Recipes", href: "/posted-recipes" },
-  { label: "Help", href: "#" },
+  { label: "Preferences", href: "/settings", role: 2 },
+  { label: "Search", href: "#", role: 2 },
+  { label: "Favorite Recipes", href: "/saved-recipes", role: 2 },
+  { label: "Posted Recipes", href: "/posted-recipes", role: 2 },
+  { label: "Help", href: "#", role: 2 },
   { label: "Management", href: "/management", role: 1}
 ];
 
