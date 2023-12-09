@@ -9,6 +9,9 @@ import ImageUploading from "react-images-uploading";
 import Button from "@/app/components/Button/button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faRectangleXmark} from "@fortawesome/free-solid-svg-icons";
+import toast from "react-hot-toast";
+import {addRecipe} from "@/api/recipe";
+import {useRouter} from "next/navigation";
 
 export const IngredientsInput = ({control}) => {
   const { fields, append, remove} = useFieldArray({
@@ -195,6 +198,7 @@ export const DirectionsInput = ({control}) => {
 
 export default function AddRecipe() {
   const [images, setImages] = useState([]);
+  const [isLoading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -231,28 +235,43 @@ export default function AddRecipe() {
           }
       }
   });
+  const router = useRouter();
 
   const handleImageChange = (imageList) => {
     setImages(imageList);
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (payload) => {
+      setLoading(true);
+      try {
+          payload.directions.forEach((item, index) => {
+            item.order = index;
+        });
 
-    data.directions.forEach((item, index) => {
-        item.order = index;
-    });
+          payload.ingredients.forEach((item) => {
+              item.quantity = Number(item.quantity);
+          });
 
-      data.ingredients.forEach((item) => {
-          item.quantity = Number(item.quantity);
-      });
+          payload.time = {
+              prepTime: Number(payload.time.prepTime),
+              cookTime: Number(payload.time.cookTime),
+              totalTime: Number(payload.time.prepTime) + Number(payload.time.cookTime),
+          };
+          payload.image = images.length > 0 ? images[0].dataUrl : "";
+          const {data, result, msg} = await addRecipe(payload);
 
-      data.time = {
-          prepTime: Number(data.time.prepTime),
-          cookTime: Number(data.time.cookTime),
-          totalTime: Number(data.time.prepTime) + Number(data.time.cookTime),
-      };
+          if (!result) {
+              toast.error(msg);
 
-      console.log(data);
+              return;
+          }
+          toast.success("Recipe has created successfully");
+          router.replace(`/recipe/${data._id}`);
+      } catch (e) {
+          toast.error(e.message);
+      } finally {
+          setLoading(false);
+      }
   };
   return (
     <Container
@@ -370,6 +389,7 @@ export default function AddRecipe() {
           className="pt-5 d-flex justify-content-end"
         >
           <Button
+            loading={isLoading}
             type="submit"
             className="w-25 fs-4 fw-bold"
           >

@@ -1,5 +1,4 @@
-import { RECIPE_PATH } from "@/api/config";
-import { USER_TOKEN_NAME } from "@/api/config";
+import {RECIPE_PATH, USER_TOKEN_NAME} from "@/api/config";
 import Cookies from "js-cookie";
 
 export const getRecipe = async (recipeId) => {
@@ -44,6 +43,19 @@ export const getSavedRecipe = async () => {
       "Content-Type": "application/json",
     },
 
+  });
+
+  return res.json();
+};
+
+export const addRecipe = async (payload) => {
+  const res = await fetch(`${RECIPE_PATH}/createRecipe`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${Cookies.get(USER_TOKEN_NAME)}`,
+    },
+    body: JSON.stringify(payload),
   });
 
   return res.json();

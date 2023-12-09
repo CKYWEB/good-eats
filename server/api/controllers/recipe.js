@@ -2,7 +2,11 @@ const { handleCreateRecipe, handleFindAllRecipes, handleGetRecipe, handleSaveRec
 
 const createRecipe = async (req, res) => {
   try {
-    const result = await handleCreateRecipe(req.body);
+    const { _id } = req.user;
+    const result = await handleCreateRecipe({
+      ...req.body,
+      authorId: _id,
+    });
 
     res.status(200).json({
       msg: "Recipe is created successfully.",

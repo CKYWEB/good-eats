@@ -9,6 +9,5 @@ router.get("/getRecipe", getRecipe);
 router.get("/getAuthorRecipe", getAuthorRecipe);
 router.post("/saveRecipe", saveRecipe);
 router.get("/getSavedRecipe", getSavedRecipe);
-router.post("/addRecipe", createRecipe);
 
 module.exports = router;
