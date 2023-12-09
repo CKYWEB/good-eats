@@ -4,7 +4,7 @@ const {
     handleFindUsers,
     handleGetUserInfo,
     handleGetAuthorInfo,
-    handleUpdateProfile,
+    handleUpdateUser,
     handleChangePassword,
     handleDeleteUser,
 } = require("../services/user");
@@ -91,13 +91,22 @@ const getUserInfo = async (req, res) => {
     }
 };
 
-//Update profile
-const updateProfile = async (req, res) => {
+const updateUser = async (req, res) => {
     try {
-        const result = await handleUpdateProfile(req);
+        const { role, _id } = req.user;
+
+        if (!isAdmin(role) && _id !== req.body._id) {
+            res.status(403).json({
+                msg: "Unauthorized role",
+                result: false,
+            });
+
+            return;
+        }
+        const result  = await handleUpdateUser(req);
 
         res.status(200).json({
-            msg: "Profile updated successfully.",
+            msg: "User has updated successfully.",
             data: result,
             result: true,
         });
@@ -175,7 +184,7 @@ module.exports = {
     createUser,
     getUsers,
     getUserInfo,
-    updateProfile,
+    updateUser,
     changePassword,
     getAuthorInfo,
     deleteUser,

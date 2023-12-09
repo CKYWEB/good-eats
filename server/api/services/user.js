@@ -93,31 +93,12 @@ const handleGetUserInfo = async (req) => {
 };
 
 //Update profile
-const handleUpdateProfile = async (req) => {
-    try {
-        const payload = req.body;
+const handleUpdateUser = async (req) => {
+    const payload = req.body;
 
-        const updatedUserProfile = await User.findOneAndUpdate(
-            { _id: req.user._id },
-            { $set: payload },
-            { new: true }
-        );
+    await User.updateOne({ _id: payload._id }, payload);
 
-        if (req.file) {
-            const profilePicture = req.file;
-            updatedUserProfile.profilePicture = profilePicture.filename;
-            await updatedUserProfile.save();
-        }
-
-        // If no profile picture, return response for profile update only
-        return {
-            msg: "Profile updated successfully",
-            data: updatedUserProfile,
-            result: true,
-        };
-    } catch (err) {
-        throw new Error("Failed to update profile");
-    }
+    return await handleFindUsers({ _id: payload._id });
 };
 
 //Change password
@@ -162,7 +143,7 @@ module.exports = {
     handleCreateUser,
     handleFindUsers,
     handleGetUserInfo,
-    handleUpdateProfile,
+    handleUpdateUser,
     handleChangePassword,
     handleGetAuthorInfo,
     handleDeleteUser,
