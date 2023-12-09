@@ -23,7 +23,7 @@ export default function OffcanvasComponent(props) {
           style={{ maxWidth: "100%" }}
           width={350}
           height={250}
-        />}
+                     />}
       </Offcanvas.Body>
     </Offcanvas>
   );
