@@ -106,7 +106,7 @@ export default function EditProfile() {
               htmlFor="description"
               className="form-label fw-bold mt-3"
             >
-              Description
+              Description (Optional)
             </label>
             <Form.Control
               as="textarea"
