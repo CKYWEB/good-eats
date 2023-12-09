@@ -17,7 +17,7 @@ export default function RecipeDetail({ params }) {
   const [recipe, setRecipe] = useState(undefined);
   const [authorId, setAuthorId] = useState(undefined);
   const [authorInfo, setAuthorInfo] = useState(undefined);
-  const { fetchCurrentUser, currentUser, isLoggedIn } = useUserStore();
+  const { fetchCurrentUser, isLoggedIn } = useUserStore();
 
 
   const fetchRecipe = async (recipeId) => {
@@ -81,7 +81,7 @@ export default function RecipeDetail({ params }) {
     }
   };
 
-  if (recipe && authorInfo && currentUser) {
+  if (recipe && authorInfo) {
     return (
       <Container>
         <div className={`${styles["container-group"]}`}>
