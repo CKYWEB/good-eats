@@ -11,7 +11,7 @@ import {updateUser} from "@/api/user";
 import toast from "react-hot-toast";
 import ImageUploader from "@/app/components/ImageUploader";
 
-export default function Profile() {
+export default function EditProfile() {
     const {currentUser, isLoggedIn} = useUserStore();
     const [images, setImages] = useState([]);
     const {
