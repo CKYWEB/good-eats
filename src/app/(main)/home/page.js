@@ -11,6 +11,7 @@ import { getAllRecipes } from "@/api/recipe";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { parseISO, differenceInDays } from "date-fns";
+import Loading from "@/app/components/Loading";
 
 export default function Home() {
   const [recipe, setRecipe] = useState(undefined);
@@ -142,4 +143,11 @@ export default function Home() {
       </div >
     );
   }
+  return (
+    <Container className="my-5 d-flex justify-content-center">
+      <div>
+        <Loading />
+      </div>
+    </Container>)
+  ;
 }
