@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 import ImageUploader from "@/app/components/ImageUploader";
 
 export default function EditProfile() {
-    const {currentUser, isLoggedIn} = useUserStore();
+    const {currentUser, isLoggedIn, fetchCurrentUser} = useUserStore();
     const [images, setImages] = useState([]);
     const {
     register,
@@ -39,6 +39,7 @@ export default function EditProfile() {
             return;
         }
 
+        await fetchCurrentUser();
         toast.success(msg);
     } catch (e) {
         toast.error(e.message);
