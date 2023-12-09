@@ -1,4 +1,5 @@
-const { createRecipe, getAllRecipes, getRecipe, saveRecipe, getSavedRecipe, getAuthorRecipe, deleteRecipe } = require("../controllers/recipe");
+const { createRecipe, getAllRecipes, getRecipe, saveRecipe, getSavedRecipe, getAuthorRecipe, deleteRecipe, updateRecipe } = require("../controllers/recipe");
+
 
 const express = require("express");
 const router = express.Router();
@@ -9,7 +10,7 @@ router.get("/getRecipe", getRecipe);
 router.get("/getAuthorRecipe", getAuthorRecipe);
 router.post("/saveRecipe", saveRecipe);
 router.get("/getSavedRecipe", getSavedRecipe);
-router.post("/addRecipe", createRecipe);
 router.delete("/deleteRecipe", deleteRecipe);
+router.put("/updateRecipe", updateRecipe);
 
 module.exports = router;

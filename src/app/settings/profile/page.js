@@ -1,139 +1,147 @@
 "use client";
 
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { useForm } from "react-hook-form";
-import { updateProfile } from "@/api/profile";
-import styles from "./profile.module.scss";
 import FormInput from "../../components/FormInput/formInput";
 import Button from "../../components/Button/button";
+import {Col, Container, Row, Form} from "react-bootstrap";
+import {useUserStore} from "@/store/user";
+import Loading from "@/app/components/Loading";
+import {updateUser} from "@/api/user";
+import toast from "react-hot-toast";
+import ImageUploader from "@/app/components/ImageUploader";
 
-const Profile = () => {
-  const {
+export default function EditProfile() {
+    const {currentUser, isLoggedIn, fetchCurrentUser} = useUserStore();
+    const [images, setImages] = useState([]);
+    const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-
-  const [profilePicture, setProfilePicture] = useState(null);
-
-  const handleProfilePictureChange = (e) => {
-    const file = e.target.files[0];
-    setProfilePicture(file);
-  };
-
-  const onSubmit = async (data /*, request*/) => {
-    /*console.log("Request Object:", request);
-    const token = request?.cookies?.get(USER_TOKEN_NAME)?.value;
-
-    // put profilePicture into the FormData
-    const formData = new FormData();
-    formData.append("profilePicture", profilePicture);
-
-    // Add the data of other fields to FormData
-    Object.entries(data).forEach(([key, value]) => {
-      formData.append(key, value);
+    } = useForm({
+      values: currentUser,
     });
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}${USER_PATH}/getUserInfo`, {
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    const [isLoading, setLoading] = useState(false);
 
-      if (response.ok) {
-        console.log("Form data submitted successfully");
-      } else {
-        console.error("Failed to submit form data");
-      }
-    } catch (error) {
-      console.error("Error occurred while submitting form data", error);
-    }*/
+  const onSubmit = async (data) => {
+    setLoading(true);
+    const image = images.length > 0 ? images[0].dataUrl : "";
 
     try {
-      const response = await updateProfile(data, profilePicture);
+        const {result, msg} = await updateUser({
+            ...data,
+            image,
+        });
 
-      if (response.ok) {
-        console.log("Profile updated successfully");
-      } else {
-        console.error("Failed to update profile");
-      }
-    } catch (error) {
-      console.error("Error occurred while updating profile", error);
+        if (!result) {
+            toast.error(msg);
+
+            return;
+        }
+
+        await fetchCurrentUser();
+        toast.success(msg);
+    } catch (e) {
+        toast.error(e.message);
+    } finally {
+        setLoading(false);
     }
-
-    console.log("Form Data", data);
-    /*for (var pair of formData.entries()) {
-      console.log(pair[0] + ": " + pair[1]);
-    }*/
-
-    setProfilePicture(null);
   };
+
+  const handleImageChange = (imageList) => {
+      setImages(imageList);
+  };
+
+    useEffect(() => {
+        if (currentUser.image) {
+            setImages([{
+                dataUrl: currentUser.image,
+            }]);
+        }
+    }, [currentUser]);
+
+  if (!isLoggedIn()) {
+      return (
+        <Loading />
+      );
+  }
 
   return (
-    <div className={`${styles.personalProfile} container`}>
-      <h1 className={styles.title}>
-        Personal Profile
-      </h1>
+    <Container>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label
-            htmlFor="profilePicture"
-            className="form-label fw-bold"
+        <Row>
+          <Col
+            xs={12}
+            lg={8}
           >
-            Profile Picture
-          </label>
-          <input
-            type="file"
-            id="profilePicture"
-            accept="image/*"
-            onChange={handleProfilePictureChange}
-          />
-        </div>
-        <br />
-        <FormInput
-          label="First Name"
-          register={
-            register("firstName", {
-              required: "Please enter your first name",
-              pattern: {
-                value: /^[a-z ,.'-]+$/i,
-                message: "Please provide a valid first name."
-              },
-            })
-          }
-          errors={errors}
-        />
-        <br />
-        <FormInput
-          label="Last Name"
-          register={
-            register("lastName", {
-              required: "Please enter your last name",
-              pattern: {
-                value: /^[a-z ,.'-]+$/i,
-                message: "Please provide a valid last name."
-              },
-            })}
-          errors={errors}
-        />
-        <br />
-        <FormInput
-          label="Description"
-          register={register("desc")}
-          errors={errors}
-        />
-        <br />
+            <Row>
+              <Col>
+                <FormInput
+                  label="First Name"
+                  placeholder="Type your first name"
+                  register={
+                            register("firstName", {
+                                required: "Please enter your first name",
+                                pattern: {
+                                    value: /^[a-z ,.'-]+$/i,
+                                    message: "Please provide a valid first name."
+                                },
+                            })
+                        }
+                  errors={errors}
+                />
+              </Col>
+              <Col>
+                <FormInput
+                  label="Last Name"
+                  placeholder="Type your last name"
+                  register={
+                            register("lastName", {
+                                required: "Please enter your last name",
+                                pattern: {
+                                    value: /^[a-z ,.'-]+$/i,
+                                    message: "Please provide a valid last name."
+                                },
+                            })}
+                  errors={errors}
+                />
+              </Col>
+            </Row>
+            <label
+              htmlFor="description"
+              className="form-label fw-bold mt-3"
+            >
+              Description (Optional)
+            </label>
+            <Form.Control
+              as="textarea"
+              placeholder="Leave a description here"
+              style={{height: "100px"}}
+              {...register("description", {})}
+            />
+          </Col>
+          <Col
+            xs={12}
+            lg={4}
+            className="mt-3 mt-lg-0"
+          >
+            <div className="text-center fw-bold mb-2">
+              Profile picture
+            </div>
+            <ImageUploader
+              images={images}
+              onImageChange={handleImageChange}
+            />
+          </Col>
+        </Row>
         <Button
-          className="mb-3 w-100"
+          className="mt-3"
           type="submit"
+          loading={isLoading}
         >
           Save Changes
         </Button>
       </form>
-    </div>
+    </Container>
   );
-};
-
-export default Profile;
+}

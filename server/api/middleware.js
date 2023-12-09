@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { USER_PATH, RECIPE_PATH } = require("./routes/config");
+const { USER_PATH, RECIPE_PATH, NEWSLETTER_PATH } = require("./routes/config");
 const UNPROTECTED_PATH = [
     `${USER_PATH}/login`,
     `${USER_PATH}/create`,
@@ -7,7 +7,7 @@ const UNPROTECTED_PATH = [
     `${RECIPE_PATH}/getRecipe`,
     `${RECIPE_PATH}/getAuthorRecipe`,
     `${USER_PATH}/getAuthorInfo`,
-
+    `${NEWSLETTER_PATH}/subscribe`
 ];
 
 const isPathUnprotected = (path) => {

@@ -1,104 +1,101 @@
 "use client";
 
-import React from "react";
 import { useForm } from "react-hook-form";
-import { changePassword } from "@/api/security";
-import styles from "./security.module.scss";
-import Button from "../../components/Button/button";
+import FormInput from "@/app/components/FormInput/formInput";
+import {Col, Container, Row} from "react-bootstrap";
+import Button from "@/app/components/Button/button";
+import {changePassword} from "@/api/user";
+import {useUserStore} from "@/store/user";
+import {useState} from "react";
+import toast from "react-hot-toast";
 
-const Security = () => {
+export default function ChangePassword () {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
-    try {
-      const response = await changePassword(data);
+  const {currentUser} = useUserStore();
+  const [isLoading, setLoading] = useState(false);
 
-      if (response.result) {
-        console.log("Password changed successfully");
-      } else {
-        console.error("Failed to change password", response.msg);
+  const onSubmit = async (data) => {
+      setLoading(true);
+      try {
+          const {result, msg} = await changePassword({
+              ...data,
+              _id: currentUser._id,
+          });
+
+          if (!result) {
+              toast.error(msg);
+
+              return;
+          }
+
+          toast.success(msg);
+      } catch (e) {
+          toast.error(e.message);
+      } finally {
+          setLoading(false);
       }
-    } catch (error) {
-      console.error("Error occurred while changing password", error);
-    }
   };
 
   return (
-    <div className={`${styles.security} container`}>
-      <h1 className={styles.title}>
-        Security Settings
-      </h1>
+    <Container>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles.formGroup}>
-          <label
-            htmlFor="oldPassword"
-            className={`${styles.formLabel} form-label fw-bold`}
-          >
-            Old Password
-          </label>
-          <div className={styles.inputContainer}>
-            <input
+        <Row className="flex-column gap-3">
+          <Col>
+            <FormInput
               type="password"
-              id="oldPassword"
-              {...register("oldPassword", { required: "Please enter your old password" })}
+              label="Old Password"
+              register={
+                    register("oldPassword", {
+                        required: "Please enter a password.",
+                    })}
+              errors={errors}
+              placeholder="old password"
             />
-            {errors.oldPassword && <span className={`${styles.error} error`}>
-              {errors.oldPassword.message}
-            </span>}
-          </div>
-        </div>
-        <br />
-        <div className={styles.formGroup}>
-          <label
-            htmlFor="newPassword"
-            className={`${styles.formLabel} form-label fw-bold`}
-          >
-            New Password
-          </label>
-          <div className={styles.inputContainer}>
-            <input
+          </Col>
+          <Col>
+            <FormInput
               type="password"
-              id="newPassword"
-              {...register("newPassword", { required: "Please enter your new password" })}
+              label="Password"
+              register={
+                    register("password", {
+                        required: "Please enter a password.",
+                    })}
+              errors={errors}
+              placeholder="password"
             />
-            {errors.newPassword && <span className={`${styles.error} error`}>
-              {errors.newPassword.message}
-            </span>}
-          </div>
-        </div>
-        <br />
-        <div className={styles.formGroup}>
-          <label
-            htmlFor="confirmPassword"
-            className={`${styles.formLabel} form-label fw-bold`}
-          >
-            Confirm Password
-          </label>
-          <div className={styles.inputContainer}>
-            <input
+          </Col>
+          <Col>
+            <FormInput
               type="password"
-              id="confirmPassword"
-              {...register("confirmPassword", { required: "Please confirm your new password" })}
+              label="Confirm Password"
+              register={
+                    register("confirmPassword", {
+                        required: "Please confirm your password.",
+                        validate: {
+                            sameAsPassword: (_, formValues) => {
+                                return formValues.password === formValues.confirmPassword || "Password doesn't match.";
+                            }
+                        }
+                    })}
+              errors={errors}
+              placeholder="confirm password"
             />
-            {errors.confirmPassword && <span className={`${styles.error} error`}>
-              {errors.confirmPassword.message}
-            </span>}
-          </div>
-        </div>
-        <br />
-        <Button
-          className="mb-3 w-100"
-          type="submit"
-        >
-          Change Password
-        </Button>
+          </Col>
+          <Col>
+            <Button
+              loading={isLoading}
+              type="submit"
+            >
+              Save changes
+            </Button>
+          </Col>
+        </Row>
       </form>
-    </div>
+    </Container>
   );
-};
-
-export default Security;
+}

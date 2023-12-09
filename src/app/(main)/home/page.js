@@ -7,14 +7,11 @@ import CardComponent from "@/app/components/Card/card";
 import OffcanvasComponent from "@/app/components/Offcanvas/offcanvas";
 import AccordionComponent from "@/app/components/Accordion/accordion";
 import CarouselComponent from "@/app/components/Carousel/carousel";
-import { ButtonGroup } from "react-bootstrap";
-import Button from "@/app/components/Button/button";
 import { getAllRecipes } from "@/api/recipe";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { parseISO, differenceInDays } from "date-fns";
-
-
+import Loading from "@/app/components/Loading";
 
 export default function Home() {
   const [recipe, setRecipe] = useState(undefined);
@@ -51,23 +48,6 @@ export default function Home() {
       description: "Description for Slide 2",
     },];
 
-  const buttons = [
-    {
-      id: "1",
-      variant: "primary",
-      label: "Asia",
-    },
-    {
-      id: "2",
-      variant: "primary",
-      label: "American",
-    },
-    {
-      id: "3",
-      variant: "primary",
-      label: "European",
-    },];
-
   const cards = recipe?.map((recipeItem) => ({
     id: recipeItem._id,
     imageUrl: `data:image/png;base64,${recipeItem.image}`,
@@ -92,10 +72,6 @@ export default function Home() {
     }
   };
 
-  const handleBtnGroupClick = () => {
-    // TODO
-    console.log("Button click!");
-  };
   const handleCloseOffcanvas = () => {
     setShowOffcanvas(false);
   };
@@ -113,21 +89,6 @@ export default function Home() {
       <div>
         <div className="w-75 mx-auto">
           <CarouselComponent items={carouselItems} />
-        </div>
-
-        <div className="d-flex justify-content-center p-4">
-          <ButtonGroup>
-            {buttons.map((button) => (
-              <Button
-                key={button.id}
-                variant={button.variant}
-                onClick={() => handleBtnGroupClick(button)}
-                style={{ marginRight: "10px", borderRadius: "6px" }}
-              >
-                {button.label}
-              </Button>
-            ))}
-          </ButtonGroup>
         </div>
 
 
@@ -182,4 +143,11 @@ export default function Home() {
       </div >
     );
   }
+  return (
+    <Container className="my-5 d-flex justify-content-center">
+      <div>
+        <Loading />
+      </div>
+    </Container>)
+  ;
 }

@@ -6,19 +6,16 @@ const { generateMongoId } = require("../utils");
 const handleCreateRecipe = async (payload) => {
   // TODO: validation
 
-  await Recipe.create({
+  return Recipe.create({
     image: payload.image,
     title: payload.title,
     tag: payload.tag,
     description: payload.description,
-    author: payload.author,
+    authorId: payload.authorId,
     time: payload.time,
     ingredients: payload.ingredients,
     directions: payload.directions,
   });
-  const result = await Recipe.find({ title: payload.title });
-
-  return result;
 };
 
 const handleFindAllRecipes = async (payload) => {
@@ -83,13 +80,20 @@ const handleGetSavedRecipe = async (req) => {
 };
 
 const handleDeleteRecipe = async (recipeId) => {
-  console.log(recipeId);
   const result = await Recipe.findByIdAndDelete(generateMongoId(recipeId));
 
   if (!result) {
     throw new Error("Recipe not found");
   }
   return result;
+};
+
+const handleUpdateRecipe = async (req) => {
+  const payload = req.body;
+
+  await Recipe.updateOne({ _id: payload._id }, payload);
+
+  return Recipe.findById(generateMongoId(payload._id));
 };
 
 module.exports = {
@@ -100,4 +104,5 @@ module.exports = {
   handleSaveRecipe,
   handleGetSavedRecipe,
   handleDeleteRecipe,
+  handleUpdateRecipe,
 };

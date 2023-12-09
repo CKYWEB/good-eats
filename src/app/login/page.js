@@ -187,7 +187,6 @@ export default function Login () {
               <Button
                 className="mb-3 w-100"
                 loading={loading}
-                disabled={loading}
                 type="submit"
               >
                 Continue
