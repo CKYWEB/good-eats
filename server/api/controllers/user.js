@@ -5,7 +5,7 @@ const {
     handleGetUserInfo,
     handleGetAuthorInfo,
     handleUpdateProfile,
-    handleChangePassword
+    handleChangePassword,
     handleDeleteUser,
 } = require("../services/user");
 
@@ -117,6 +117,7 @@ const changePassword = async (req, res) => {
         res.status(200).json({
             msg: result.message,
             result: true,
+        });
     } catch (err) {
         res.status(403).json({
             msg: err.message,
